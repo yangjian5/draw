@@ -15,15 +15,35 @@ get - /api/index
 #### 出参
 
 ```
+创造权 返回格式
 {
-	time:10000
-	code:200
-	data:{
-		branners:[{},{}],
-		list:[{},{}],
-		maxId:0
-	}
+	"code": 200,
+	"message": "index",
+	"data": {max_id:"2011-2",draws:[{
+             		"id": 2,
+             		"prod_uid": 12,
+             		"prod_name": "",
+             		"prod_tel": "4564",
+             		"draw_name": "我的",
+             		"draw_status": "1",
+             		"auth_name": "yang",
+             		"width" : 123,
+             		"high" : 123,
+             		"url_hd": "",
+             		"url_simple": "",
+             		"draw_desc": "1111111",
+             		"own_count": 10,
+             		"own_finish_count": 0,
+             		"op_name": "",
+             		"op_id": 0,
+             		"create_time": "2019-07-22 14:24:13.0",
+             		"modify_time": "2019-07-22 14:24:13.0"
+             	}]}
+	,
+	"success": true
 }
+
+所有权 返回格式
 ```
 
 ---- 
