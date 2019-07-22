@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aiwsport.core.mapper.DrawBrannerMapper" >
+  <resultMap id="BaseResultMap" type="com.aiwsport.core.entity.DrawBranner" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="brannerUrl" property="brannerUrl" jdbcType="VARCHAR" />
+    <result column="clickUrl" property="clickUrl" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="drawId" property="drawId" jdbcType="INTEGER" />
+    <result column="drawExtId" property="drawExtId" jdbcType="INTEGER" />
+    <result column="opName" property="opName" jdbcType="VARCHAR" />
+    <result column="opId" property="opId" jdbcType="INTEGER" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modifyTime" property="modifyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from draw_branner
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.aiwsport.core.entity.DrawBranner" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into draw_branner (brannerUrl, clickUrl, type, 
+      drawId, drawExtId, opName, 
+      opId, createTime, modifyTime
+      )
+    values (#{brannerurl,jdbcType=VARCHAR}, #{clickurl,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{drawid,jdbcType=INTEGER}, #{drawextid,jdbcType=INTEGER}, #{opname,jdbcType=VARCHAR}, 
+      #{opid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{modifytime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.aiwsport.core.entity.DrawBranner" >
+    update draw_branner
+    set brannerUrl = #{brannerurl,jdbcType=VARCHAR},
+      clickUrl = #{clickurl,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      drawId = #{drawid,jdbcType=INTEGER},
+      drawExtId = #{drawextid,jdbcType=INTEGER},
+      opName = #{opname,jdbcType=VARCHAR},
+      opId = #{opid,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      modifyTime = #{modifytime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, brannerUrl, clickUrl, type, drawId, drawExtId, opName, opId, createTime, 
+    modifyTime
+    from draw_branner
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, brannerUrl, clickUrl, type, drawId, drawExtId, opName, opId, createTime, 
+    modifyTime
+    from draw_branner
+  </select>
+</mapper>
