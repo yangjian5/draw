@@ -1,9 +1,15 @@
 package com.aiwsport.web.controller;
 
+import com.aiwsport.core.DrawServerException;
+import com.aiwsport.core.DrawServerExceptionFactor;
+import com.aiwsport.core.constant.DrawConstant;
+import com.aiwsport.core.constant.ResultMsg;
+import com.aiwsport.core.entity.User;
 import com.aiwsport.core.service.UserService;
 import com.aiwsport.web.utlis.ParseUrl;
 import com.aiwsport.web.verify.ParamVerify;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,31 +26,37 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-    private static final String APP_ID = "wx169ddfe67114165d";
-
-    private static final String SECRET = "e26e1b29d8fc04e461d3277c919100aa";
-
     private static Logger logger = LogManager.getLogger();
 
     @RequestMapping(value = "/login.json")
-    public JSONObject onlogin(@ParamVerify(isNotBlank = true)String code) {
-        String url1 = "https://api.weixin.qq.com/sns/jscode2session?appid="+APP_ID+"&secret="+SECRET+"&js_code=";
+    public ResultMsg login(@ParamVerify(isNotBlank = true)String code, @ParamVerify(isNotNull = true)String avatar_url,
+                           @ParamVerify(isNotNull = true)String nick_name, @ParamVerify(isNotNull = true)String gender) {
+
+        String url1 = "https://api.weixin.qq.com/sns/jscode2session?appid="+ DrawConstant.APP_ID +"&secret="+DrawConstant.SECRET+"&js_code=";
         String url2 = "&grant_type=authorization_code";
-        String userInfo = "";
-        JSONObject jsonObject = null;
+        JSONObject userObj = null;
         try {
-            long start = System.currentTimeMillis();
-            userInfo = ParseUrl.getDataFromUrl((url1+code+url2));
-            System.out.println("------userInfo------" + userInfo);
-            long end = System.currentTimeMillis();
-            System.out.println("------cost------" + (end-start));
-            jsonObject = JSONObject.parseObject(userInfo);
+            String userInfo = ParseUrl.getDataFromUrl((url1+code+url2));
+            if (StringUtils.isBlank(userInfo)) {
+                throw new DrawServerException(DrawServerExceptionFactor.PUSH_CONN_INTERRUPT, "jscode2session is fail");
+            }
+            userObj = JSONObject.parseObject(userInfo);
+            if (userObj.containsKey("errcode")) {
+                throw new DrawServerException(DrawServerExceptionFactor.PUSH_CONN_INTERRUPT, userObj.getString("errmsg"));
+            }
+            User user = userService.login(userObj.getString("openid"), nick_name, avatar_url, gender);
+            userObj.put("income", user.getIncome());
+            userObj.put("userid", user.getId());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("login is error", e);
+            throw new DrawServerException(DrawServerExceptionFactor.PUSH_CONN_INTERRUPT, "login is fail");
         }
-        return jsonObject;
+        return new ResultMsg("login", userObj);
     }
 
-
+    @RequestMapping(value = "/get_user.json")
+    public ResultMsg login(@ParamVerify(isNotBlank = true)String open_id) {
+        User user = userService.getUser(open_id);
+        return new ResultMsg("get_user", user);
+    }
 }

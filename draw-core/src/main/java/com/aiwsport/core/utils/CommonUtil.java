@@ -1,14 +1,12 @@
 package com.aiwsport.core.utils;
 
-import com.aiwsport.core.constant.JerryConfigConstant;
-import com.aiwsport.core.entity.User;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.reflect.MethodUtils;
 import org.slf4j.LoggerFactory;
+
 import java.io.*;
 import java.security.InvalidAlgorithmParameterException;
 
@@ -31,7 +29,6 @@ public class CommonUtil {
         try {
             MethodUtils.invokeMethod(obj, "setOpId", 9276L);
             MethodUtils.invokeMethod(obj, "setOpName", "admin");
-            MethodUtils.invokeMethod(obj, "setVaildState", JerryConfigConstant.ValidState.YES);
             MethodUtils.invokeMethod(obj, "setModifyTime", DataTypeUtils.formatCurDateTime());
         } catch (NoSuchMethodException e) {
             logger.warn("build baseinfo method is not exist");

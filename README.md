@@ -34,17 +34,24 @@ get - /api/login
 #### 入参
 | 字段      |     类型 |   说明   |
 | :-------- | --------:| :------: |
-| code    |   str |  code  |
+| code        |   str |  code  |
+| avatarUrl   |   str |  不为空可以给空串 avatarUrl= |
+| nickName    |   str |  ...  |
+| gender      |   str |  ...  |
 
 #### 出参
 
 ```
 {
-	time:10000
-	code:200
-	data:{
-		user:{}
-	}
+	"code": 200,
+	"message": "login",
+	"data": {
+		"income": "1205",
+		"openid": "ov8p35OEtLxO7nILiHq6rmBCpkv4",
+		"session_key": "LSH3Ho44x3G53ZZIEJewDQ==",
+		"userid": 1
+	},
+	"success": true
 }
 ```
 
@@ -63,11 +70,19 @@ get - /api/get_user
 ```
 
 {
-	time:10000
-	code:200
-	data:{
-		user:{}
-	}
+	"code": 200,
+	"message": "get_user",
+	"data": {
+		"id": 1,
+		"open_id": "ov8p35OEtLxO7nILiHq6rmBCpkv4",
+		"nick_name": "weqeq",
+		"avatar_url": "123/132",
+		"gender": "1",
+		"income": "2134",
+		"create_time": "2019-07-22 14:24:13.0",
+		"modify_time": "2019-07-22 14:24:13.0"
+	},
+	"success": true
 }
 
 ```
@@ -127,20 +142,22 @@ post - /api/upload_image  全都是 form_data
 #### 入参
 | 字段      |     类型 |   说明   |
 | :-------- | --------:| :------: |
+| open_id    |   str |  open_id  |
 | name    |   str |  姓名  |
-| iphone    |   str |  手机号 |
+| tel_no    |   str |  手机号 |
 | draw_name    |   str |  作品名称  |
 | author    |   str |  作者  |
 | desc    |   str |  简介  |
-| file    |   file |  form_data   |
+| draw_file    |   file |  form_data   |
 
 #### 出参
 
 ```
 {
-	time:10000
-	code:200
-	data:true
+	"code": 200,
+	"message": "upload_image",
+	"data": true,
+	"success": true
 }
 ```
 
@@ -315,17 +332,17 @@ get - /api/update_draw
 | 字段      |     类型 |   说明   |
 | :-------- | --------:| :------: |
 | draw_id    |   str |   |
-| create_prize    |   int |  创造这价格 分 |
+| create_price    |   int |  创造这价格 分 |
 | owner_count    |   int |  所有权份额 分 |
-| owner_prize  |   int |  所有权份额 分 |
 
 #### 出参
 
 ```
 {
-	time:10000
-	code:200
-	data:true
+	"code": 200,
+	"message": "upload_image",
+	"data": true,
+	"success": true
 }
 ```
 
@@ -352,6 +369,12 @@ get - /api/update_owner_draw
 ```
 
 ### 
+
+- [X]  藏品
+- [X]  登入、注册
+- [X]  查询用户信息
+- [X]  上传藏品 - 基本信息
+- [X]  修改藏品
 
 
 

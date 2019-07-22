@@ -1,9 +1,6 @@
 package com.aiwsport.core.entity;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
-public class Draw {
+public class Draws {
     private Integer id;
 
     private Integer prodUid;
@@ -12,7 +9,7 @@ public class Draw {
 
     private String prodTel;
 
-    private BigDecimal drawPrice;
+    private Integer drawPrice;
 
     private String drawName;
 
@@ -24,7 +21,7 @@ public class Draw {
 
     private String urlSimple;
 
-    private String desc;
+    private String drawDesc;
 
     private Integer ownCount;
 
@@ -34,9 +31,9 @@ public class Draw {
 
     private Integer opId;
 
-    private Date createTime;
+    private String createTime;
 
-    private Date modifyTime;
+    private String modifyTime;
 
     public Integer getId() {
         return id;
@@ -68,14 +65,6 @@ public class Draw {
 
     public void setProdTel(String prodTel) {
         this.prodTel = prodTel;
-    }
-
-    public BigDecimal getDrawPrice() {
-        return drawPrice;
-    }
-
-    public void setDrawPrice(BigDecimal drawPrice) {
-        this.drawPrice = drawPrice;
     }
 
     public String getDrawName() {
@@ -118,12 +107,12 @@ public class Draw {
         this.urlSimple = urlSimple;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDrawDesc() {
+        return drawDesc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDrawDesc(String drawDesc) {
+        this.drawDesc = drawDesc;
     }
 
     public Integer getOwnCount() {
@@ -158,19 +147,23 @@ public class Draw {
         this.opId = opId;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public Date getModifyTime() {
+    public String getModifyTime() {
         return modifyTime;
     }
 
-    public void setModifyTime(Date modifyTime) {
+    public void setModifyTime(String modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public void setDrawPrice(Integer drawPrice) {
+        this.drawPrice = drawPrice;
     }
 }

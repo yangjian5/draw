@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aiwsport.core.mapper.DrawsMapper" >
+  <resultMap id="BaseResultMap" type="com.aiwsport.core.entity.Draws" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="prodUid" property="prodUid" jdbcType="INTEGER" />
+    <result column="prodName" property="prodName" jdbcType="VARCHAR" />
+    <result column="prodTel" property="prodTel" jdbcType="VARCHAR" />
+    <result column="drawPrice" property="drawPrice" jdbcType="INTEGER" />
+    <result column="drawName" property="drawName" jdbcType="VARCHAR" />
+    <result column="drawStatus" property="drawStatus" jdbcType="VARCHAR" />
+    <result column="authName" property="authName" jdbcType="VARCHAR" />
+    <result column="urlHd" property="urlHd" jdbcType="VARCHAR" />
+    <result column="urlSimple" property="urlSimple" jdbcType="VARCHAR" />
+    <result column="drawDesc" property="drawDesc" jdbcType="VARCHAR" />
+    <result column="ownCount" property="ownCount" jdbcType="INTEGER" />
+    <result column="ownFinishCount" property="ownFinishCount" jdbcType="INTEGER" />
+    <result column="opName" property="opName" jdbcType="VARCHAR" />
+    <result column="opId" property="opId" jdbcType="INTEGER" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modifyTime" property="modifyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from draws
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.aiwsport.core.entity.Draws" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into draws (prodUid, prodName, prodTel,
+      drawPrice, drawName, drawStatus, 
+      authName, urlHd, urlSimple,
+      drawDesc, ownCount, ownFinishCount,
+      opName, opId, createTime, 
+      modifyTime)
+    values (#{prodUid,jdbcType=INTEGER}, #{prodName,jdbcType=VARCHAR}, #{prodTel,jdbcType=VARCHAR},
+      #{drawPrice,jdbcType=INTEGER}, #{drawName,jdbcType=VARCHAR}, #{drawStatus,jdbcType=VARCHAR},
+      #{authName,jdbcType=VARCHAR}, #{urlHd,jdbcType=VARCHAR}, #{urlSimple,jdbcType=VARCHAR},
+      #{drawDesc,jdbcType=VARCHAR}, #{ownCount,jdbcType=INTEGER}, #{ownFinishCount,jdbcType=INTEGER},
+      #{opName,jdbcType=VARCHAR}, #{opId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+      #{modifyTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.aiwsport.core.entity.Draws" >
+    update draws
+    set prodUid = #{prodUid,jdbcType=INTEGER},
+      prodName = #{prodName,jdbcType=VARCHAR},
+      prodTel = #{prodTel,jdbcType=VARCHAR},
+      drawPrice = #{drawPrice,jdbcType=INTEGER},
+      drawName = #{drawName,jdbcType=VARCHAR},
+      drawStatus = #{drawStatus,jdbcType=VARCHAR},
+      authName = #{authName,jdbcType=VARCHAR},
+      urlHd = #{urlHd,jdbcType=VARCHAR},
+      urlSimple = #{urlSimple,jdbcType=VARCHAR},
+      drawDesc = #{desc,jdbcType=VARCHAR},
+      ownCount = #{ownCount,jdbcType=INTEGER},
+      ownFinishCount = #{ownFinishCount,jdbcType=INTEGER},
+      opName = #{opName,jdbcType=VARCHAR},
+      opId = #{opId,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      modifyTime = #{modifyTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, prodUid, prodName, prodTel, drawPrice, drawName, drawStatus, authName, 
+    urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, opName, opId, createTime, modifyTime
+    from draws
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, prodUid, prodName, prodTel, drawPrice, drawName, drawStatus, authName, 
+    urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, opName, opId, createTime, modifyTime
+    from draws
+  </select>
+  <select id="getIndex" resultMap="BaseResultMap">
+    select id, prodUid, prodName, prodTel, drawPrice, drawName, drawStatus, authName,
+    urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, opName, opId, createTime, modifyTime
+    from draws
+    where id > #{arg1} and drawPrice > #{arg0}
+    order by drawPrice
+      <if test="arg2 == 1">
+        desc
+      </if>
+      <if test="arg2 == 2">
+        asc
+      </if>
+    , id desc limit 15
+  </select>
+</mapper>

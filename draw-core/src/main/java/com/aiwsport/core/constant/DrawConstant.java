@@ -5,7 +5,11 @@ package com.aiwsport.core.constant;
  * @author yangjian9
  *
  */
-public interface JerryConfigConstant {
+public interface DrawConstant {
+
+	public static final String APP_ID = "wx169ddfe67114165d";
+
+	public static final String SECRET = "e26e1b29d8fc04e461d3277c919100aa";
 	
 	/**
 	 * 服务执行 是否成功

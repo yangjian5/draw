@@ -7,7 +7,7 @@
     <result column="nickName" property="nickName" jdbcType="VARCHAR" />
     <result column="avatarUrl" property="avatarUrl" jdbcType="VARCHAR" />
     <result column="gender" property="gender" jdbcType="VARCHAR" />
-    <result column="income" property="income" jdbcType="DECIMAL" />
+    <result column="income" property="income" jdbcType="INTEGER" />
     <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
     <result column="modifyTime" property="modifyTime" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -22,19 +22,19 @@
     insert into user (openId, nickName, avatarUrl, 
       gender, income, createTime, 
       modifyTime)
-    values (#{openid,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{avatarurl,jdbcType=VARCHAR}, 
-      #{gender,jdbcType=VARCHAR}, #{income,jdbcType=DECIMAL}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{modifytime,jdbcType=TIMESTAMP})
+    values (#{openId,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{avatarUrl,jdbcType=VARCHAR},
+      #{gender,jdbcType=VARCHAR}, #{income,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+      #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.aiwsport.core.entity.User" >
     update user
-    set openId = #{openid,jdbcType=VARCHAR},
-      nickName = #{nickname,jdbcType=VARCHAR},
-      avatarUrl = #{avatarurl,jdbcType=VARCHAR},
+    set openId = #{openId,jdbcType=VARCHAR},
+      nickName = #{nickName,jdbcType=VARCHAR},
+      avatarUrl = #{avatarUrl,jdbcType=VARCHAR},
       gender = #{gender,jdbcType=VARCHAR},
-      income = #{income,jdbcType=DECIMAL},
-      createTime = #{createtime,jdbcType=TIMESTAMP},
-      modifyTime = #{modifytime,jdbcType=TIMESTAMP}
+      income = #{income,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      modifyTime = #{modifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

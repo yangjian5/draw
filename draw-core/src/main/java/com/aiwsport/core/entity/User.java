@@ -1,8 +1,5 @@
 package com.aiwsport.core.entity;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 public class User {
     private Integer id;
 
@@ -14,11 +11,11 @@ public class User {
 
     private String gender;
 
-    private BigDecimal income;
+    private Integer income;
 
-    private Date createTime;
+    private String createTime;
 
-    private Date modifyTime;
+    private String modifyTime;
 
     public Integer getId() {
         return id;
@@ -60,27 +57,27 @@ public class User {
         this.gender = gender;
     }
 
-    public BigDecimal getIncome() {
+    public Integer getIncome() {
         return income;
     }
 
-    public void setIncome(BigDecimal income) {
+    public void setIncome(Integer income) {
         this.income = income;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public Date getModifyTime() {
+    public String getModifyTime() {
         return modifyTime;
     }
 
-    public void setModifyTime(Date modifyTime) {
+    public void setModifyTime(String modifyTime) {
         this.modifyTime = modifyTime;
     }
 }

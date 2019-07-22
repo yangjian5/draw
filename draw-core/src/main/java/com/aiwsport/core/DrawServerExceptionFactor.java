@@ -31,8 +31,12 @@ public class DrawServerExceptionFactor {
             "param type mismatch", "参数类型错误");
 
     public static final DrawServerExceptionFactor SIGN_IS_ERROR = new DrawServerExceptionFactor(
-            HttpStatus.SC_BAD_REQUEST, 20010,
+            HttpStatus.SC_BAD_REQUEST, 20011,
             "sign is error", "签名错误");
+
+    public static final DrawServerExceptionFactor FILE_ERROR = new DrawServerExceptionFactor(
+            HttpStatus.SC_SERVICE_UNAVAILABLE, 20012,
+            "file upload is error", "文件上传失败");
 
     public static final DrawServerExceptionFactor CONFIG_ERROR = new DrawServerExceptionFactor(
             HttpStatus.SC_FORBIDDEN, 50000,

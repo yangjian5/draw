@@ -29,4 +29,5 @@ public class WebApplication {
                     .addPathPatterns("/api/**");        //指定该类拦截的url
         }
     }
+
 }
