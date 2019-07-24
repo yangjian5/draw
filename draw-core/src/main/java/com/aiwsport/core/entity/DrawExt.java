@@ -1,6 +1,5 @@
 package com.aiwsport.core.entity;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class DrawExt {
@@ -10,7 +9,7 @@ public class DrawExt {
 
     private Integer drawId;
 
-    private BigDecimal extPrice;
+    private int extPrice;
 
     private String opName;
 
@@ -19,6 +18,8 @@ public class DrawExt {
     private Date createTime;
 
     private Date modifyTime;
+
+    private Draws draws;
 
     public Integer getId() {
         return id;
@@ -44,11 +45,11 @@ public class DrawExt {
         this.drawId = drawId;
     }
 
-    public BigDecimal getExtPrice() {
+    public int getExtPrice() {
         return extPrice;
     }
 
-    public void setExtPrice(BigDecimal extPrice) {
+    public void setExtPrice(int extPrice) {
         this.extPrice = extPrice;
     }
 
@@ -82,5 +83,13 @@ public class DrawExt {
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public Draws getDraws() {
+        return draws;
+    }
+
+    public void setDraws(Draws draws) {
+        this.draws = draws;
     }
 }

@@ -3,9 +3,9 @@
 <mapper namespace="com.aiwsport.core.mapper.DrawExtMapper" >
   <resultMap id="BaseResultMap" type="com.aiwsport.core.entity.DrawExt" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="extUid" property="extuid" jdbcType="INTEGER" />
+    <result column="extUid" property="extUid" jdbcType="INTEGER" />
     <result column="drawId" property="drawId" jdbcType="INTEGER" />
-    <result column="extPrice" property="extPrice" jdbcType="DECIMAL" />
+    <result column="extPrice" property="extPrice" jdbcType="INTEGER" />
     <result column="opName" property="opName" jdbcType="VARCHAR" />
     <result column="opId" property="opId" jdbcType="INTEGER" />
     <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
@@ -22,19 +22,19 @@
     insert into draw_ext (extUid, drawId, extPrice, 
       opName, opId, createTime, 
       modifyTime)
-    values (#{extuid,jdbcType=INTEGER}, #{drawid,jdbcType=INTEGER}, #{extprice,jdbcType=DECIMAL}, 
-      #{opname,jdbcType=VARCHAR}, #{opid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{modifytime,jdbcType=TIMESTAMP})
+    values (#{extUid,jdbcType=INTEGER}, #{drawId,jdbcType=INTEGER}, #{extPrice,jdbcType=INTEGER},
+      #{opName,jdbcType=VARCHAR}, #{opId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+      #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.aiwsport.core.entity.DrawExt" >
     update draw_ext
-    set extUid = #{extuid,jdbcType=INTEGER},
-      drawId = #{drawid,jdbcType=INTEGER},
-      extPrice = #{extprice,jdbcType=DECIMAL},
-      opName = #{opname,jdbcType=VARCHAR},
-      opId = #{opid,jdbcType=INTEGER},
-      createTime = #{createtime,jdbcType=TIMESTAMP},
-      modifyTime = #{modifytime,jdbcType=TIMESTAMP}
+    set extUid = #{extUid,jdbcType=INTEGER},
+      drawId = #{drawId,jdbcType=INTEGER},
+      extPrice = #{extPrice,jdbcType=INTEGER},
+      opName = #{opName,jdbcType=VARCHAR},
+      opId = #{opId,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      modifyTime = #{modifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -46,4 +46,33 @@
     select id, extUid, drawId, extPrice, opName, opId, createTime, modifyTime
     from draw_ext
   </select>
+
+  <select id="getMaxOne" resultMap="BaseResultMap" >
+    select id, extUid, drawId, extPrice, opName, opId, createTime, modifyTime
+    from draw_ext order by id desc limit 1;
+  </select>
+
+  <select id="getIndex" resultMap="BaseResultMap" >
+    select id, extUid, drawId, MIN(extPrice) AS extPrice, opName, opId, createTime, modifyTime
+    from draw_ext
+    GROUP BY drawId
+    having id &lt;= #{arg0}
+    order by drawPrice
+    <if test="arg3 == 1">
+      desc
+    </if>
+    <if test="arg3 == 2">
+      asc
+    </if>
+    limit #{arg1}, #{arg2}
+  </select>
+
+  <select id="getMyList" resultMap="BaseResultMap">
+    select id, extUid, drawId, MIN(extPrice) AS extPrice, opName, opId, createTime, modifyTime
+    from draw_ext
+    where extUid = #{arg0}
+    order by modifyTime desc
+    limit #{arg1}, #{arg2}
+  </select>
+
 </mapper>

@@ -1,6 +1,7 @@
 package com.aiwsport.core.mapper;
 
 import com.aiwsport.core.entity.DrawExt;
+
 import java.util.List;
 
 public interface DrawExtMapper {
@@ -13,4 +14,10 @@ public interface DrawExtMapper {
     List<DrawExt> selectAll();
 
     int updateByPrimaryKey(DrawExt record);
+
+    List<DrawExt> getIndex(int id, int start, int end, int sort);
+
+    DrawExt getMaxOne();
+
+    List<DrawExt> getMyList(int uid, int start, int end);
 }

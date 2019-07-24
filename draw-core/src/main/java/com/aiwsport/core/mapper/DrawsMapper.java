@@ -15,6 +15,9 @@ public interface DrawsMapper {
 
     int updateByPrimaryKey(Draws record);
 
-    List<Draws> getIndex(int price, int id, int sort);
+    List<Draws> getIndex(int id, int start, int end, int sort);
 
+    Draws getMaxOne();
+
+    List<Draws> getMyList(int uid, int start, int end);
 }

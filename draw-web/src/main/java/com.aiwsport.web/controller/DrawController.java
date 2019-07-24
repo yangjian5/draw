@@ -6,7 +6,7 @@ import com.aiwsport.core.constant.ResultMsg;
 import com.aiwsport.core.entity.User;
 import com.aiwsport.core.service.DrawService;
 import com.aiwsport.core.service.UserService;
-import com.aiwsport.web.utlis.FtpFileUtil;
+import com.aiwsport.web.utlis.FileUtil;
 import com.aiwsport.web.verify.ParamVerify;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,15 +30,33 @@ public class DrawController {
     @Autowired
     private UserService userService;
 
-
     @RequestMapping(value = "/index.json")
-    public ResultMsg index(@ParamVerify(isNumber = true)int type, @ParamVerify(isNumber = true)int sort, String max_id) {
+    public ResultMsg index(@ParamVerify(isNumber = true)int type,
+                           @ParamVerify(isNumber = true)int sort,
+                           String max_id) {
         if (type == 1) {
             return new ResultMsg("index", drawService.getDraws(sort, max_id));
         } else {
-            return new ResultMsg("index", drawService.getDraws(sort, max_id));
+            return new ResultMsg("index", drawService.getDrawExts(sort, max_id));
         }
     }
+
+    @RequestMapping(value = "/my_draw.json")
+    public ResultMsg myDraw(@ParamVerify(isNumber = true)int type,
+                            @ParamVerify(isNotBlank = true)int open_id,
+                            String max_id) {
+        User user = userService.getUser(max_id);
+        if (user == null) {
+            throw new DrawServerException(DrawServerExceptionFactor.PARAM_VERIFY_FAIL, "user is not exist");
+        }
+
+        if (type == 1) {
+            return new ResultMsg("index", drawService.getMyDraws(user.getId(), max_id));
+        } else {
+            return new ResultMsg("index", drawService.getMyDrawExts(user.getId(), max_id));
+        }
+    }
+
 
     @RequestMapping(value = "/upload_image.json")
     public ResultMsg uploadImage(@ParamVerify(isNotBlank = true)String open_id,
@@ -47,13 +65,16 @@ public class DrawController {
                                  @ParamVerify(isNotBlank = true)String draw_name,
                                  @ParamVerify(isNotBlank = true)String author,
                                  @ParamVerify(isNotBlank = true)String desc,
+                                 @ParamVerify(isNumber = true)int draw_width,
+                                 @ParamVerify(isNumber = true)int draw_high,
                                  @RequestParam("draw_file") MultipartFile file) {
         try{
             String fileName = file.getOriginalFilename();
-            InputStream inputStream=file.getInputStream();
-            String imgName = "draw"+System.currentTimeMillis()+fileName.substring(fileName.lastIndexOf("."));
-            System.out.println("ftp "+imgName);
-            if(!FtpFileUtil.uploadFile(imgName,inputStream)){
+            InputStream inputStream = file.getInputStream();
+            String imgName = System.currentTimeMillis()+"_"+fileName;
+            System.out.println("imgName "+imgName);
+            String l = "/data1/draw/";
+            if(!FileUtil.writeFile(l+imgName, inputStream)){
                 throw new DrawServerException(DrawServerExceptionFactor.FILE_ERROR);
             }
 
@@ -62,7 +83,7 @@ public class DrawController {
                 throw new DrawServerException(DrawServerExceptionFactor.PARAM_VERIFY_FAIL, "open_id is not exist");
             }
 
-            boolean res = drawService.createDraw(user.getId(), name, tel_no, draw_name, author, desc, imgName);
+            boolean res = drawService.createDraw(user.getId(), name, tel_no, draw_name, author, desc, imgName, draw_width, draw_high);
             if (!res) {
                 throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "create draw is error");
             }
@@ -83,6 +104,20 @@ public class DrawController {
         }
 
         return new ResultMsg("update_draw", true);
+    }
+
+    @RequestMapping(value = "/update_owner_draw.json")
+    public ResultMsg updateOwnerDraw(@ParamVerify(isNumber = true)int draw_ext_id,
+                                     @ParamVerify(isNumber = true)int ext_price,
+                                     @ParamVerify(isNumber = true)int income_price,
+                                     @RequestParam("draw_file") MultipartFile file){
+        boolean res = false;
+        if (income_price == 0 || file == null) { // 上传收益
+
+        } else { // 修改所有权价格
+            res = drawService.updateDrawExt(draw_ext_id, ext_price);
+        }
+        return new ResultMsg("update_owner_draw", res);
     }
 
 

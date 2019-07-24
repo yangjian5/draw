@@ -15,6 +15,10 @@ public class Draws {
 
     private String drawStatus;
 
+    private Integer drawWidth;
+
+    private Integer drawHigh;
+
     private String authName;
 
     private String urlHd;
@@ -165,5 +169,25 @@ public class Draws {
 
     public void setDrawPrice(Integer drawPrice) {
         this.drawPrice = drawPrice;
+    }
+
+    public Integer getDrawPrice() {
+        return drawPrice;
+    }
+
+    public Integer getDrawWidth() {
+        return drawWidth;
+    }
+
+    public void setDrawWidth(Integer drawWidth) {
+        this.drawWidth = drawWidth;
+    }
+
+    public Integer getDrawHigh() {
+        return drawHigh;
+    }
+
+    public void setDrawHigh(Integer drawHigh) {
+        this.drawHigh = drawHigh;
     }
 }

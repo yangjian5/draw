@@ -9,7 +9,9 @@
     <result column="drawPrice" property="drawPrice" jdbcType="INTEGER" />
     <result column="drawName" property="drawName" jdbcType="VARCHAR" />
     <result column="drawStatus" property="drawStatus" jdbcType="VARCHAR" />
-    <result column="authName" property="authName" jdbcType="VARCHAR" />
+    <result column="drawName" property="drawName" jdbcType="INTEGER" />
+    <result column="drawWidth" property="drawWidth" jdbcType="INTEGER" />
+    <result column="drawHigh" property="drawHigh" jdbcType="VARCHAR" />
     <result column="urlHd" property="urlHd" jdbcType="VARCHAR" />
     <result column="urlSimple" property="urlSimple" jdbcType="VARCHAR" />
     <result column="drawDesc" property="drawDesc" jdbcType="VARCHAR" />
@@ -29,13 +31,14 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into draws (prodUid, prodName, prodTel,
-      drawPrice, drawName, drawStatus, 
+      drawPrice, drawName, drawStatus, drawWidth, drawHigh,
       authName, urlHd, urlSimple,
       drawDesc, ownCount, ownFinishCount,
       opName, opId, createTime, 
       modifyTime)
     values (#{prodUid,jdbcType=INTEGER}, #{prodName,jdbcType=VARCHAR}, #{prodTel,jdbcType=VARCHAR},
       #{drawPrice,jdbcType=INTEGER}, #{drawName,jdbcType=VARCHAR}, #{drawStatus,jdbcType=VARCHAR},
+      #{drawWidth,jdbcType=INTEGER}, #{drawHigh,jdbcType=INTEGER},
       #{authName,jdbcType=VARCHAR}, #{urlHd,jdbcType=VARCHAR}, #{urlSimple,jdbcType=VARCHAR},
       #{drawDesc,jdbcType=VARCHAR}, #{ownCount,jdbcType=INTEGER}, #{ownFinishCount,jdbcType=INTEGER},
       #{opName,jdbcType=VARCHAR}, #{opId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
@@ -49,6 +52,8 @@
       drawPrice = #{drawPrice,jdbcType=INTEGER},
       drawName = #{drawName,jdbcType=VARCHAR},
       drawStatus = #{drawStatus,jdbcType=VARCHAR},
+      drawWidth = #{drawWidth,jdbcType=INTEGER},
+      drawHigh = #{drawHigh,jdbcType=INTEGER},
       authName = #{authName,jdbcType=VARCHAR},
       urlHd = #{urlHd,jdbcType=VARCHAR},
       urlSimple = #{urlSimple,jdbcType=VARCHAR},
@@ -62,28 +67,41 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, prodUid, prodName, prodTel, drawPrice, drawName, drawStatus, authName, 
+    select id, prodUid, prodName, prodTel, drawPrice, drawName, drawStatus, drawWidth, drawHigh, authName,
     urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, opName, opId, createTime, modifyTime
     from draws
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, prodUid, prodName, prodTel, drawPrice, drawName, drawStatus, authName, 
+    select id, prodUid, prodName, prodTel, drawPrice, drawName, drawStatus, drawWidth, drawHigh, authName,
     urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, opName, opId, createTime, modifyTime
     from draws
   </select>
-  <select id="getIndex" resultMap="BaseResultMap">
+  <select id="getMaxOne" resultMap="BaseResultMap" >
     select id, prodUid, prodName, prodTel, drawPrice, drawName, drawStatus, authName,
     urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, opName, opId, createTime, modifyTime
+    from draws order by id desc limit 1;
+  </select>
+  <select id="getIndex" resultMap="BaseResultMap">
+    select id, prodUid, prodName, prodTel, drawPrice, drawName, drawStatus, drawWidth, drawHigh, authName,
+    urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, opName, opId, createTime, modifyTime
     from draws
-    where id > #{arg1} and drawPrice > #{arg0}
+    where id &lt;= #{arg0}
     order by drawPrice
-      <if test="arg2 == 1">
+      <if test="arg3 == 1">
         desc
       </if>
-      <if test="arg2 == 2">
+      <if test="arg3 == 2">
         asc
       </if>
-    , id desc limit 15
+    limit #{arg1}, #{arg2}
+  </select>
+  <select id="getMyList" resultMap="BaseResultMap">
+    select id, prodUid, prodName, prodTel, drawPrice, drawName, drawStatus, drawWidth, drawHigh, authName,
+    urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, opName, opId, createTime, modifyTime
+    from draws
+    where prodUid = #{arg0}
+    order by modifyTime desc
+    limit #{arg1}, #{arg2}
   </select>
 </mapper>
