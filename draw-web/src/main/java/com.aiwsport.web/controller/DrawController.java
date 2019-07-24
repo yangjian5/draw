@@ -43,9 +43,9 @@ public class DrawController {
 
     @RequestMapping(value = "/my_draw.json")
     public ResultMsg myDraw(@ParamVerify(isNumber = true)int type,
-                            @ParamVerify(isNotBlank = true)int open_id,
+                            @ParamVerify(isNotBlank = true)String open_id,
                             String max_id) {
-        User user = userService.getUser(max_id);
+        User user = userService.getUser(open_id);
         if (user == null) {
             throw new DrawServerException(DrawServerExceptionFactor.PARAM_VERIFY_FAIL, "user is not exist");
         }
@@ -73,8 +73,7 @@ public class DrawController {
             InputStream inputStream = file.getInputStream();
             String imgName = System.currentTimeMillis()+"_"+fileName;
             System.out.println("imgName "+imgName);
-            String l = "/data1/draw/";
-            if(!FileUtil.writeFile(l+imgName, inputStream)){
+            if(!FileUtil.writeFile("/data1/draw", imgName, inputStream)){
                 throw new DrawServerException(DrawServerExceptionFactor.FILE_ERROR);
             }
 

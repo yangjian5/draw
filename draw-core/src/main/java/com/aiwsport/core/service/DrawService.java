@@ -39,8 +39,13 @@ public class DrawService {
         draw.setDrawDesc(desc);
         draw.setUrlHd(urlHd);
         String time = DataTypeUtils.formatCurDateTime();
+        draw.setUrlSimple("");
+        draw.setDrawPrice(0);
+        draw.setOwnCount(0);
+        draw.setOwnFinishCount(0);
         draw.setCreateTime(time);
         draw.setModifyTime(time);
+
         return drawMapper.insert(draw) > 0;
     }
 

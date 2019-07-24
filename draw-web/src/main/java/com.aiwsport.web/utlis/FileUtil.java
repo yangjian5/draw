@@ -16,7 +16,7 @@ public class FileUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
 
-    public static boolean writeFile(String path, InputStream input){
+    public static boolean writeFile(String path, String name, InputStream input){
         // 设置数据缓冲
         byte[] bs = new byte[1024 * 2];
         // 读取到的数据长度
@@ -24,7 +24,13 @@ public class FileUtil {
         // 输出的文件流保存图片至本地
         OutputStream os = null;
         try {
-            os = new FileOutputStream(path);
+
+            File sf=new File(path);
+            if(!sf.exists()){
+                sf.mkdirs();
+            }
+
+            os = new FileOutputStream(path+"/"+name);
             while ((len = input.read(bs)) != -1) {
                 os.write(bs, 0, len);
             }

@@ -44,6 +44,81 @@ get - /api/index
 }
 
 所有权 返回格式
+
+{
+    "code": 200,
+    "message": "index",
+    "data": {
+        "max_id": "3-1",
+        "draw_ext": [
+            {
+                "id": 3,
+                "ext_uid": 3,
+                "draw_id": 1,
+                "ext_price": 2323,
+                "op_name": "",
+                "op_id": 0,
+                "create_time": null,
+                "modify_time": null,
+                "draws": {
+                    "id": 1,
+                    "prod_uid": 12,
+                    "prod_name": "",
+                    "prod_tel": "123",
+                    "draw_price": 2101,
+                    "draw_name": "我的",
+                    "draw_status": "1",
+                    "draw_width": null,
+                    "draw_high": null,
+                    "auth_name": "yang",
+                    "url_hd": "",
+                    "url_simple": "",
+                    "draw_desc": "1111111",
+                    "own_count": 10,
+                    "own_finish_count": 0,
+                    "op_name": "",
+                    "op_id": 0,
+                    "create_time": "2019-07-22 14:24:13.0",
+                    "modify_time": "2019-07-22 14:24:13.0"
+                }
+            },
+            {
+                "id": 1,
+                "ext_uid": 2,
+                "draw_id": 2,
+                "ext_price": 1000,
+                "op_name": "",
+                "op_id": 0,
+                "create_time": null,
+                "modify_time": null,
+                "draws": {
+                    "id": 2,
+                    "prod_uid": 12,
+                    "prod_name": "",
+                    "prod_tel": "4564",
+                    "draw_price": 2101,
+                    "draw_name": "我的",
+                    "draw_status": "1",
+                    "draw_width": null,
+                    "draw_high": null,
+                    "auth_name": "yang",
+                    "url_hd": "",
+                    "url_simple": "",
+                    "draw_desc": "1111111",
+                    "own_count": 10,
+                    "own_finish_count": 0,
+                    "op_name": "",
+                    "op_id": 0,
+                    "create_time": "2019-07-22 14:24:13.0",
+                    "modify_time": "2019-07-22 14:24:13.0"
+                }
+            }
+        ]
+    },
+    "success": true
+}
+
+
 ```
 
 ---- 
@@ -174,10 +249,10 @@ post - /api/upload_image  全都是 form_data
 
 ```
 {
-	"code": 200,
-	"message": "upload_image",
-	"data": true,
-	"success": true
+    "code": 200,
+    "message": "upload_image",
+    "data": true,
+    "success": true
 }
 ```
 
@@ -336,12 +411,102 @@ get - /api/my_draw
 #### 出参
 
 ```
+创造权
 {
-	time:10000
-	code:200
-	data:{
-		list:[]
-	}
+    "code": 200,
+    "message": "index",
+    "data": {
+        "max_id": "1",
+        "draws": [
+            {
+                "id": 1,
+                "prod_uid": 1,
+                "prod_name": "",
+                "prod_tel": "123",
+                "draw_price": 2101,
+                "draw_name": "我的",
+                "draw_status": "1",
+                "draw_width": null,
+                "draw_high": null,
+                "auth_name": "yang",
+                "url_hd": "",
+                "url_simple": "",
+                "draw_desc": "1111111",
+                "own_count": 10,
+                "own_finish_count": 0,
+                "op_name": "",
+                "op_id": 0,
+                "create_time": "2019-07-22 14:24:13.0",
+                "modify_time": "2019-07-22 14:24:13.0"
+            },
+            {
+                "id": 2,
+                "prod_uid": 1,
+                "prod_name": "",
+                "prod_tel": "4564",
+                "draw_price": 2101,
+                "draw_name": "我的",
+                "draw_status": "1",
+                "draw_width": null,
+                "draw_high": null,
+                "auth_name": "yang",
+                "url_hd": "",
+                "url_simple": "",
+                "draw_desc": "1111111",
+                "own_count": 10,
+                "own_finish_count": 0,
+                "op_name": "",
+                "op_id": 0,
+                "create_time": "2019-07-22 14:24:13.0",
+                "modify_time": "2019-07-22 14:24:13.0"
+            }
+        ]
+    },
+    "success": true
+}
+
+所有权
+
+{
+    "code": 200,
+    "message": "index",
+    "data": {
+        "max_id": "1",
+        "draw_ext": [
+            {
+                "id": 1,
+                "ext_uid": 1,
+                "draw_id": 2,
+                "ext_price": 1000,
+                "op_name": "",
+                "op_id": 0,
+                "create_time": null,
+                "modify_time": null,
+                "draws": {
+                    "id": 2,
+                    "prod_uid": 1,
+                    "prod_name": "",
+                    "prod_tel": "4564",
+                    "draw_price": 2101,
+                    "draw_name": "我的",
+                    "draw_status": "1",
+                    "draw_width": null,
+                    "draw_high": null,
+                    "auth_name": "yang",
+                    "url_hd": "",
+                    "url_simple": "",
+                    "draw_desc": "1111111",
+                    "own_count": 10,
+                    "own_finish_count": 0,
+                    "op_name": "",
+                    "op_id": 0,
+                    "create_time": "2019-07-22 14:24:13.0",
+                    "modify_time": "2019-07-22 14:24:13.0"
+                }
+            }
+        ]
+    },
+    "success": true
 }
 ```
 
@@ -389,7 +554,7 @@ get - /api/update_owner_draw
 ```
 
 ### 
-
+所有url 后加 .json
 - [X]  藏品(首页)
 - [X]  登入、注册
 - [X]  查询用户信息

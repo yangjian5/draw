@@ -57,7 +57,7 @@
     from draw_ext
     GROUP BY drawId
     having id &lt;= #{arg0}
-    order by drawPrice
+    order by extPrice
     <if test="arg3 == 1">
       desc
     </if>
