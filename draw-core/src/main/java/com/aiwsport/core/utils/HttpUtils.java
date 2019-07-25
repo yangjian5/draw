@@ -1,4 +1,4 @@
-package com.aiwsport.web.utlis;
+package com.aiwsport.core.utils;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;

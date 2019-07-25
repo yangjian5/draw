@@ -6,16 +6,20 @@ import com.aiwsport.core.constant.ResultMsg;
 import com.aiwsport.core.constant.WxConfig;
 import com.aiwsport.core.entity.User;
 import com.aiwsport.core.service.UserService;
-import com.aiwsport.web.utlis.HttpUtils;
-import com.aiwsport.web.utlis.PayUtil;
-import com.aiwsport.web.utlis.XmlUtil;
+import com.aiwsport.core.utils.HttpUtils;
+import com.aiwsport.core.utils.PayUtil;
+import com.aiwsport.core.utils.XmlUtil;
+import com.aiwsport.web.utlis.ParseUrl;
 import com.aiwsport.web.verify.ParamVerify;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -70,7 +74,7 @@ public class TransferController {
             //parm.put("re_user_name", "安迪"); //check_name设置为FORCE_CHECK或OPTION_CHECK，则必填
             parm.put("amount", BigDecimal.valueOf(amount).divide(BigDecimal.valueOf(100)).toString()); //转账金额
             parm.put("desc", user.getNickName() +" 申请提现金额："+amount+"分 " + user.getId()); //企业付款描述信息
-            parm.put("spbill_create_ip", PayUtil.getRemoteAddrIp(request)); //Ip地址
+            parm.put("spbill_create_ip", ParseUrl.getLocalIp(request)); //Ip地址
             parm.put("sign", PayUtil.getSign(parm, WxConfig.SECRET));
 
             String restxml = HttpUtils.posts(WxConfig.TRANSFERS_PAY, XmlUtil.xmlFormat(parm, false));

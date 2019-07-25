@@ -3,13 +3,14 @@
 <mapper namespace="com.aiwsport.core.mapper.OrderMapper" >
   <resultMap id="BaseResultMap" type="com.aiwsport.core.entity.Order" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="code" property="code" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="drawId" property="drawId" jdbcType="INTEGER" />
     <result column="drawExtId" property="drawExtId" jdbcType="INTEGER" />
     <result column="uid" property="uid" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="orderPrice" property="orderPrice" jdbcType="INTEGER" />
+    <result column="info" property="info" jdbcType="VARCHAR" />
     <result column="opName" property="opName" jdbcType="VARCHAR" />
     <result column="opId" property="opId" jdbcType="INTEGER" />
     <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
@@ -27,20 +28,21 @@
       uid, type, status, 
       orderPrice, opName, opid, 
       createTime, modifyTime)
-    values (#{code,jdbcType=INTEGER}, #{drawid,jdbcType=INTEGER}, #{drawextid,jdbcType=INTEGER}, 
+    values (#{code,jdbcType=VARCHAR}, #{drawid,jdbcType=INTEGER}, #{drawextid,jdbcType=INTEGER},
       #{uid,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
-      #{orderprice,jdbcType=INTEGER}, #{opname,jdbcType=VARCHAR}, #{opid,jdbcType=INTEGER},
+      #{orderprice,jdbcType=INTEGER}, #{info,jdbcType=VARCHAR}, #{opname,jdbcType=VARCHAR}, #{opid,jdbcType=INTEGER},
       #{createtime,jdbcType=TIMESTAMP}, #{modifytime,jdbcType=TIMESTAMP})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.aiwsport.core.entity.Order" >
     update order
-    set code = #{code,jdbcType=INTEGER},
+    set code = #{code,jdbcType=VARCHAR},
       drawId = #{drawid,jdbcType=INTEGER},
       drawExtId = #{drawextid,jdbcType=INTEGER},
       uid = #{uid,jdbcType=INTEGER},
       type = #{type,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
       orderPrice = #{orderprice,jdbcType=INTEGER},
+      info = #{info,jdbcType=VARCHAR},
       opName = #{opname,jdbcType=VARCHAR},
       opid = #{opid,jdbcType=INTEGER},
       createTime = #{createtime,jdbcType=TIMESTAMP},
@@ -48,13 +50,13 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, code, drawId, drawExtId, uid, type, status, orderPrice, opName, opid, 
+    select id, code, drawId, drawExtId, uid, type, status, orderPrice, info, opName, opid,
     createTime, modifyTime
     from order
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, code, drawId, drawExtId, uid, type, status, orderPrice, opName, opid, 
+    select id, code, drawId, drawExtId, uid, type, status, orderPrice, info, opName, opid,
     createTime, modifyTime
     from order
   </select>

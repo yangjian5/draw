@@ -5,7 +5,7 @@ import java.util.Date;
 public class Order {
     private Integer id;
 
-    private Integer code;
+    private String code;
 
     private Integer drawId;
 
@@ -18,6 +18,8 @@ public class Order {
     private String status;
 
     private Integer orderPrice;
+
+    private String info;
 
     private String opName;
 
@@ -35,11 +37,11 @@ public class Order {
         this.id = id;
     }
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -121,5 +123,13 @@ public class Order {
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 }

@@ -4,9 +4,11 @@ import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
+import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
@@ -30,6 +32,40 @@ public class ParseUrl {
     }
 
     private static Logger logger = LogManager.getLogger();
+
+    /**
+     * 返回客户端ip
+     *
+     * @param request
+     * @return
+     */
+    public static String getRemoteAddrIp(HttpServletRequest request) {
+        String ip = request.getHeader("X-Forwarded-For");
+        if (StringUtils.isNotBlank(ip) && !"unKnown".equalsIgnoreCase(ip)) {
+            // 多次反向代理后会有多个ip值，第一个ip才是真实ip
+            int index = ip.indexOf(",");
+            if (index != -1) {
+                return ip.substring(0, index);
+            } else {
+                return ip;
+            }
+        }
+        ip = request.getHeader("X-Real-IP");
+        if (StringUtils.isNotBlank(ip) && !"unKnown".equalsIgnoreCase(ip)) {
+            return ip;
+        }
+        return request.getRemoteAddr();
+    }
+
+    /**
+     * 获取服务器的ip地址
+     *
+     * @param request
+     * @return
+     */
+    public static String getLocalIp(HttpServletRequest request) {
+        return request.getLocalAddr();
+    }
 
     /**
      * 从指定的API获取JSON字符串数据
