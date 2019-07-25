@@ -1,10 +1,10 @@
 package com.aiwsport.web.controller;
 
 import com.aiwsport.core.constant.ResultMsg;
+import com.aiwsport.core.constant.WxConfig;
 import com.aiwsport.core.service.UserService;
 import com.aiwsport.web.utlis.HttpUtils;
 import com.aiwsport.web.utlis.PayUtil;
-import com.aiwsport.web.utlis.WxPayConfig;
 import com.aiwsport.web.utlis.XmlUtil;
 import com.aiwsport.web.verify.ParamVerify;
 import org.apache.logging.log4j.LogManager;
@@ -52,19 +52,19 @@ public class OrderController {
             String money = "1"; //支付金额，单位：分，这边需要转成字符串类型，否则后面的签名会失败
 
             Map<String, String> packageParams = new HashMap<>();
-            packageParams.put("appid", WxPayConfig.appid);
-            packageParams.put("mch_id", WxPayConfig.mch_id);
+            packageParams.put("appid", WxConfig.appid);
+            packageParams.put("mch_id", WxConfig.mch_id);
             packageParams.put("nonce_str", nonce_str);
             packageParams.put("body", body);
             packageParams.put("out_trade_no", orderNo); //商户订单号
             packageParams.put("total_fee", money); //支付金额，这边需要转成字符串类型，否则后面的签名会失败
             packageParams.put("spbill_create_ip", spbill_create_ip);
-            packageParams.put("notify_url", WxPayConfig.notify_url);
-            packageParams.put("trade_type", WxPayConfig.TRADETYPE);
+            packageParams.put("notify_url", WxConfig.notify_url);
+            packageParams.put("trade_type", WxConfig.TRADETYPE);
             packageParams.put("openid", open_id);
             //把数组所有元素，按照"参数=参数值"的模式用"＆"字符拼接成字符串
             // MD5运算生成签名，这里是第一次签名，用于调用统一下单接口
-            String mysign = PayUtil.getSign(packageParams, WxPayConfig.key);
+            String mysign = PayUtil.getSign(packageParams, WxConfig.SECRET);
             packageParams.put("sign", mysign);
 
             logger.info("=======================第一次签名："+ mysign +"============ ======");
@@ -75,7 +75,7 @@ public class OrderController {
             System.out.println("调试模式_统一下单接口请求XML数据："+ xml);
 
             //调用统一下单接口，并接受返回的结果
-            String restxml = HttpUtils.posts(WxPayConfig.pay_url, xml);
+            String restxml = HttpUtils.posts(WxConfig.pay_url, xml);
 
             System.out.println("调试模式_统一下单接口返回XML数据："+restxml);
 
@@ -86,7 +86,7 @@ public class OrderController {
 
             //返回给移动端需要的参数
             if (return_code =="SUCCESS"|| return_code.equals(return_code)) {
-                response.put("appid", WxPayConfig.appid);
+                response.put("appid", WxConfig.appid);
                 //业务结果
                 String prepay_id = restmap.get("prepay_id"); //返回的预付单信息
                 response.put("nonceStr",nonce_str);
@@ -94,9 +94,9 @@ public class OrderController {
                 Long timeStamp = System.currentTimeMillis() / 1000;
                 response.put("timeStamp", timeStamp +""); //这边要将返回的时间戳转化成字符串，不然小程序端调用wx.requestPayment方法会报签名错误
 
-                String stringSignTemp ="appId ="+ WxPayConfig.appid +"＆nonceStr ="+ nonce_str +"＆package = prepay_id ="+ prepay_id +"＆signType ="+ WxPayConfig.SIGNTYPE +"＆timeStamp ="+ timeStamp;
+                String stringSignTemp ="appId ="+ WxConfig.appid +"＆nonceStr ="+ nonce_str +"＆package = prepay_id ="+ prepay_id +"＆signType ="+ WxConfig.SIGNTYPE +"＆timeStamp ="+ timeStamp;
                 //再次签名，这个签名用于小程序端调用wx.requesetPayment方法
-                String paySign = PayUtil.sign(stringSignTemp, WxPayConfig.key);
+                String paySign = PayUtil.sign(stringSignTemp, WxConfig.SECRET);
                 logger.info("=======================第二次签名："+ paySign +"============ ======");
                 response.put("paySign", paySign);
                 //更新订单信息
@@ -132,7 +132,7 @@ public class OrderController {
         if("SUCCESS".equals(returnCode)){
             //验证签名是否正确
             String reSign = PayUtil.getSign(resMap, resMap.get("sign"));
-            String realSign = PayUtil.getSign(resMap, WxPayConfig.key);
+            String realSign = PayUtil.getSign(resMap, WxConfig.SECRET);
             if(reSign.equals(realSign)){
                 /**此处添加自己的业务逻辑代码start**/
 

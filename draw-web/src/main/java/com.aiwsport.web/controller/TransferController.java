@@ -3,6 +3,7 @@ package com.aiwsport.web.controller;
 import com.aiwsport.core.DrawServerException;
 import com.aiwsport.core.DrawServerExceptionFactor;
 import com.aiwsport.core.constant.ResultMsg;
+import com.aiwsport.core.constant.WxConfig;
 import com.aiwsport.core.entity.User;
 import com.aiwsport.core.service.UserService;
 import com.aiwsport.web.utlis.HttpUtils;
@@ -30,16 +31,6 @@ public class TransferController {
     private UserService userService;
 
     private static final Logger logger = LoggerFactory.getLogger(TransferController.class);
-
-    private static final String TRANSFERS_PAY = "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers"; // 企业付款API
-
-    private static final String TRANSFERS_PAY_QUERY = "https://api.mch.weixin.qq.com/mmpaymkttransfers/gettransferinfo"; // 企业付款查询API
-
-    private static final String APP_ID = "wx100000001000"  ;//公众账号appid
-
-    private static final String MCH_ID = "14000000000";//商户号
-
-    private static final String API_SECRET = "85565656565656565656565";//API密钥
 
     /**
      * 企业向个人支付转账
@@ -70,8 +61,8 @@ public class TransferController {
         Map<String, String> restmap = null;
         try {
             Map<String, String> parm = new HashMap<>();
-            parm.put("mch_appid", APP_ID);
-            parm.put("mchid", MCH_ID); //商户号
+            parm.put("mch_appid", WxConfig.appid);
+            parm.put("mchid", WxConfig.mch_id); //商户号
             parm.put("nonce_str", PayUtil.getNonceStr()); //随机字符串
             parm.put("partner_trade_no", PayUtil.getTradeNo()); //商户订单号
             parm.put("openid", open_id); //用户openid oCVr20N2YLH9VQztnkZTaCj2aYYY
@@ -80,9 +71,9 @@ public class TransferController {
             parm.put("amount", BigDecimal.valueOf(amount).divide(BigDecimal.valueOf(100)).toString()); //转账金额
             parm.put("desc", user.getNickName() +" 申请提现金额："+amount+"分 " + user.getId()); //企业付款描述信息
             parm.put("spbill_create_ip", PayUtil.getRemoteAddrIp(request)); //Ip地址
-            parm.put("sign", PayUtil.getSign(parm, API_SECRET));
+            parm.put("sign", PayUtil.getSign(parm, WxConfig.SECRET));
 
-            String restxml = HttpUtils.posts(TRANSFERS_PAY, XmlUtil.xmlFormat(parm, false));
+            String restxml = HttpUtils.posts(WxConfig.TRANSFERS_PAY, XmlUtil.xmlFormat(parm, false));
             restmap = XmlUtil.xmlParse(restxml);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -119,13 +110,13 @@ public class TransferController {
         Map<String, String> restmap = null;
         try {
             Map<String, String> parm = new HashMap<String, String>();
-            parm.put("appid", APP_ID);
-            parm.put("mch_id", MCH_ID);
+            parm.put("appid", WxConfig.appid);
+            parm.put("mch_id", WxConfig.mch_id);
             parm.put("partner_trade_no", tradeno);
             parm.put("nonce_str", PayUtil.getNonceStr());
-            parm.put("sign", PayUtil.getSign(parm, API_SECRET));
+            parm.put("sign", PayUtil.getSign(parm, WxConfig.SECRET));
 
-            String restxml = HttpUtils.posts(TRANSFERS_PAY_QUERY, XmlUtil.xmlFormat(parm, true));
+            String restxml = HttpUtils.posts(WxConfig.TRANSFERS_PAY_QUERY, XmlUtil.xmlFormat(parm, true));
             restmap = XmlUtil.xmlParse(restxml);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

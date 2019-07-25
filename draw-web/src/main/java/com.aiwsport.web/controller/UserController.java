@@ -2,8 +2,8 @@ package com.aiwsport.web.controller;
 
 import com.aiwsport.core.DrawServerException;
 import com.aiwsport.core.DrawServerExceptionFactor;
-import com.aiwsport.core.constant.DrawConstant;
 import com.aiwsport.core.constant.ResultMsg;
+import com.aiwsport.core.constant.WxConfig;
 import com.aiwsport.core.entity.User;
 import com.aiwsport.core.service.UserService;
 import com.aiwsport.web.utlis.ParseUrl;
@@ -32,7 +32,7 @@ public class UserController {
     public ResultMsg login(@ParamVerify(isNotBlank = true)String code, @ParamVerify(isNotNull = true)String avatar_url,
                            @ParamVerify(isNotNull = true)String nick_name, @ParamVerify(isNotNull = true)String gender) {
 
-        String url1 = "https://api.weixin.qq.com/sns/jscode2session?appid="+ DrawConstant.APP_ID +"&secret="+DrawConstant.SECRET+"&js_code=";
+        String url1 = "https://api.weixin.qq.com/sns/jscode2session?appid="+ WxConfig.appid +"&secret="+ WxConfig.SECRET +"&js_code=";
         String url2 = "&grant_type=authorization_code";
         JSONObject userObj = null;
         try {
