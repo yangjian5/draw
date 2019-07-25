@@ -16,7 +16,7 @@ public class PayUtil {
      *
      * @return
      */
-    public static String getTradeNo(int uid) {
+    public static String getTradeNo() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String newDate = sdf.format(new Date());
         String result = "";
@@ -24,7 +24,7 @@ public class PayUtil {
         for (int i = 0; i < 5; i++) {
             result += random.nextInt(10);
         }
-        return newDate + result + uid;
+        return newDate + System.currentTimeMillis() + result;
     }
 
 
@@ -63,7 +63,11 @@ public class PayUtil {
     }
 
     public static String getSign(Map<String, String> params, String paternerKey) throws UnsupportedEncodingException {
-        return DigestUtils.md5Hex(createSign(params, false) + "&key=" + paternerKey).toUpperCase();
+        return DigestUtils.md5Hex(createSign(params, true) + "&key=" + paternerKey).toUpperCase();
+    }
+
+    public static String sign(String str, String paternerKey) throws UnsupportedEncodingException {
+        return DigestUtils.md5Hex(URLEncoder.encode(str, "UTF-8") + "&key=" + paternerKey).toUpperCase();
     }
 
     /**

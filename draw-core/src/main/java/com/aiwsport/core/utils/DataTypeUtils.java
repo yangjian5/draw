@@ -917,7 +917,7 @@ public final class DataTypeUtils {
 	}
 	
 	/**
-	 * turn long[] to string like “[0,0,0,0,0]”
+	 * turn long[] to string like "[0,0,0,0,0]"
 	 * @param longList
 	 * @return string
 	 */

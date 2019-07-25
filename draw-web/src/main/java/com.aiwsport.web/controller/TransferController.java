@@ -73,7 +73,7 @@ public class TransferController {
             parm.put("mch_appid", APP_ID);
             parm.put("mchid", MCH_ID); //商户号
             parm.put("nonce_str", PayUtil.getNonceStr()); //随机字符串
-            parm.put("partner_trade_no", PayUtil.getTradeNo(user.getId())); //商户订单号
+            parm.put("partner_trade_no", PayUtil.getTradeNo()); //商户订单号
             parm.put("openid", open_id); //用户openid oCVr20N2YLH9VQztnkZTaCj2aYYY
             parm.put("check_name", "NO_CHECK"); //校验用户姓名选项 OPTION_CHECK
             //parm.put("re_user_name", "安迪"); //check_name设置为FORCE_CHECK或OPTION_CHECK，则必填
