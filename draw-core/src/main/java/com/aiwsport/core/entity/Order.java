@@ -1,6 +1,5 @@
 package com.aiwsport.core.entity;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class Order {
@@ -18,7 +17,7 @@ public class Order {
 
     private String status;
 
-    private BigDecimal orderPrice;
+    private Integer orderPrice;
 
     private String opName;
 
@@ -84,11 +83,11 @@ public class Order {
         this.status = status;
     }
 
-    public BigDecimal getOrderPrice() {
+    public Integer getOrderPrice() {
         return orderPrice;
     }
 
-    public void setOrderPrice(BigDecimal orderPrice) {
+    public void setOrderPrice(Integer orderPrice) {
         this.orderPrice = orderPrice;
     }
 

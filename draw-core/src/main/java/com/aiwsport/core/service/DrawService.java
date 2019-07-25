@@ -1,9 +1,15 @@
 package com.aiwsport.core.service;
 
+import com.aiwsport.core.DrawServerException;
+import com.aiwsport.core.DrawServerExceptionFactor;
 import com.aiwsport.core.entity.DrawExt;
 import com.aiwsport.core.entity.Draws;
+import com.aiwsport.core.entity.Income;
+import com.aiwsport.core.entity.IncomeStatistics;
 import com.aiwsport.core.mapper.DrawExtMapper;
 import com.aiwsport.core.mapper.DrawsMapper;
+import com.aiwsport.core.mapper.IncomeMapper;
+import com.aiwsport.core.mapper.IncomeStatisticsMapper;
 import com.aiwsport.core.model.ShowDrawExts;
 import com.aiwsport.core.model.ShowDraws;
 import com.aiwsport.core.utils.DataTypeUtils;
@@ -24,6 +30,11 @@ public class DrawService {
     @Autowired
     private DrawExtMapper drawExtMapper;
 
+    @Autowired
+    private IncomeMapper incomeMapper;
+
+    @Autowired
+    private IncomeStatisticsMapper incomeStatisticsMapper;
 
     private static Logger logger = LogManager.getLogger();
 
@@ -150,6 +161,37 @@ public class DrawService {
         }
         drawExt.setExtPrice(extPrice);
         return drawExtMapper.updateByPrimaryKey(drawExt) > 0;
+    }
+
+    public boolean uploadIncome(int drawExtId, int incomePrice, String url) throws Exception {
+        DrawExt drawExt = drawExtMapper.selectByPrimaryKey(drawExtId);
+        if (drawExt == null) {
+            throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "draw ext id is not exist");
+        }
+
+        Income income = new Income();
+        income.setDrawExtId(drawExtId);
+        income.setProofPrice(incomePrice);
+        income.setProofUrl(url);
+        income.setStatus("0");
+        String time = DataTypeUtils.formatCurDateTime();
+        income.setCreateTime(time);
+        income.setModifyTime(time);
+        incomeMapper.insert(income);
+
+        IncomeStatistics incomeStatistics = incomeStatisticsMapper.getTodayIncome(drawExt.getDrawId());
+        if (incomeStatistics == null) {
+
+        } else {
+            int sumIncome = incomeStatistics.getIncomePrice() + incomePrice;
+            incomeStatistics.setIncomePrice(sumIncome);
+            incomeStatisticsMapper.updateByPrimaryKey(incomeStatistics);
+        }
+
+        // TODO 生成支付订单， 返回订单信息
+
+
+        return true;
     }
 
     private ShowDrawExts buildShowDrawExts (List<DrawExt> drawExts) {

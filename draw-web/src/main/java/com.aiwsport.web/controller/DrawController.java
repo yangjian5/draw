@@ -87,7 +87,7 @@ public class DrawController {
                 throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "create draw is error");
             }
         } catch (Exception e) {
-            throw new DrawServerException(DrawServerExceptionFactor.DEFAULT);
+            throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, e.getMessage());
         }
 
         return new ResultMsg("upload_image", true);
@@ -109,10 +109,21 @@ public class DrawController {
     public ResultMsg updateOwnerDraw(@ParamVerify(isNumber = true)int draw_ext_id,
                                      @ParamVerify(isNumber = true)int ext_price,
                                      @ParamVerify(isNumber = true)int income_price,
-                                     @RequestParam("draw_file") MultipartFile file){
+                                     @RequestParam("income_file") MultipartFile file){
         boolean res = false;
         if (income_price == 0 || file == null) { // 上传收益
+            try {
+                String fileName = file.getOriginalFilename();
+                InputStream inputStream = file.getInputStream();
+                String imgName = System.currentTimeMillis()+"_"+fileName;
+                if(!FileUtil.writeFile("/data1/income", imgName, inputStream)){
+                    throw new DrawServerException(DrawServerExceptionFactor.FILE_ERROR);
+                }
 
+
+            } catch (Exception e) {
+                throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, e.getMessage());
+            }
         } else { // 修改所有权价格
             res = drawService.updateDrawExt(draw_ext_id, ext_price);
         }

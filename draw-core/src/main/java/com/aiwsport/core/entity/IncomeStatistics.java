@@ -7,7 +7,7 @@ public class IncomeStatistics {
 
     private Integer drawId;
 
-    private Long incomePrice;
+    private Integer incomePrice;
 
     private Date createTime;
 
@@ -27,11 +27,11 @@ public class IncomeStatistics {
         this.drawId = drawId;
     }
 
-    public Long getIncomePrice() {
+    public Integer getIncomePrice() {
         return incomePrice;
     }
 
-    public void setIncomePrice(Long incomePrice) {
+    public void setIncomePrice(Integer incomePrice) {
         this.incomePrice = incomePrice;
     }
 

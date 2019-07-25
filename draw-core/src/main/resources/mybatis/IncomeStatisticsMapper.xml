@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.aiwsport.core.entity.IncomeStatistics" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="drawId" property="drawId" jdbcType="INTEGER" />
-    <result column="incomePrice" property="incomePrice" jdbcType="DECIMAL" />
+    <result column="incomePrice" property="incomePrice" jdbcType="INTEGER" />
     <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
@@ -17,13 +17,13 @@
     </selectKey>
     insert into income_statistics (drawId, incomePrice, createTime
       )
-    values (#{drawid,jdbcType=INTEGER}, #{incomeprice,jdbcType=DECIMAL}, #{createtime,jdbcType=INTEGER}
+    values (#{drawid,jdbcType=INTEGER}, #{incomeprice,jdbcType=INTEGER}, #{createtime,jdbcType=INTEGER}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.aiwsport.core.entity.IncomeStatistics" >
     update income_statistics
     set drawId = #{drawid,jdbcType=INTEGER},
-      incomePrice = #{incomeprice,jdbcType=DECIMAL},
+      incomePrice = #{incomeprice,jdbcType=INTEGER},
       createTime = #{createtime,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -36,4 +36,12 @@
     select id, drawId, incomePrice, createTime
     from income_statistics
   </select>
+
+  <select id="getIncomeByDrawIdAndDate" resultMap="BaseResultMap" >
+    select id, drawId, incomePrice, createTime
+    from income_statistics where drawId = #{arg0}
+  </select>
+
+
+
 </mapper>

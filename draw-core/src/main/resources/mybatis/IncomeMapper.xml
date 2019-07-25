@@ -5,7 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="drawExtid" property="drawExtid" jdbcType="INTEGER" />
     <result column="proofUrl" property="proofUrl" jdbcType="VARCHAR" />
-    <result column="proofPrice" property="proofPrice" jdbcType="DECIMAL" />
+    <result column="proofPrice" property="proofPrice" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="opName" property="opName" jdbcType="VARCHAR" />
     <result column="opId" property="opid" jdbcType="INTEGER" />
@@ -23,7 +23,7 @@
     insert into income (drawExtid, proofUrl, proofPrice, 
       status, opName, opId, 
       createTime, modifyTime)
-    values (#{drawextid,jdbcType=INTEGER}, #{proofurl,jdbcType=VARCHAR}, #{proofprice,jdbcType=DECIMAL}, 
+    values (#{drawextid,jdbcType=INTEGER}, #{proofurl,jdbcType=VARCHAR}, #{proofprice,jdbcType=INTEGER},
       #{status,jdbcType=VARCHAR}, #{opname,jdbcType=VARCHAR}, #{opid,jdbcType=INTEGER}, 
       #{createtime,jdbcType=TIMESTAMP}, #{modifytime,jdbcType=TIMESTAMP})
   </insert>
@@ -31,7 +31,7 @@
     update income
     set drawExtid = #{drawextid,jdbcType=INTEGER},
       proofUrl = #{proofurl,jdbcType=VARCHAR},
-      proofPrice = #{proofprice,jdbcType=DECIMAL},
+      proofPrice = #{proofprice,jdbcType=INTEGER},
       status = #{status,jdbcType=VARCHAR},
       opName = #{opname,jdbcType=VARCHAR},
       opId = #{opid,jdbcType=INTEGER},
