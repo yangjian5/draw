@@ -76,8 +76,7 @@ public class OrderController {
             String realSign = PayUtil.getSign(resMap, WxConfig.SECRET);
             if(reSign.equals(realSign)){
                 /*此处添加自己的业务逻辑代码start*/
-
-
+                orderService.finishPay(resMap.get("orderNo"));
                 /*此处添加自己的业务逻辑代码end */
 
                 //通知微信服务器已经支付成功
