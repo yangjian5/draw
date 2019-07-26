@@ -2,14 +2,9 @@ package com.aiwsport.core.service;
 
 
 import com.aiwsport.core.constant.WxConfig;
-import com.aiwsport.core.entity.DrawExt;
-import com.aiwsport.core.entity.Draws;
-import com.aiwsport.core.entity.Order;
-import com.aiwsport.core.entity.User;
-import com.aiwsport.core.mapper.DrawExtMapper;
-import com.aiwsport.core.mapper.DrawsMapper;
-import com.aiwsport.core.mapper.OrderMapper;
-import com.aiwsport.core.mapper.UserMapper;
+import com.aiwsport.core.entity.*;
+import com.aiwsport.core.mapper.*;
+import com.aiwsport.core.utils.DataTypeUtils;
 import com.aiwsport.core.utils.HttpUtils;
 import com.aiwsport.core.utils.PayUtil;
 import com.aiwsport.core.utils.XmlUtil;
@@ -39,10 +34,16 @@ public class OrderService {
     @Autowired
     private OrderMapper orderMapper;
 
+    @Autowired
+    private OrderStatisticsMapper orderStatisticsMapper;
+
+    @Autowired
+    private IncomeStatisticsMapper incomeStatisticsMapper;
+
     private static Logger logger = LogManager.getLogger();
 
 
-    public Map<String, Object> createOrder(int id, int type, String openId, String ip){
+    public Map<String, Object> createOrder(int id, int type, String openId, String tel, String name, String ip){
         Map<String, Object> resMap = null;
         try {
             String orderNo = "";
@@ -99,6 +100,8 @@ public class OrderService {
             order.setDrawExtId(drawExtId);
             order.setType(type+"");
             order.setStatus("1");
+            order.setoTel(tel);
+            order.setoName(name);
             order.setOrderPrice(orderPrice);
             JSONObject jsonObj=new JSONObject(resMap);
             order.setInfo(jsonObj.toJSONString());
@@ -109,6 +112,57 @@ public class OrderService {
         }
 
         return resMap;
+    }
+
+    public boolean finishPay(String orderNo) throws Exception {
+        // 查询订单信息
+        Order order = orderMapper.getOrderByNo(orderNo);
+
+        User user = userMapper.selectByPrimaryKey(order.getUid());
+
+        // 价格变化统计
+        OrderStatistics orderStatistics = new OrderStatistics();
+
+        if ("1".equals(order.getType())) {
+            orderStatistics.setDrawId(order.getDrawId());
+
+            // 商品所属人修改
+            Draws draws = drawsMapper.selectByPrimaryKey(order.getDrawId());
+            draws.setProdName(order.getoName());
+            draws.setProdTel(order.getoTel());
+            draws.setProdUid(user.getId());
+            drawsMapper.updateByPrimaryKey(draws);
+        } else {
+            orderStatistics.setDrawId(order.getDrawExtId());
+
+            DrawExt drawExt = drawExtMapper.selectByPrimaryKey(order.getDrawExtId());
+            drawExt.setExtUid(order.getUid());
+            drawExtMapper.updateByPrimaryKey(drawExt);
+
+            // 收益计算统计
+            BigDecimal income = BigDecimal.valueOf(order.getOrderPrice()).multiply(BigDecimal.valueOf(0.05));
+            IncomeStatistics incomeStatistics = incomeStatisticsMapper.getTodayIncome(order.getDrawId());
+            if (incomeStatistics == null) {
+                incomeStatistics = new IncomeStatistics();
+                incomeStatistics.setDrawId(order.getDrawId());
+                incomeStatistics.setIncomePrice(income.intValue());
+                incomeStatistics.setCreateTime(DataTypeUtils.formatCurDateTime());
+                incomeStatisticsMapper.insert(incomeStatistics);
+            } else {
+                BigDecimal sumIncome = BigDecimal.valueOf(incomeStatistics.getIncomePrice()).add(income);
+                incomeStatistics.setIncomePrice(sumIncome.intValue());
+                incomeStatisticsMapper.updateByPrimaryKey(incomeStatistics);
+            }
+        }
+        orderStatistics.setsPrice(order.getOrderPrice());
+        orderStatistics.setType(order.getType());
+        orderStatistics.setCreateTime(DataTypeUtils.formatCurDateTime());
+        orderStatisticsMapper.insert(orderStatistics);
+
+        // 修改订单状态
+        order.setStatus("2");
+        orderMapper.updateByPrimaryKey(order);
+        return false;
     }
 
 

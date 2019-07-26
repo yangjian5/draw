@@ -5,8 +5,8 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="drawId" property="drawId" jdbcType="INTEGER" />
     <result column="sPrice" property="sPrice" jdbcType="INTEGER" />
-    <result column="createTime" property="createTime" jdbcType="INTEGER" />
-    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from order_statistics
@@ -18,15 +18,15 @@
     </selectKey>
     insert into order_statistics (drawId, sPrice, createTime, 
       type)
-    values (#{drawid,jdbcType=INTEGER}, #{sprice,jdbcType=INTEGER}, #{createtime,jdbcType=INTEGER}, 
-      #{type,jdbcType=INTEGER})
+    values (#{drawid,jdbcType=INTEGER}, #{sprice,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP},
+      #{type,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.aiwsport.core.entity.OrderStatistics" >
     update order_statistics
     set drawId = #{drawid,jdbcType=INTEGER},
       sPrice = #{sprice,jdbcType=INTEGER},
-      createTime = #{createtime,jdbcType=INTEGER},
-      type = #{type,jdbcType=INTEGER}
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

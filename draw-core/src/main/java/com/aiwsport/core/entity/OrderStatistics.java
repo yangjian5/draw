@@ -7,9 +7,9 @@ public class OrderStatistics {
 
     private Integer sPrice;
 
-    private Integer createTime;
+    private String createTime;
 
-    private Integer type;
+    private String type;
 
     public Integer getId() {
         return id;
@@ -35,19 +35,19 @@ public class OrderStatistics {
         this.sPrice = sPrice;
     }
 
-    public Integer getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Integer createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(String type) {
         this.type = type;
     }
 }

@@ -1,7 +1,5 @@
 package com.aiwsport.core.entity;
 
-import java.sql.Date;
-
 public class IncomeStatistics {
     private Integer id;
 
@@ -9,7 +7,7 @@ public class IncomeStatistics {
 
     private Integer incomePrice;
 
-    private Date createTime;
+    private String createTime;
 
     public Integer getId() {
         return id;
@@ -35,11 +33,11 @@ public class IncomeStatistics {
         this.incomePrice = incomePrice;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 }

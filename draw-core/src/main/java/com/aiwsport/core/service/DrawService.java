@@ -19,6 +19,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -183,8 +184,9 @@ public class DrawService {
         if (incomeStatistics == null) {
 
         } else {
-            int sumIncome = incomeStatistics.getIncomePrice() + incomePrice;
-            incomeStatistics.setIncomePrice(sumIncome);
+            BigDecimal income1 = BigDecimal.valueOf(incomePrice).multiply(BigDecimal.valueOf(0.05));
+            BigDecimal sumIncome = BigDecimal.valueOf(incomeStatistics.getIncomePrice()).add(income1);
+            incomeStatistics.setIncomePrice(sumIncome.intValue());
             incomeStatisticsMapper.updateByPrimaryKey(incomeStatistics);
         }
 

@@ -7,6 +7,8 @@
     <result column="drawId" property="drawId" jdbcType="INTEGER" />
     <result column="drawExtId" property="drawExtId" jdbcType="INTEGER" />
     <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="oName" property="oName" jdbcType="VARCHAR" />
+    <result column="oTel" property="oTel" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="orderPrice" property="orderPrice" jdbcType="INTEGER" />
@@ -25,11 +27,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into order (code, drawId, drawExtId, 
-      uid, type, status, 
+      uid, oName, oTel, type, status,
       orderPrice, opName, opid, 
       createTime, modifyTime)
     values (#{code,jdbcType=VARCHAR}, #{drawid,jdbcType=INTEGER}, #{drawextid,jdbcType=INTEGER},
-      #{uid,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{uid,jdbcType=INTEGER}, #{oName,jdbcType=VARCHAR}, #{oTel,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
       #{orderprice,jdbcType=INTEGER}, #{info,jdbcType=VARCHAR}, #{opname,jdbcType=VARCHAR}, #{opid,jdbcType=INTEGER},
       #{createtime,jdbcType=TIMESTAMP}, #{modifytime,jdbcType=TIMESTAMP})
   </insert>
@@ -39,6 +41,8 @@
       drawId = #{drawid,jdbcType=INTEGER},
       drawExtId = #{drawextid,jdbcType=INTEGER},
       uid = #{uid,jdbcType=INTEGER},
+      oName = #{oName,jdbcType=VARCHAR},
+      oTel = #{oTel,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
       orderPrice = #{orderprice,jdbcType=INTEGER},
@@ -50,14 +54,20 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, code, drawId, drawExtId, uid, type, status, orderPrice, info, opName, opid,
+    select id, code, drawId, drawExtId, uid, oName, oTel, type, status, orderPrice, info, opName, opid,
     createTime, modifyTime
     from order
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, code, drawId, drawExtId, uid, type, status, orderPrice, info, opName, opid,
+    select id, code, drawId, drawExtId, uid, oName, oTel, type, status, orderPrice, info, opName, opid,
     createTime, modifyTime
     from order
+  </select>
+  <select id="getOrderByNo" resultMap="BaseResultMap" >
+    select id, code, drawId, drawExtId, uid, oName, oTel, type, status, orderPrice, info, opName, opid,
+    createTime, modifyTime
+    from order
+    where code = #{orderNo,jdbcType=VARCHAR}
   </select>
 </mapper>

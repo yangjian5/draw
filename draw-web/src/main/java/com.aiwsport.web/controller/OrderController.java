@@ -34,17 +34,17 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-
-
     private static Logger logger = LogManager.getLogger();
 
     @RequestMapping(value = "/buy.json")
     public ResultMsg login(@ParamVerify(isNumber = true)int id,
                            @ParamVerify(isNumber = true)int type,
                            @ParamVerify(isNotBlank = true)String open_id,
+                           @ParamVerify(isNotBlank = true)String tel,
+                           @ParamVerify(isNotBlank = true)String name,
                            HttpServletRequest request) {
 
-        Map<String, Object> res = orderService.createOrder(id, type, open_id, ParseUrl.getLocalIp(request));
+        Map<String, Object> res = orderService.createOrder(id, type, open_id, tel, name, ParseUrl.getLocalIp(request));
         if (res == null) {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "buy is fail");
         }
@@ -56,7 +56,7 @@ public class OrderController {
     @RequestMapping("/wx_notify")
     public void wxNotify(HttpServletRequest request, HttpServletResponse response) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader((ServletInputStream)request.getInputStream()));
-        String line = null;
+        String line;
         StringBuilder sb = new StringBuilder();
         while((line = br.readLine())!=null){
             sb.append(line);
@@ -75,10 +75,10 @@ public class OrderController {
             String reSign = PayUtil.getSign(resMap, resMap.get("sign"));
             String realSign = PayUtil.getSign(resMap, WxConfig.SECRET);
             if(reSign.equals(realSign)){
-                /**此处添加自己的业务逻辑代码start**/
+                /*此处添加自己的业务逻辑代码start*/
 
 
-                /**此处添加自己的业务逻辑代码end**/
+                /*此处添加自己的业务逻辑代码end */
 
                 //通知微信服务器已经支付成功
                 resXml = "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"

@@ -13,6 +13,10 @@ public class Order {
 
     private Integer uid;
 
+    private String oName;
+
+    private String oTel;
+
     private String type;
 
     private String status;
@@ -131,5 +135,21 @@ public class Order {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public String getoName() {
+        return oName;
+    }
+
+    public void setoName(String oName) {
+        this.oName = oName;
+    }
+
+    public String getoTel() {
+        return oTel;
+    }
+
+    public void setoTel(String oTel) {
+        this.oTel = oTel;
     }
 }
