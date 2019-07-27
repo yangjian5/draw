@@ -4,6 +4,7 @@ package com.aiwsport.core.service;
 import com.aiwsport.core.constant.WxConfig;
 import com.aiwsport.core.entity.*;
 import com.aiwsport.core.mapper.*;
+import com.aiwsport.core.model.ShowOrder;
 import com.aiwsport.core.utils.DataTypeUtils;
 import com.aiwsport.core.utils.HttpUtils;
 import com.aiwsport.core.utils.PayUtil;
@@ -16,7 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -42,6 +45,24 @@ public class OrderService {
 
     private static Logger logger = LogManager.getLogger();
 
+    public List<ShowOrder> myOrder(String openId, String status) {
+        User user = userMapper.getByOpenId(openId);
+        if (user == null) {
+            return new ArrayList<>();
+        }
+
+        List<Order> orders = orderMapper.getOrderByUid(user.getId(), status);
+
+        List<ShowOrder> showOrders = new ArrayList<>();
+        orders.forEach(order -> {
+            ShowOrder showOrder = new ShowOrder();
+            showOrder.setOrder(order);
+            Draws draws = drawsMapper.selectByPrimaryKey(order.getDrawId());
+            showOrder.setDraws(draws);
+            showOrders.add(showOrder);
+        });
+        return showOrders;
+    }
 
     public Map<String, Object> createOrder(int id, int type, String openId, String tel, String name, String ip){
         Map<String, Object> resMap = null;

@@ -37,7 +37,7 @@ public class OrderController {
     private static Logger logger = LogManager.getLogger();
 
     @RequestMapping(value = "/buy.json")
-    public ResultMsg login(@ParamVerify(isNumber = true)int id,
+    public ResultMsg buy(@ParamVerify(isNumber = true)int id,
                            @ParamVerify(isNumber = true)int type,
                            @ParamVerify(isNotBlank = true)String open_id,
                            @ParamVerify(isNotBlank = true)String tel,
@@ -52,6 +52,10 @@ public class OrderController {
         return new ResultMsg("buy", res);
     }
 
+    @RequestMapping(value = "/my_order.json")
+    public ResultMsg myOrder(@ParamVerify(isNotBlank = true)String open_id, @ParamVerify(isNotBlank = true)String status) {
+        return new ResultMsg("buy", orderService.myOrder(open_id, status));
+    }
 
     @RequestMapping("/wx_notify")
     public void wxNotify(HttpServletRequest request, HttpServletResponse response) throws Exception{

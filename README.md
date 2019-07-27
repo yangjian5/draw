@@ -199,37 +199,15 @@ get - /api/withdrawal
 
 ```
 {
-	time:10000
-	code:200
-	data: true
+    "code": 200,
+    "message": "withdrawal",
+    "data": true,
+    "success": true
 }
 ```
 
 ---
 
-### 5、订单 
-#### url 
-get - /api/order
-#### 入参
-| 字段      |     类型 |   说明   |
-| :-------- | --------:| :------: |
-| type    |   int |  1、未支付；2、已完成  |
-| open_id    |   str |  用户id  |
-| max_id    |   int |  0：最新；分页传maxId  |
-
-
-#### 出参
-
-```
-{
-	time:10000
-	code:200
-	data: {
-		order:[{},{}]
-	}
-}
-```
---- 
 
 ### 6、上传藏品 - 基本信息
 #### url 
@@ -253,33 +231,6 @@ post - /api/upload_image  全都是 form_data
     "message": "upload_image",
     "data": true,
     "success": true
-}
-```
-
---- 
-
-### 7、图片详情 - check
-#### url 
-get - /api/image_info  
-#### 入参
-| 字段      |     类型 |   说明   |
-| :-------- | --------:| :------: |
-| draw_id    |   str |  图片ID  |
-| open_id    |   str |  openID  |
-
-
-#### 出参
-
-```
-{
-	time:10000
-	code:200
-	data:{
-		drawInfo:{
-		},
-		isFavorite:true,
-		isHavePush:true
-	}
 }
 ```
 
@@ -331,8 +282,6 @@ get - /api/push
 
 ---
 
-
-
 ### 10、购买
 #### url 
 get - /api/buy  
@@ -341,6 +290,9 @@ get - /api/buy
 | :-------- | --------:| :------: |
 | draw_id    |   str |  图片ID  |
 | type    |   str |  1、创作权；2、所有权 |
+| open_id    |   str |  openid |
+| tel    |   str |  购买人电话 |
+| name   |   str |  购买人姓名 |
 
 #### 出参
 
@@ -351,18 +303,15 @@ get - /api/buy
 	data:true
 }
 ```
-
-
 ---
 
-### 11、购买  客户端唤起支付，服务端需要
+### 10、我的订单
 #### url 
-get - /api/buy  
+get - /api/my_order  
 #### 入参
 | 字段      |     类型 |   说明   |
 | :-------- | --------:| :------: |
-| draw_id    |   str |  图片ID  |
-| type    |   str |  1、创作权；2、所有权 |
+| open_id    |   str |  openid |
 
 #### 出参
 
@@ -373,12 +322,11 @@ get - /api/buy
 	data:true
 }
 ```
-
 ---
 
-### 12、下单 后端拼参数调用微信接口。
+### 12、成功支付回调。（后端使用）
 #### url 
-get - /api/buy  
+get - /api/wx_notify  
 #### 入参
 | 字段      |     类型 |   说明   |
 | :-------- | --------:| :------: |
