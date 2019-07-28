@@ -1,5 +1,6 @@
 package com.aiwsport.web.utlis;
 
+import net.coobird.thumbnailator.Thumbnails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +24,9 @@ public class FileUtil {
         int len;
         // 输出的文件流保存图片至本地
         OutputStream os = null;
+
+        String inputPath = "";
+
         try {
 
             File sf=new File(path);
@@ -30,7 +34,8 @@ public class FileUtil {
                 sf.mkdirs();
             }
 
-            os = new FileOutputStream(path+"/"+name);
+            inputPath = path+"/"+name;
+            os = new FileOutputStream(inputPath);
             while ((len = input.read(bs)) != -1) {
                 os.write(bs, 0, len);
             }
@@ -53,6 +58,18 @@ public class FileUtil {
             }
         }
 
+
+        String imgType = name.substring(name.lastIndexOf(".")+1);
+        try {
+            File sf=new File("/data1/drawsimple");
+            if(!sf.exists()){
+                sf.mkdirs();
+            }
+            Thumbnails.of(inputPath).scale(0.3f).outputQuality(0.3f).outputFormat(imgType).toFile("/data1/drawsimple" + "/"+name);
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            logger.error("Thumbnails is error: " + e1);
+        }
 
         return true;
     }

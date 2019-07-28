@@ -38,7 +38,7 @@ public class DrawService {
 
     private static Logger logger = LogManager.getLogger();
 
-    public boolean createDraw(int uid, String name, String telNo, String drawName,
+    public boolean createDraw(int uid, String name, String telNo, String drawName, String simpleName,
                               String author, String desc, String urlHd, int drawWidth, int drawHigh) throws Exception {
         Draws draw = new Draws();
         draw.setDrawStatus("0");
@@ -53,10 +53,12 @@ public class DrawService {
         draw.setUrlSimple("");
         draw.setDrawPrice(0);
         draw.setOwnCount(0);
+        draw.setUrlSimple(simpleName);
+        draw.setDrawWidth(drawWidth);
+        draw.setDrawHigh(drawHigh);
         draw.setOwnFinishCount(0);
         draw.setCreateTime(time);
         draw.setModifyTime(time);
-
         return drawMapper.insert(draw) > 0;
     }
 
@@ -89,14 +91,14 @@ public class DrawService {
 
     public ShowDraws getDraws(int sort, String maxId){
         int start = 0;
-        int end = start + 14;
+        int end = start + 1;
         int id;
         int page = 1;
         if (StringUtils.isNotBlank(maxId)) {
             String[] maxs = maxId.split("-");
             id = Integer.parseInt(maxs[0]);
             start = (Integer.parseInt(maxs[1]) -1 ) * 15;
-            end = start + 14;
+            end = start + 1;
             page = Integer.parseInt(maxs[1]) + 1;
         } else {
             Draws draw = drawMapper.getMaxOne();
@@ -114,14 +116,14 @@ public class DrawService {
 
     public ShowDrawExts getDrawExts(int sort, String maxId){
         int start = 0;
-        int end = start + 14;
+        int end = start + 1;
         int id;
         int page = 1;
         if (StringUtils.isNotBlank(maxId)) {
             String[] maxs = maxId.split("-");
             id = Integer.parseInt(maxs[0]);
             start = (Integer.parseInt(maxs[1]) -1 ) * 15;
-            end = start + 14;
+            end = start + 1;
             page = Integer.parseInt(maxs[1]) + 1;
         } else {
             DrawExt drawExt = drawExtMapper.getMaxOne();
@@ -139,7 +141,7 @@ public class DrawService {
 
     public ShowDraws getMyDraws(int uid, String maxId){
         int start = 0;
-        int end = start + 2;
+        int end = start + 1;
         int page = 1;
         if (StringUtils.isNotBlank(maxId)) {
             start = (Integer.parseInt(maxId) -1 ) * 15;
@@ -155,7 +157,7 @@ public class DrawService {
 
     public ShowDrawExts getMyDrawExts(int uid, String maxId){
         int start = 0;
-        int end = start + 2;
+        int end = start + 1;
         int page = 1;
         if (StringUtils.isNotBlank(maxId)) {
             start = (Integer.parseInt(maxId) -1 ) * 15;
