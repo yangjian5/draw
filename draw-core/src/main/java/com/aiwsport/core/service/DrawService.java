@@ -229,5 +229,18 @@ public class DrawService {
         return showDraws;
     }
 
+    public List<Draws> getDrawsByDrawName(String drawName, int page, int count) {
+        PageParam pageParam = new PageParam();
+        pageParam.setStart((page - 1) * count);
+        pageParam.setLength(count);
+        pageParam.setDrawName(drawName);
+        return drawMapper.getDrawsByDrawName(pageParam);
+    }
+
+    public int getDrawCount(String drawName) {
+        return drawMapper.getCount(drawName);
+    }
+
+
 
 }
