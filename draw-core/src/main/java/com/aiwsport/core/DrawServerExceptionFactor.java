@@ -45,6 +45,10 @@ public class DrawServerExceptionFactor {
             HttpStatus.SC_FORBIDDEN, 50001,
             "param verify is fail", "参数校验失败");
 
+    public static final DrawServerExceptionFactor PARAM_COUNT_FAIL = new DrawServerExceptionFactor(
+            HttpStatus.SC_FORBIDDEN, 50001,
+            "param count is fail", "参数数值错误");
+
     private int httpStatus;
     private int errorCode;
     private String errorMsg;

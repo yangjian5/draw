@@ -1,6 +1,7 @@
 package com.aiwsport.core.service;
 
 
+import com.aiwsport.core.entity.PageParam;
 import com.aiwsport.core.entity.User;
 import com.aiwsport.core.mapper.UserMapper;
 import com.aiwsport.core.utils.DataTypeUtils;
@@ -8,6 +9,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -44,6 +47,18 @@ public class UserService {
 
     public User getUser(String openid) {
         return userMapper.getByOpenId(openid);
+    }
+
+    public List<User> getUsersByNickName(String nickName, Integer page, Integer count) {
+        PageParam pageParam = new PageParam();
+        pageParam.setStart((page - 1) * count);
+        pageParam.setLength(count);
+        pageParam.setNickName(nickName);
+        return userMapper.getUsersByNickName(pageParam);
+    }
+
+    public int getUsersCount(String nickName) {
+        return userMapper.getCount(nickName);
     }
 
 }
