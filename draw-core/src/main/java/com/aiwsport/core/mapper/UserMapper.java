@@ -1,6 +1,8 @@
 package com.aiwsport.core.mapper;
 
+import com.aiwsport.core.entity.PageParam;
 import com.aiwsport.core.entity.User;
+
 import java.util.List;
 
 public interface UserMapper {
@@ -15,4 +17,8 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     User getByOpenId(String openId);
+
+    List<User> getUsersByNickName(PageParam pageParam);
+
+    int getCount(String nickName);
 }
