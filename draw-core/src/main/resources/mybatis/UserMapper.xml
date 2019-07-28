@@ -51,13 +51,12 @@
     from user
     where openId = #{openId,jdbcType=INTEGER}
   </select>
-
-    <select id="getCount" resultType="int" parameterType="java.lang.String">
+  <select id="getCount" resultType="int" parameterType="java.lang.String">
     select count(1)
     from user
     where nickName LIKE CONCAT('%',#{nickName,jdbcType=VARCHAR},'%')
   </select>
-    <select id="getUsersByNickName" resultMap="BaseResultMap" parameterType="com.aiwsport.core.entity.PageParam">
+  <select id="getUsersByNickName" resultMap="BaseResultMap" parameterType="com.aiwsport.core.entity.PageParam">
     select id, openId, nickName, avatarUrl, gender, income, createTime, modifyTime
     from user
     where nickName LIKE CONCAT('%',#{nickName,jdbcType=VARCHAR},'%')

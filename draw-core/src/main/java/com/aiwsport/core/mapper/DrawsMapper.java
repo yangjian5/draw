@@ -1,6 +1,7 @@
 package com.aiwsport.core.mapper;
 
 import com.aiwsport.core.entity.Draws;
+import com.aiwsport.core.entity.PageParam;
 
 import java.util.List;
 
@@ -20,4 +21,8 @@ public interface DrawsMapper {
     Draws getMaxOne();
 
     List<Draws> getMyList(int uid, int start, int end);
+
+    List<Draws> getDrawsByDrawName(PageParam pageParam);
+
+    int getCount(String drawName);
 }

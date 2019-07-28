@@ -9,7 +9,6 @@
     <result column="drawPrice" property="drawPrice" jdbcType="INTEGER" />
     <result column="drawName" property="drawName" jdbcType="VARCHAR" />
     <result column="drawStatus" property="drawStatus" jdbcType="VARCHAR" />
-    <result column="drawName" property="drawName" jdbcType="INTEGER" />
     <result column="drawWidth" property="drawWidth" jdbcType="INTEGER" />
     <result column="drawHigh" property="drawHigh" jdbcType="VARCHAR" />
     <result column="urlHd" property="urlHd" jdbcType="VARCHAR" />
@@ -82,6 +81,7 @@
     urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, opName, opId, createTime, modifyTime
     from draws order by id desc limit 1;
   </select>
+
   <select id="getIndex" resultMap="BaseResultMap">
     select id, prodUid, prodName, prodTel, drawPrice, drawName, drawStatus, drawWidth, drawHigh, authName,
     urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, opName, opId, createTime, modifyTime
@@ -104,4 +104,19 @@
     order by modifyTime desc
     limit #{arg1}, #{arg2}
   </select>
+
+  <select id="getCount" resultType="int" parameterType="java.lang.String">
+    select count(1)
+    from draws
+    where drawName LIKE CONCAT('%',#{drawName,jdbcType=VARCHAR},'%')
+  </select>
+  <select id="getDrawsByDrawName" resultMap="BaseResultMap" parameterType="com.aiwsport.core.entity.PageParam">
+    select id, prodUid, prodName, prodTel, drawPrice, drawName, drawStatus, drawWidth, drawHigh, authName,
+    urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, opName, opId, createTime, modifyTime
+    from draws
+    where drawName LIKE CONCAT('%',#{drawName,jdbcType=VARCHAR},'%')
+    limit #{start,jdbcType=INTEGER},#{length,jdbcType=INTEGER}
+  </select>
+
+
 </mapper>

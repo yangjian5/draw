@@ -8,6 +8,15 @@ public class PageParam {
     private int start;
     private int length;
     private String nickName;
+    private String drawName;
+
+    public String getDrawName() {
+        return drawName;
+    }
+
+    public void setDrawName(String drawName) {
+        this.drawName = drawName;
+    }
 
     public int getStart() {
         return start;
