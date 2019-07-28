@@ -22,6 +22,7 @@ import java.io.InputStream;
  * @author yangjian
  */
 @RestController
+@RequestMapping(value = "/api/")
 public class DrawController {
 
     @Autowired
@@ -34,11 +35,20 @@ public class DrawController {
     public ResultMsg index(@ParamVerify(isNumber = true)int type,
                            @ParamVerify(isNumber = true)int sort,
                            String max_id) {
+        if ("0".equals(max_id)) {
+            max_id = "";
+        }
+
         if (type == 1) {
             return new ResultMsg("index", drawService.getDraws(sort, max_id));
         } else {
             return new ResultMsg("index", drawService.getDrawExts(sort, max_id));
         }
+    }
+
+    @RequestMapping(value = "/branner.json")
+    public ResultMsg branner() {
+        return new ResultMsg("branner", drawService.getBranner());
     }
 
     @RequestMapping(value = "/my_draw.json")

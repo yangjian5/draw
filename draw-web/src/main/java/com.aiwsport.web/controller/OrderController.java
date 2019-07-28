@@ -29,6 +29,7 @@ import java.util.Map;
  * @author yangjian
  */
 @RestController
+@RequestMapping(value = "/api/")
 public class OrderController {
 
     @Autowired

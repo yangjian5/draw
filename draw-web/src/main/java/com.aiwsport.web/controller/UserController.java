@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author yangjian
  */
 @RestController
+@RequestMapping(value = "/api/")
 public class UserController {
 
     @Autowired

@@ -6,8 +6,8 @@
     <result column="brannerUrl" property="brannerUrl" jdbcType="VARCHAR" />
     <result column="clickUrl" property="clickUrl" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
     <result column="drawId" property="drawId" jdbcType="INTEGER" />
-    <result column="drawExtId" property="drawExtId" jdbcType="INTEGER" />
     <result column="opName" property="opName" jdbcType="VARCHAR" />
     <result column="opId" property="opId" jdbcType="INTEGER" />
     <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
@@ -21,12 +21,12 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into draw_branner (brannerUrl, clickUrl, type, 
-      drawId, drawExtId, opName, 
+    insert into draw_branner (brannerUrl, clickUrl, type, sort,
+      drawId, opName,
       opId, createTime, modifyTime
       )
-    values (#{brannerurl,jdbcType=VARCHAR}, #{clickurl,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
-      #{drawid,jdbcType=INTEGER}, #{drawextid,jdbcType=INTEGER}, #{opname,jdbcType=VARCHAR}, 
+    values (#{brannerurl,jdbcType=VARCHAR}, #{clickurl,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}
+      #{drawid,jdbcType=INTEGER}, #{opname,jdbcType=VARCHAR},
       #{opid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{modifytime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -35,8 +35,8 @@
     set brannerUrl = #{brannerurl,jdbcType=VARCHAR},
       clickUrl = #{clickurl,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
       drawId = #{drawid,jdbcType=INTEGER},
-      drawExtId = #{drawextid,jdbcType=INTEGER},
       opName = #{opname,jdbcType=VARCHAR},
       opId = #{opid,jdbcType=INTEGER},
       createTime = #{createtime,jdbcType=TIMESTAMP},
@@ -44,14 +44,14 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, brannerUrl, clickUrl, type, drawId, drawExtId, opName, opId, createTime, 
+    select id, brannerUrl, clickUrl, type, drawId, opName, opId, createTime,
     modifyTime
     from draw_branner
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, brannerUrl, clickUrl, type, drawId, drawExtId, opName, opId, createTime, 
+    select id, brannerUrl, clickUrl, type, drawId, opName, opId, createTime,
     modifyTime
-    from draw_branner
+    from draw_branner order by sort asc
   </select>
 </mapper>

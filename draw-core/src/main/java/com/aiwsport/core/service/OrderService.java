@@ -71,6 +71,7 @@ public class OrderService {
             int drawId;
             int drawExtId = 0;
             int orderPrice;
+            String goodName = "";
 
                     User user = userMapper.getByOpenId(openId);
             if (user == null) {
@@ -85,13 +86,7 @@ public class OrderService {
 
                 drawId = draws.getId();
                 orderPrice = draws.getDrawPrice();
-                resMap = createWXOrder(openId, ip, draws.getDrawName()+"创造权",
-                        BigDecimal.valueOf(orderPrice).divide(BigDecimal.valueOf(100)).toString());
-
-                orderNo = (String) resMap.get("orderNo");
-                if (StringUtils.isBlank(orderNo)) {
-                    return null;
-                }
+                goodName = draws.getDrawName()+"创造权";
             } else {
                 DrawExt drawExt = drawExtMapper.selectByPrimaryKey(id);
                 if (drawExt == null) {
@@ -105,13 +100,16 @@ public class OrderService {
                     return null;
                 }
                 orderPrice = drawExt.getExtPrice();
-                resMap = createWXOrder(openId, ip, draws.getDrawName()+"所有权",
-                        BigDecimal.valueOf(orderPrice).divide(BigDecimal.valueOf(100)).toString());
+                goodName = draws.getDrawName()+"所有权";
+            }
 
-                orderNo = (String) resMap.get("orderNo");
-                if (StringUtils.isBlank(orderNo)) {
-                    return null;
-                }
+            resMap = createWXOrder(openId, ip, goodName,
+                    BigDecimal.valueOf(orderPrice).divide(BigDecimal.valueOf(100)).toString());
+
+            resMap.put("orderNo", "20190728145345156429682500685478");
+            orderNo = (String) resMap.get("orderNo");
+            if (StringUtils.isBlank(orderNo)) {
+                return null;
             }
 
             Order order = new Order();

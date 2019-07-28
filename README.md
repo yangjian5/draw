@@ -130,8 +130,8 @@ get - /api/login
 | 字段      |     类型 |   说明   |
 | :-------- | --------:| :------: |
 | code        |   str |  code  |
-| avatarUrl   |   str |  不为空可以给空串 avatarUrl= |
-| nickName    |   str |  ...  |
+| avatar_url   |   str |  不为空可以给空串 avatarUrl= |
+| nick_mame    |   str |  ...  |
 | gender      |   str |  ...  |
 
 #### 出参
@@ -419,7 +419,7 @@ get - /api/my_draw
     "code": 200,
     "message": "index",
     "data": {
-        "max_id": "1",
+        "max_id": "1-1",
         "draw_ext": [
             {
                 "id": 1,

@@ -2,14 +2,9 @@ package com.aiwsport.core.service;
 
 import com.aiwsport.core.DrawServerException;
 import com.aiwsport.core.DrawServerExceptionFactor;
-import com.aiwsport.core.entity.DrawExt;
-import com.aiwsport.core.entity.Draws;
-import com.aiwsport.core.entity.Income;
-import com.aiwsport.core.entity.IncomeStatistics;
-import com.aiwsport.core.mapper.DrawExtMapper;
-import com.aiwsport.core.mapper.DrawsMapper;
-import com.aiwsport.core.mapper.IncomeMapper;
-import com.aiwsport.core.mapper.IncomeStatisticsMapper;
+import com.aiwsport.core.entity.*;
+import com.aiwsport.core.mapper.*;
+import com.aiwsport.core.model.ShowBranner;
 import com.aiwsport.core.model.ShowDrawExts;
 import com.aiwsport.core.model.ShowDraws;
 import com.aiwsport.core.utils.DataTypeUtils;
@@ -20,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -36,6 +32,9 @@ public class DrawService {
 
     @Autowired
     private IncomeStatisticsMapper incomeStatisticsMapper;
+
+    @Autowired
+    private DrawBrannerMapper drawBrannerMapper;
 
     private static Logger logger = LogManager.getLogger();
 
@@ -59,6 +58,21 @@ public class DrawService {
         draw.setModifyTime(time);
 
         return drawMapper.insert(draw) > 0;
+    }
+
+    public List<ShowBranner> getBranner(){
+        List<DrawBranner> drawBranners = drawBrannerMapper.selectAll();
+        List<ShowBranner> showBranners = new ArrayList<>();
+        drawBranners.forEach(drawBranner -> {
+            ShowBranner showBranner = new ShowBranner();
+            showBranner.setBranner(drawBranner);
+            if ("2".equals(drawBranner.getType())) {
+                Draws draws = drawMapper.selectByPrimaryKey(drawBranner.getId());
+                showBranner.setDraws(draws);
+            }
+        });
+
+        return showBranners;
     }
 
     public boolean updateDraw(int drawId, int createPrice, int ownerCount){
@@ -125,11 +139,11 @@ public class DrawService {
 
     public ShowDraws getMyDraws(int uid, String maxId){
         int start = 0;
-        int end = start + 14;
+        int end = start + 2;
         int page = 1;
         if (StringUtils.isNotBlank(maxId)) {
             start = (Integer.parseInt(maxId) -1 ) * 15;
-            end = start + 14;
+            end = start + 2;
             page = Integer.parseInt(maxId) + 1;
         }
 
@@ -141,11 +155,11 @@ public class DrawService {
 
     public ShowDrawExts getMyDrawExts(int uid, String maxId){
         int start = 0;
-        int end = start + 14;
+        int end = start + 2;
         int page = 1;
         if (StringUtils.isNotBlank(maxId)) {
             start = (Integer.parseInt(maxId) -1 ) * 15;
-            end = start + 14;
+            end = start + 2;
             page = Integer.parseInt(maxId) + 1;
         }
 
