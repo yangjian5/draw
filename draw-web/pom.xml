@@ -250,6 +250,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <defaultGoal>compile</defaultGoal>
     </build>
 
 </project>
