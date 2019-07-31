@@ -39,7 +39,22 @@
 
   <select id="getIncomeByDrawIdAndDate" resultMap="BaseResultMap" >
     select id, drawId, incomePrice, createTime
+    from income_statistics where drawId = #{arg0} and to_days(createTime) = to_days(now())
+  </select>
+
+  <select id="getStatistics" resultMap="BaseResultMap" >
+    select id, drawId, incomePrice, createTime
     from income_statistics where drawId = #{arg0}
+    <if test="arg1 == 1">
+      DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(createTime)
+    </if>
+    <if test="arg1 == 2">
+      DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(createTime)
+    </if>
+    <if test="arg1 == 3">
+      1=1
+    </if>
+    order by id asc
   </select>
 
 

@@ -249,15 +249,205 @@ get - /api/statistics
 
 ```
 {
-	time:10000
-	code:200
-	data:{
-		create_income_list:[],
-		create_prize_list:[],
-		owner_income_list[],
-		owner_prize_list[],
-
-	}
+    "code": 200,
+    "message": "statistics",
+    "data": {
+        "create_prize_list": [
+            {
+                "id": 1,
+                "draw_id": 4,
+                "s_price": 1111,
+                "create_time": "2019-07-31 20:31:33.0",
+                "type": "1"
+            }
+        ],
+        "owner_prize_list": [
+            {
+                "id": 2,
+                "draw_id": 4,
+                "s_price": 231,
+                "create_time": "2019-07-31 20:31:59.0",
+                "type": "2"
+            }
+        ],
+        "create_income_list": [
+            {
+                "id": 1,
+                "draw_id": 4,
+                "income_price": 1,
+                "create_time": "2019-07-31 20:29:26.0"
+            },
+            {
+                "id": 2,
+                "draw_id": 4,
+                "income_price": 2,
+                "create_time": "2019-07-04 20:26:06.0"
+            },
+            {
+                "id": 3,
+                "draw_id": 4,
+                "income_price": 4,
+                "create_time": "2019-07-05 20:26:06.0"
+            },
+            {
+                "id": 4,
+                "draw_id": 4,
+                "income_price": 4,
+                "create_time": "2019-07-06 20:26:06.0"
+            },
+            {
+                "id": 5,
+                "draw_id": 4,
+                "income_price": 4,
+                "create_time": "2019-07-07 20:26:06.0"
+            },
+            {
+                "id": 6,
+                "draw_id": 4,
+                "income_price": 4,
+                "create_time": "2019-07-08 20:26:06.0"
+            },
+            {
+                "id": 7,
+                "draw_id": 4,
+                "income_price": 5,
+                "create_time": "2019-07-31 20:29:02.0"
+            },
+            {
+                "id": 8,
+                "draw_id": 4,
+                "income_price": 4,
+                "create_time": "2019-07-10 20:26:06.0"
+            },
+            {
+                "id": 9,
+                "draw_id": 4,
+                "income_price": 4,
+                "create_time": "2019-07-11 20:26:06.0"
+            },
+            {
+                "id": 10,
+                "draw_id": 4,
+                "income_price": 6,
+                "create_time": "2019-07-31 20:29:06.0"
+            },
+            {
+                "id": 11,
+                "draw_id": 4,
+                "income_price": 4,
+                "create_time": "2019-07-13 20:26:06.0"
+            },
+            {
+                "id": 12,
+                "draw_id": 4,
+                "income_price": 23,
+                "create_time": "2019-07-31 20:29:08.0"
+            },
+            {
+                "id": 13,
+                "draw_id": 4,
+                "income_price": 32,
+                "create_time": "2019-07-31 20:29:10.0"
+            },
+            {
+                "id": 14,
+                "draw_id": 4,
+                "income_price": 4,
+                "create_time": "2019-07-16 20:26:06.0"
+            },
+            {
+                "id": 15,
+                "draw_id": 4,
+                "income_price": 56,
+                "create_time": "2019-07-31 20:29:12.0"
+            },
+            {
+                "id": 16,
+                "draw_id": 4,
+                "income_price": 9,
+                "create_time": "2019-07-31 20:29:14.0"
+            },
+            {
+                "id": 17,
+                "draw_id": 4,
+                "income_price": 4,
+                "create_time": "2019-07-19 20:26:06.0"
+            },
+            {
+                "id": 18,
+                "draw_id": 4,
+                "income_price": 4,
+                "create_time": "2019-07-20 20:26:06.0"
+            },
+            {
+                "id": 19,
+                "draw_id": 4,
+                "income_price": 4,
+                "create_time": "2019-07-21 20:26:06.0"
+            },
+            {
+                "id": 20,
+                "draw_id": 4,
+                "income_price": 4,
+                "create_time": "2019-07-22 20:26:06.0"
+            },
+            {
+                "id": 21,
+                "draw_id": 4,
+                "income_price": 56,
+                "create_time": "2019-07-31 20:29:16.0"
+            },
+            {
+                "id": 22,
+                "draw_id": 4,
+                "income_price": 4,
+                "create_time": "2019-07-24 20:26:06.0"
+            },
+            {
+                "id": 23,
+                "draw_id": 4,
+                "income_price": 8,
+                "create_time": "2019-07-31 20:29:18.0"
+            },
+            {
+                "id": 24,
+                "draw_id": 4,
+                "income_price": 4,
+                "create_time": "2019-07-26 20:26:06.0"
+            },
+            {
+                "id": 25,
+                "draw_id": 4,
+                "income_price": 4,
+                "create_time": "2019-07-27 20:26:06.0"
+            },
+            {
+                "id": 26,
+                "draw_id": 4,
+                "income_price": 9,
+                "create_time": "2019-07-31 20:29:19.0"
+            },
+            {
+                "id": 27,
+                "draw_id": 4,
+                "income_price": 6,
+                "create_time": "2019-07-31 20:29:21.0"
+            },
+            {
+                "id": 28,
+                "draw_id": 4,
+                "income_price": 4,
+                "create_time": "2019-07-30 20:26:06.0"
+            },
+            {
+                "id": 29,
+                "draw_id": 4,
+                "income_price": 4,
+                "create_time": "2019-07-31 20:26:06.0"
+            }
+        ]
+    },
+    "success": true
 }
 ```
 ---

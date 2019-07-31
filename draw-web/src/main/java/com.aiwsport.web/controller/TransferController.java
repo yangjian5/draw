@@ -44,7 +44,7 @@ public class TransferController {
      * @param amount
      * @param request
      */
-    @PostMapping(value = "/withdrawal")
+    @PostMapping(value = "/withdrawal.json")
     @ResponseBody
     @Transactional
     public ResultMsg transferPay(@ParamVerify(isNotBlank = true)String open_id,
@@ -111,7 +111,7 @@ public class TransferController {
      * 企业向个人转账查询
      * @param tradeno 商户转账订单号
      */
-    @PostMapping(value = "/withdrawal_query")
+    @PostMapping(value = "/withdrawal_query.json")
     public ResultMsg orderPayQuery(@ParamVerify(isNotBlank = true)String tradeno) {
         Map<String, String> restmap = null;
         try {

@@ -13,4 +13,8 @@ public interface OrderStatisticsMapper {
     List<OrderStatistics> selectAll();
 
     int updateByPrimaryKey(OrderStatistics record);
+
+    List<OrderStatistics> getStatistics(Integer drawId, Integer range, Integer type);
+
+
 }

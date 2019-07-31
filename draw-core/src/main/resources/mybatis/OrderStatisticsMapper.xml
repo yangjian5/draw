@@ -16,7 +16,7 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into order_statistics (drawId, sPrice, createTime, 
+    insert into order_statistics (drawId, sPrice, createTime,
       type)
     values (#{drawid,jdbcType=INTEGER}, #{sprice,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP},
       #{type,jdbcType=VARCHAR})
@@ -38,4 +38,20 @@
     select id, drawId, sPrice, createTime, type
     from order_statistics
   </select>
+
+  <select id="getStatistics" resultMap="BaseResultMap" >
+    select id, drawId, sPrice, createTime, type
+    from order_statistics where drawId = #{arg0} and type = #{arg2}
+    <if test="arg1 == 1">
+      DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(createTime)
+    </if>
+    <if test="arg1 == 2">
+      DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(createTime)
+    </if>
+    <if test="arg1 == 3">
+      1=1
+    </if>
+    order by id asc
+  </select>
+
 </mapper>

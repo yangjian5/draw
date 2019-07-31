@@ -31,6 +31,14 @@ public class DrawController {
     @Autowired
     private UserService userService;
 
+    private static final String IMG_HOST = "https:www.yangjian.com";
+
+    private static final String PATH = "/data1/draw";
+
+    private static final String SIMPLE_PATH = "data1/draw_simple";
+
+    private static final String INCOME_PATH = "data1/income";
+
     @RequestMapping(value = "/index.json")
     public ResultMsg index(@ParamVerify(isNumber = true)int type,
                            @ParamVerify(isNumber = true)int sort,
@@ -83,7 +91,7 @@ public class DrawController {
             InputStream inputStream = file.getInputStream();
             String imgName = System.currentTimeMillis()+"_"+fileName;
             System.out.println("imgName "+imgName);
-            if(!FileUtil.writeFile("/data1/draw", imgName, inputStream)){
+            if(!FileUtil.writeFile(PATH, SIMPLE_PATH, imgName, inputStream)){
                 throw new DrawServerException(DrawServerExceptionFactor.FILE_ERROR);
             }
 
@@ -92,7 +100,7 @@ public class DrawController {
                 throw new DrawServerException(DrawServerExceptionFactor.PARAM_VERIFY_FAIL, "open_id is not exist");
             }
 
-            boolean res = drawService.createDraw(user.getId(), name, tel_no, draw_name, author, desc, imgName, imgName, draw_width, draw_high);
+            boolean res = drawService.createDraw(user.getId(), name, tel_no, draw_name, author, desc, IMG_HOST+PATH, IMG_HOST+SIMPLE_PATH, draw_width, draw_high);
             if (!res) {
                 throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "create draw is error");
             }
@@ -126,7 +134,7 @@ public class DrawController {
                 String fileName = file.getOriginalFilename();
                 InputStream inputStream = file.getInputStream();
                 String imgName = System.currentTimeMillis()+"_"+fileName;
-                if(!FileUtil.writeFile("/data1/income", imgName, inputStream)){
+                if(!FileUtil.writeFile(INCOME_PATH, "", imgName, inputStream)){
                     throw new DrawServerException(DrawServerExceptionFactor.FILE_ERROR);
                 }
 

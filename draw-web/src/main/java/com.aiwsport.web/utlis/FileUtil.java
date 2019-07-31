@@ -1,6 +1,7 @@
 package com.aiwsport.web.utlis;
 
 import net.coobird.thumbnailator.Thumbnails;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +18,7 @@ public class FileUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
 
-    public static boolean writeFile(String path, String name, InputStream input){
+    public static boolean writeFile(String path, String simPath, String name, InputStream input){
         // 设置数据缓冲
         byte[] bs = new byte[1024 * 2];
         // 读取到的数据长度
@@ -58,14 +59,17 @@ public class FileUtil {
             }
         }
 
+        if (StringUtils.isNotBlank(simPath)) {
+            return true;
+        }
 
-        String imgType = name.substring(name.lastIndexOf(".")+1);
         try {
-            File sf=new File("/data1/drawsimple");
+            String imgType = name.substring(name.lastIndexOf(".")+1);
+            File sf=new File(simPath);
             if(!sf.exists()){
                 sf.mkdirs();
             }
-            Thumbnails.of(inputPath).scale(0.3f).outputQuality(0.3f).outputFormat(imgType).toFile("/data1/drawsimple" + "/"+name);
+            Thumbnails.of(inputPath).scale(0.3f).outputQuality(0.3f).outputFormat(imgType).toFile(simPath + "/" + name);
         } catch (Exception e1) {
             e1.printStackTrace();
             logger.error("Thumbnails is error: " + e1);
