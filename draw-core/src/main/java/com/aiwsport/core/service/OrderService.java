@@ -38,6 +38,9 @@ public class OrderService {
     private OrderMapper orderMapper;
 
     @Autowired
+    private IncomeMapper incomeMapper;
+
+    @Autowired
     private OrderStatisticsMapper orderStatisticsMapper;
 
     @Autowired
@@ -120,6 +123,7 @@ public class OrderService {
             order.setType(type+"");
             order.setStatus("1");
             order.setoTel(tel);
+            order.setInfo((String) resMap.get("paySign"));
             order.setoName(name);
             order.setOrderPrice(orderPrice);
             JSONObject jsonObj=new JSONObject(resMap);
@@ -136,9 +140,34 @@ public class OrderService {
     public void finishPay(String orderNo) throws Exception {
         // 查询订单信息
         Order order = orderMapper.getOrderByNo(orderNo);
+        if (order == null) {
+            Income income = incomeMapper.getIncomeByOrderNo(orderNo);
+            if (income == null) {
+                return;
+            }
+
+            DrawExt drawExt = drawExtMapper.selectByPrimaryKey(income.getDrawExtId());
+            IncomeStatistics incomeStatistics = incomeStatisticsMapper.getTodayIncome(drawExt.getDrawId());
+            if (incomeStatistics == null) {
+                incomeStatistics = new IncomeStatistics();
+                incomeStatistics.setDrawId(order.getDrawId());
+                incomeStatistics.setIncomePrice(income.getProofPrice());
+                incomeStatistics.setCreateTime(DataTypeUtils.formatCurDateTime());
+                incomeStatisticsMapper.insert(incomeStatistics);
+            } else {
+                int sumIncome = incomeStatistics.getIncomePrice() + income.getProofPrice();
+                incomeStatistics.setIncomePrice(sumIncome);
+                incomeStatisticsMapper.updateByPrimaryKey(incomeStatistics);
+            }
+
+            Draws draws = drawsMapper.selectByPrimaryKey(drawExt.getDrawId());
+            User user = userMapper.selectByPrimaryKey(draws.getProdUid());
+            user.setIncome(user.getIncome() + income.getProofPrice());
+            userMapper.updateByPrimaryKey(user);
+            return;
+        }
 
         User user = userMapper.selectByPrimaryKey(order.getUid());
-
         // 价格变化统计
         OrderStatistics orderStatistics = new OrderStatistics();
 

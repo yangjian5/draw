@@ -13,4 +13,6 @@ public interface IncomeMapper {
     List<Income> selectAll();
 
     int updateByPrimaryKey(Income record);
+
+    Income getIncomeByOrderNo(String orderNo);
 }

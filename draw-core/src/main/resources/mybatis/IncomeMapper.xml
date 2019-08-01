@@ -6,6 +6,8 @@
     <result column="drawExtid" property="drawExtid" jdbcType="INTEGER" />
     <result column="proofUrl" property="proofUrl" jdbcType="VARCHAR" />
     <result column="proofPrice" property="proofPrice" jdbcType="INTEGER" />
+    <result column="info" property="info" jdbcType="VARCHAR" />
+    <result column="orderNo" property="orderNo" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="opName" property="opName" jdbcType="VARCHAR" />
     <result column="opId" property="opid" jdbcType="INTEGER" />
@@ -20,10 +22,11 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into income (drawExtid, proofUrl, proofPrice, 
+    insert into income (drawExtid, proofUrl, proofPrice, info, orderNo,
       status, opName, opId, 
       createTime, modifyTime)
     values (#{drawextid,jdbcType=INTEGER}, #{proofurl,jdbcType=VARCHAR}, #{proofprice,jdbcType=INTEGER},
+      #{info,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR},
       #{status,jdbcType=VARCHAR}, #{opname,jdbcType=VARCHAR}, #{opid,jdbcType=INTEGER}, 
       #{createtime,jdbcType=TIMESTAMP}, #{modifytime,jdbcType=TIMESTAMP})
   </insert>
@@ -32,6 +35,8 @@
     set drawExtid = #{drawextid,jdbcType=INTEGER},
       proofUrl = #{proofurl,jdbcType=VARCHAR},
       proofPrice = #{proofprice,jdbcType=INTEGER},
+      info = #{info,jdbcType=VARCHAR},
+      orderNo = #{orderNo,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
       opName = #{opname,jdbcType=VARCHAR},
       opId = #{opid,jdbcType=INTEGER},
@@ -40,12 +45,16 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, drawExtid, proofUrl, proofPrice, status, opName, opId, createTime, modifyTime
+    select id, drawExtid, proofUrl, proofPrice, info, orderNo, status, opName, opId, createTime, modifyTime
     from income
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, drawExtid, proofUrl, proofPrice, status, opName, opId, createTime, modifyTime
+    select id, drawExtid, proofUrl, proofPrice, info, orderNo, status, opName, opId, createTime, modifyTime
+    from income
+  </select>
+  <select id="getIncomeByOrderNo" resultMap="BaseResultMap" >
+    select id, drawExtid, proofUrl, proofPrice, info, orderNo, status, opName, opId, createTime, modifyTime
     from income
   </select>
 </mapper>

@@ -100,7 +100,7 @@ public class DrawController {
                 throw new DrawServerException(DrawServerExceptionFactor.PARAM_VERIFY_FAIL, "open_id is not exist");
             }
 
-            boolean res = drawService.createDraw(user.getId(), name, tel_no, draw_name, author, desc, IMG_HOST+PATH, IMG_HOST+SIMPLE_PATH, draw_width, draw_high);
+            boolean res = drawService.createDraw(user.getId(), name, tel_no, draw_name, author, desc, IMG_HOST+PATH+"/"+imgName, IMG_HOST+SIMPLE_PATH+"/"+imgName, draw_width, draw_high);
             if (!res) {
                 throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "create draw is error");
             }
@@ -124,7 +124,8 @@ public class DrawController {
     }
 
     @RequestMapping(value = "/update_owner_draw.json")
-    public ResultMsg updateOwnerDraw(@ParamVerify(isNumber = true)int draw_ext_id,
+    public ResultMsg updateOwnerDraw(@ParamVerify(isNotBlank = true)String open_id,
+                                     @ParamVerify(isNumber = true)int draw_ext_id,
                                      @ParamVerify(isNumber = true)int ext_price,
                                      @ParamVerify(isNumber = true)int income_price,
                                      @RequestParam("income_file") MultipartFile file){
@@ -137,10 +138,8 @@ public class DrawController {
                 if(!FileUtil.writeFile(INCOME_PATH, "", imgName, inputStream)){
                     throw new DrawServerException(DrawServerExceptionFactor.FILE_ERROR);
                 }
-
-
-
-
+                String paySing = drawService.uploadIncome(open_id, draw_ext_id, income_price, IMG_HOST+INCOME_PATH+"/"+imgName);
+                return new ResultMsg("update_owner_draw-uploadIncome", paySing);
             } catch (Exception e) {
                 throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, e.getMessage());
             }

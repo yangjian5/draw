@@ -9,6 +9,10 @@ public class Income {
 
     private Integer proofPrice;
 
+    private String info;
+
+    private String orderNo;
+
     private String status;
 
     private String opName;
@@ -89,5 +93,21 @@ public class Income {
 
     public void setModifyTime(String modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
     }
 }

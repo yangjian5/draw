@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DrawService {
@@ -31,10 +32,16 @@ public class DrawService {
     private IncomeMapper incomeMapper;
 
     @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
     private IncomeStatisticsMapper incomeStatisticsMapper;
 
     @Autowired
     private DrawBrannerMapper drawBrannerMapper;
+
+    @Autowired
+    private OrderService orderService;
 
     private static Logger logger = LogManager.getLogger();
 
@@ -180,36 +187,39 @@ public class DrawService {
         return drawExtMapper.updateByPrimaryKey(drawExt) > 0;
     }
 
-    public boolean uploadIncome(int drawExtId, int incomePrice, String url) throws Exception {
+    public String uploadIncome(String openId, int drawExtId, int incomePrice, String url) throws Exception {
+        User user = userMapper.getByOpenId(openId);
+        if (user == null || user.getId() == 0) {
+            throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "user id is not exist");
+        }
+
         DrawExt drawExt = drawExtMapper.selectByPrimaryKey(drawExtId);
         if (drawExt == null) {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "draw ext id is not exist");
         }
+
+        Map<String, Object> resMap = orderService.createWXOrder(openId, "127.0.0.1", "income-"+drawExtId,
+                BigDecimal.valueOf(incomePrice).divide(BigDecimal.valueOf(100)).toString());
+
+        if (resMap.isEmpty() || resMap.get("orderNo") == null) {
+            throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "create order is fail");
+        }
+
+        String orderNo = (String) resMap.get("orderNo");
+        String paySign = (String) resMap.get("paySign");
 
         Income income = new Income();
         income.setDrawExtId(drawExtId);
         income.setProofPrice(incomePrice);
         income.setProofUrl(url);
         income.setStatus("0");
+        income.setInfo(paySign);
+        income.setOrderNo(orderNo);
         String time = DataTypeUtils.formatCurDateTime();
         income.setCreateTime(time);
         income.setModifyTime(time);
         incomeMapper.insert(income);
-
-        IncomeStatistics incomeStatistics = incomeStatisticsMapper.getTodayIncome(drawExt.getDrawId());
-        if (incomeStatistics == null) {
-
-        } else {
-            BigDecimal income1 = BigDecimal.valueOf(incomePrice).multiply(BigDecimal.valueOf(0.05));
-            BigDecimal sumIncome = BigDecimal.valueOf(incomeStatistics.getIncomePrice()).add(income1);
-            incomeStatistics.setIncomePrice(sumIncome.intValue());
-            incomeStatisticsMapper.updateByPrimaryKey(incomeStatistics);
-        }
-
-        // TODO 生成支付订单， 返回订单信息
-
-
-        return true;
+        return paySign;
     }
 
     private ShowDrawExts buildShowDrawExts (List<DrawExt> drawExts) {
