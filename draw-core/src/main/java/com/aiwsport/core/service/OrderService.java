@@ -67,11 +67,11 @@ public class OrderService {
     public Map<String, Object> createOrder(int id, int type, String openId, String tel, String name, String ip){
         Map<String, Object> resMap = null;
         try {
-            String orderNo = "";
+            String orderNo;
             int drawId;
             int drawExtId = 0;
             int orderPrice;
-            String goodName = "";
+            String goodName;
 
                     User user = userMapper.getByOpenId(openId);
             if (user == null) {
@@ -133,7 +133,7 @@ public class OrderService {
         return resMap;
     }
 
-    public boolean finishPay(String orderNo) throws Exception {
+    public void finishPay(String orderNo) throws Exception {
         // 查询订单信息
         Order order = orderMapper.getOrderByNo(orderNo);
 
@@ -181,11 +181,10 @@ public class OrderService {
         // 修改订单状态
         order.setStatus("2");
         orderMapper.updateByPrimaryKey(order);
-        return false;
     }
 
 
-    private Map<String, Object> createWXOrder(String openId, String ip, String goodName, String money) throws Exception {
+    public Map<String, Object> createWXOrder(String openId, String ip, String goodName, String money) throws Exception {
         //生成的随机字符串
         String nonce_str = PayUtil.getNonceStr();
         String orderNo = PayUtil.getTradeNo();
@@ -230,7 +229,7 @@ public class OrderService {
             String prepay_id = restmap.get("prepay_id"); //返回的预付单信息
             response.put("nonceStr",nonce_str);
             response.put("package", "prepay_id ="+ prepay_id);
-            Long timeStamp = System.currentTimeMillis() / 1000;
+            long timeStamp = System.currentTimeMillis() / 1000;
             response.put("timeStamp", timeStamp +""); //这边要将返回的时间戳转化成字符串，不然小程序端调用wx.requestPayment方法会报签名错误
             response.put("orderNo", orderNo); //商户订单号
 

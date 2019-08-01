@@ -79,5 +79,7 @@ public class PayUtil {
     public static String getNonceStr(){
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
+
+
 }
 
