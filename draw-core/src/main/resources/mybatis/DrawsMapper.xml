@@ -56,7 +56,7 @@
       authName = #{authName,jdbcType=VARCHAR},
       urlHd = #{urlHd,jdbcType=VARCHAR},
       urlSimple = #{urlSimple,jdbcType=VARCHAR},
-      drawDesc = #{desc,jdbcType=VARCHAR},
+      drawDesc = #{drawDesc,jdbcType=VARCHAR},
       ownCount = #{ownCount,jdbcType=INTEGER},
       ownFinishCount = #{ownFinishCount,jdbcType=INTEGER},
       opName = #{opName,jdbcType=VARCHAR},

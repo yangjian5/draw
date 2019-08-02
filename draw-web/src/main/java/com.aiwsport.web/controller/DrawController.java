@@ -31,13 +31,13 @@ public class DrawController {
     @Autowired
     private UserService userService;
 
-    private static final String IMG_HOST = "https:www.yangjian.com";
+    private static final String IMG_HOST = "https://www.yangjian.com";
 
     private static final String PATH = "/data1/draw";
 
-    private static final String SIMPLE_PATH = "data1/draw_simple";
+    private static final String SIMPLE_PATH = "/data1/draw_simple";
 
-    private static final String INCOME_PATH = "data1/income";
+    private static final String INCOME_PATH = "/data1/income";
 
     @RequestMapping(value = "/index.json")
     public ResultMsg index(@ParamVerify(isNumber = true)int type,
@@ -126,11 +126,11 @@ public class DrawController {
     @RequestMapping(value = "/update_owner_draw.json")
     public ResultMsg updateOwnerDraw(@ParamVerify(isNotBlank = true)String open_id,
                                      @ParamVerify(isNumber = true)int draw_ext_id,
-                                     @ParamVerify(isNumber = true)int ext_price,
-                                     @ParamVerify(isNumber = true)int income_price,
-                                     @RequestParam("income_file") MultipartFile file){
+                                     @ParamVerify(isNumber = true) @RequestParam(name = "ext_price", required = false, defaultValue = "0") int ext_price,
+                                     @ParamVerify(isNumber = true) @RequestParam(name = "income_price", required = false, defaultValue = "0") int income_price,
+                                     @RequestParam(name = "income_file", required = false) MultipartFile file){
         boolean res = false;
-        if (income_price == 0 || file == null) { // 上传收益
+        if (file != null && income_price > 0) { // 上传收益
             try {
                 String fileName = file.getOriginalFilename();
                 InputStream inputStream = file.getInputStream();
