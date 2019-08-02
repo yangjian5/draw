@@ -9,8 +9,6 @@ import com.aiwsport.core.utils.DataTypeUtils;
 import com.aiwsport.core.utils.HttpUtils;
 import com.aiwsport.core.utils.PayUtil;
 import com.aiwsport.core.utils.XmlUtil;
-import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +74,7 @@ public class OrderService {
             int orderPrice;
             String goodName;
 
-                    User user = userMapper.getByOpenId(openId);
+            User user = userMapper.getByOpenId(openId);
             if (user == null) {
                 return null;
             }
@@ -102,36 +100,38 @@ public class OrderService {
                 if (draws == null) {
                     return null;
                 }
+
                 orderPrice = drawExt.getExtPrice();
                 goodName = draws.getDrawName()+"所有权";
             }
 
-            resMap = createWXOrder(openId, ip, goodName,
-                    BigDecimal.valueOf(orderPrice).divide(BigDecimal.valueOf(100)).toString());
+//            resMap = createWXOrder(openId, ip, goodName,
+//                    BigDecimal.valueOf(orderPrice).divide(BigDecimal.valueOf(100)).toString());
 
+            resMap = new HashMap<>();
             resMap.put("orderNo", "20190728145345156429682500685478");
-            orderNo = (String) resMap.get("orderNo");
-            if (StringUtils.isBlank(orderNo)) {
+            resMap.put("paySign", "dasdadasdadadadqwd2d22d2");
+            Object orderNoObj = resMap.get("orderNo");
+            Object paySignObj = resMap.get("paySign");
+            if (orderNoObj == null || paySignObj == null) {
                 return null;
             }
 
             Order order = new Order();
-            order.setCode(orderNo);
+            order.setCode(orderNoObj.toString());
             order.setUid(user.getId());
             order.setDrawId(drawId);
             order.setDrawExtId(drawExtId);
             order.setType(type+"");
             order.setStatus("1");
             order.setoTel(tel);
-            order.setInfo((String) resMap.get("paySign"));
+            order.setInfo(paySignObj.toString());
             order.setoName(name);
             order.setOrderPrice(orderPrice);
-            JSONObject jsonObj=new JSONObject(resMap);
-            order.setInfo(jsonObj.toJSONString());
             orderMapper.insert(order);
-
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
 
         return resMap;

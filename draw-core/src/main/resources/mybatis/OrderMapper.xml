@@ -26,54 +26,54 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into order (code, drawId, drawExtId, 
+    insert into order_info (code, drawId, drawExtId,
       uid, oName, oTel, type, status,
-      orderPrice, opName, opid, 
+      orderPrice, info, opName, opId,
       createTime, modifyTime)
-    values (#{code,jdbcType=VARCHAR}, #{drawid,jdbcType=INTEGER}, #{drawextid,jdbcType=INTEGER},
+    values (#{code,jdbcType=VARCHAR}, #{drawId,jdbcType=INTEGER}, #{drawExtId,jdbcType=INTEGER},
       #{uid,jdbcType=INTEGER}, #{oName,jdbcType=VARCHAR}, #{oTel,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
-      #{orderprice,jdbcType=INTEGER}, #{info,jdbcType=VARCHAR}, #{opname,jdbcType=VARCHAR}, #{opid,jdbcType=INTEGER},
-      #{createtime,jdbcType=TIMESTAMP}, #{modifytime,jdbcType=TIMESTAMP})
+      #{orderPrice,jdbcType=INTEGER}, #{info,jdbcType=VARCHAR}, #{opName,jdbcType=VARCHAR}, #{opId,jdbcType=INTEGER},
+      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.aiwsport.core.entity.Order" >
-    update order
+    update order_info
     set code = #{code,jdbcType=VARCHAR},
-      drawId = #{drawid,jdbcType=INTEGER},
-      drawExtId = #{drawextid,jdbcType=INTEGER},
+      drawId = #{drawId,jdbcType=INTEGER},
+      drawExtId = #{drawExtId,jdbcType=INTEGER},
       uid = #{uid,jdbcType=INTEGER},
       oName = #{oName,jdbcType=VARCHAR},
       oTel = #{oTel,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
-      orderPrice = #{orderprice,jdbcType=INTEGER},
+      orderPrice = #{orderPrice,jdbcType=INTEGER},
       info = #{info,jdbcType=VARCHAR},
-      opName = #{opname,jdbcType=VARCHAR},
-      opid = #{opid,jdbcType=INTEGER},
-      createTime = #{createtime,jdbcType=TIMESTAMP},
-      modifyTime = #{modifytime,jdbcType=TIMESTAMP}
+      opName = #{opName,jdbcType=VARCHAR},
+      opid = #{opId,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      modifyTime = #{modifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, code, drawId, drawExtId, uid, oName, oTel, type, status, orderPrice, info, opName, opid,
     createTime, modifyTime
-    from order
+    from order_info
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select id, code, drawId, drawExtId, uid, oName, oTel, type, status, orderPrice, info, opName, opid,
     createTime, modifyTime
-    from order
+    from order_info
   </select>
   <select id="getOrderByNo" resultMap="BaseResultMap" >
     select id, code, drawId, drawExtId, uid, oName, oTel, type, status, orderPrice, info, opName, opid,
     createTime, modifyTime
-    from order
+    from order_info
     where code = #{orderNo,jdbcType=VARCHAR}
   </select>
   <select id="getOrderByUid" resultMap="BaseResultMap" >
     select id, code, drawId, drawExtId, uid, oName, oTel, type, status, orderPrice, info, opName, opid,
     createTime, modifyTime
-    from order
+    from order_info
     where uid = #{arg0} and status = #{arg1}
   </select>
 </mapper>
