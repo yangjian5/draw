@@ -3,6 +3,7 @@
 <mapper namespace="com.aiwsport.core.mapper.OperLogMapper" >
   <resultMap id="BaseResultMap" type="com.aiwsport.core.entity.OperLog" >
     <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="uid" property="uid" jdbcType="INTEGER" />
     <result column="orderId" property="orderId" jdbcType="INTEGER" />
     <result column="incomeId" property="incomeId" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="VARCHAR" />
@@ -20,32 +21,33 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into oper_log (orderId, incomeId, type, 
+    insert into oper_log (uid, orderId, incomeId, type,
       incomePrice, opName, opId, 
       createTime, modifyTime)
-    values (#{orderid,jdbcType=INTEGER}, #{incomeid,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, 
-      #{incomeprice,jdbcType=DECIMAL}, #{opname,jdbcType=VARCHAR}, #{opid,jdbcType=INTEGER}, 
-      #{createtime,jdbcType=TIMESTAMP}, #{modifytime,jdbcType=TIMESTAMP})
+    values (#{uid,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{incomeId,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR},
+      #{incomePrice,jdbcType=DECIMAL}, #{opName,jdbcType=VARCHAR}, #{opId,jdbcType=INTEGER},
+      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.aiwsport.core.entity.OperLog" >
     update oper_log
     set orderId = #{orderid,jdbcType=INTEGER},
-      incomeId = #{incomeid,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER},
+      incomeId = #{incomeId,jdbcType=INTEGER},
       type = #{type,jdbcType=VARCHAR},
-      incomePrice = #{incomeprice,jdbcType=DECIMAL},
-      opName = #{opname,jdbcType=VARCHAR},
-      opId = #{opid,jdbcType=INTEGER},
-      createTime = #{createtime,jdbcType=TIMESTAMP},
-      modifyTime = #{modifytime,jdbcType=TIMESTAMP}
+      incomePrice = #{incomePrice,jdbcType=DECIMAL},
+      opName = #{opName,jdbcType=VARCHAR},
+      opId = #{opId,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      modifyTime = #{modifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, orderId, incomeId, type, incomePrice, opName, opId, createTime, modifyTime
+    select id, uid, orderId, incomeId, type, incomePrice, opName, opId, createTime, modifyTime
     from oper_log
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, orderId, incomeId, type, incomePrice, opName, opId, createTime, modifyTime
+    select id, uid, orderId, incomeId, type, incomePrice, opName, opId, createTime, modifyTime
     from oper_log
   </select>
 </mapper>

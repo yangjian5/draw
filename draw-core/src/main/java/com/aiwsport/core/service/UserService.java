@@ -1,8 +1,10 @@
 package com.aiwsport.core.service;
 
 
+import com.aiwsport.core.entity.OperLog;
 import com.aiwsport.core.entity.PageParam;
 import com.aiwsport.core.entity.User;
+import com.aiwsport.core.mapper.OperLogMapper;
 import com.aiwsport.core.mapper.UserMapper;
 import com.aiwsport.core.utils.DataTypeUtils;
 import org.apache.logging.log4j.LogManager;
@@ -17,6 +19,9 @@ public class UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private OperLogMapper operLogMapper;
 
     private static Logger logger = LogManager.getLogger();
 
@@ -55,6 +60,16 @@ public class UserService {
         pageParam.setLength(count);
         pageParam.setNickName(nickName);
         return userMapper.getUsersByNickName(pageParam);
+    }
+
+    public boolean withdrawal(int uid, String tradeNo, int price){
+        OperLog operLog = new OperLog();
+        operLog.setUid(uid);
+        operLog.setOrderId(0);
+        operLog.setIncomeId(0);
+        operLog.setType("4");
+        operLog.setIncomePrice(price);
+        return operLogMapper.insert(operLog) > 0;
     }
 
     public int getUsersCount(String nickName) {

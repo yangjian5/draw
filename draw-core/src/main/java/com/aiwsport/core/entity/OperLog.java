@@ -1,10 +1,11 @@
 package com.aiwsport.core.entity;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class OperLog {
     private Integer id;
+
+    private Integer uid;
 
     private Integer orderId;
 
@@ -12,7 +13,7 @@ public class OperLog {
 
     private String type;
 
-    private BigDecimal incomePrice;
+    private Integer incomePrice;
 
     private String opName;
 
@@ -54,11 +55,11 @@ public class OperLog {
         this.type = type;
     }
 
-    public BigDecimal getIncomePrice() {
+    public Integer getIncomePrice() {
         return incomePrice;
     }
 
-    public void setIncomePrice(BigDecimal incomePrice) {
+    public void setIncomePrice(Integer incomePrice) {
         this.incomePrice = incomePrice;
     }
 
@@ -92,5 +93,13 @@ public class OperLog {
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public Integer getUid() {
+        return uid;
+    }
+
+    public void setUid(Integer uid) {
+        this.uid = uid;
     }
 }
