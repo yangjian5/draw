@@ -101,7 +101,7 @@ public class DrawController {
                 throw new DrawServerException(DrawServerExceptionFactor.PARAM_VERIFY_FAIL, "open_id is not exist");
             }
 
-            boolean res = drawService.createDraw(user.getId(), name, tel_no, draw_name, author, desc, IMG_HOST+PATH+"/"+imgName, IMG_HOST+SIMPLE_PATH+"/"+imgName, draw_width, draw_high);
+            boolean res = drawService.createDraw(user.getId(), name, tel_no, draw_name, IMG_HOST+PATH+"/"+imgName, author, desc, IMG_HOST+SIMPLE_PATH+"/"+imgName, draw_width, draw_high);
             if (!res) {
                 throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "create draw is error");
             }
