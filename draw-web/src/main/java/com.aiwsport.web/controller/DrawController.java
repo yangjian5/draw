@@ -86,6 +86,7 @@ public class DrawController {
                                  @ParamVerify(isNumber = true)int draw_width,
                                  @ParamVerify(isNumber = true)int draw_high,
                                  @RequestParam("draw_file") MultipartFile file) {
+
         try{
             String fileName = file.getOriginalFilename();
             InputStream inputStream = file.getInputStream();
