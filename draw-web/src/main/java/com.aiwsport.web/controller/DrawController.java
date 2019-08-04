@@ -33,11 +33,13 @@ public class DrawController {
 
     private static final String IMG_HOST = "https://aiwsport.com";
 
+    private static final String BASE = "/home/www-data";
+
     private static final String PATH = "/data1/draw";
 
     private static final String SIMPLE_PATH = "/data1/draw_simple";
 
-    private static final String INCOME_PATH = "/data1/income";
+    private static final String INCOME_PATH = "s/data1/income";
 
     @RequestMapping(value = "/index.json")
     public ResultMsg index(@ParamVerify(isNumber = true)int type,
@@ -92,7 +94,7 @@ public class DrawController {
             InputStream inputStream = file.getInputStream();
             String imgName = System.currentTimeMillis()+"_"+fileName;
             System.out.println("imgName "+imgName);
-            if(!FileUtil.writeFile(PATH, SIMPLE_PATH, imgName, inputStream)){
+            if(!FileUtil.writeFile(BASE+PATH, BASE+SIMPLE_PATH, imgName, inputStream)){
                 throw new DrawServerException(DrawServerExceptionFactor.FILE_ERROR);
             }
 
@@ -101,9 +103,8 @@ public class DrawController {
                 throw new DrawServerException(DrawServerExceptionFactor.PARAM_VERIFY_FAIL, "open_id is not exist");
             }
 
-            boolean res = drawService.createDraw(user.getId(), name, tel_no, draw_name,
-                    IMG_HOST+PATH+"/"+imgName, author, desc, IMG_HOST+SIMPLE_PATH+"/"+imgName,
-                    draw_width, draw_high);
+            boolean res = drawService.createDraw(user.getId(), name, tel_no, draw_name, author, desc, IMG_HOST+SIMPLE_PATH+"/"+imgName,
+                    IMG_HOST+PATH+"/"+imgName, draw_width, draw_high);
             if (!res) {
                 throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "create draw is error");
             }

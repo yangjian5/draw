@@ -45,8 +45,8 @@ public class DrawService {
 
     private static Logger logger = LogManager.getLogger();
 
-    public boolean createDraw(int uid, String name, String telNo, String drawName, String simpleName,
-                              String author, String desc, String urlHd, int drawWidth, int drawHigh) throws Exception {
+    public boolean createDraw(int uid, String name, String telNo, String drawName,
+                              String author, String desc, String urlHd, String urlSimple, int drawWidth, int drawHigh) throws Exception {
         Draws draw = new Draws();
         draw.setDrawStatus("0");
         draw.setProdName(name);
@@ -57,10 +57,9 @@ public class DrawService {
         draw.setDrawDesc(desc);
         draw.setUrlHd(urlHd);
         String time = DataTypeUtils.formatCurDateTime();
-        draw.setUrlSimple("");
+        draw.setUrlSimple(urlSimple);
         draw.setDrawPrice(0);
         draw.setOwnCount(0);
-        draw.setUrlSimple(simpleName);
         draw.setDrawWidth(drawWidth);
         draw.setDrawHigh(drawHigh);
         draw.setOwnFinishCount(0);
