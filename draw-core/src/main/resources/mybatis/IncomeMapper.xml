@@ -10,7 +10,7 @@
     <result column="orderNo" property="orderNo" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="opName" property="opName" jdbcType="VARCHAR" />
-    <result column="opId" property="opid" jdbcType="INTEGER" />
+    <result column="opId" property="opId" jdbcType="INTEGER" />
     <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
     <result column="modifyTime" property="modifyTime" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -25,23 +25,23 @@
     insert into income (drawExtid, proofUrl, proofPrice, info, orderNo,
       status, opName, opId, 
       createTime, modifyTime)
-    values (#{drawextid,jdbcType=INTEGER}, #{proofurl,jdbcType=VARCHAR}, #{proofprice,jdbcType=INTEGER},
+    values (#{drawExtid,jdbcType=INTEGER}, #{proofUrl,jdbcType=VARCHAR}, #{proofPrice,jdbcType=INTEGER},
       #{info,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR},
-      #{status,jdbcType=VARCHAR}, #{opname,jdbcType=VARCHAR}, #{opid,jdbcType=INTEGER}, 
-      #{createtime,jdbcType=TIMESTAMP}, #{modifytime,jdbcType=TIMESTAMP})
+      #{status,jdbcType=VARCHAR}, #{opName,jdbcType=VARCHAR}, #{opId,jdbcType=INTEGER},
+      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.aiwsport.core.entity.Income" >
     update income
-    set drawExtid = #{drawextid,jdbcType=INTEGER},
-      proofUrl = #{proofurl,jdbcType=VARCHAR},
-      proofPrice = #{proofprice,jdbcType=INTEGER},
+    set drawExtid = #{drawExtid,jdbcType=INTEGER},
+      proofUrl = #{proofUrl,jdbcType=VARCHAR},
+      proofPrice = #{proofPrice,jdbcType=INTEGER},
       info = #{info,jdbcType=VARCHAR},
       orderNo = #{orderNo,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
-      opName = #{opname,jdbcType=VARCHAR},
-      opId = #{opid,jdbcType=INTEGER},
-      createTime = #{createtime,jdbcType=TIMESTAMP},
-      modifyTime = #{modifytime,jdbcType=TIMESTAMP}
+      opName = #{opName,jdbcType=VARCHAR},
+      opId = #{opId,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      modifyTime = #{modifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

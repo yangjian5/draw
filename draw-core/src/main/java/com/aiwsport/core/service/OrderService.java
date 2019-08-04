@@ -114,7 +114,7 @@ public class OrderService {
 //                    BigDecimal.valueOf(orderPrice).divide(BigDecimal.valueOf(100)).toString());
 
             resMap = new HashMap<>();
-            resMap.put("orderNo", "20190728145345156429682500685478");
+            resMap.put("orderNo", PayUtil.getTradeNo());
             resMap.put("paySign", "dasdadasdadadadqwd2d22d2");
             Object orderNoObj = resMap.get("orderNo");
             Object paySignObj = resMap.get("paySign");
@@ -151,7 +151,7 @@ public class OrderService {
                 return;
             }
 
-            DrawExt drawExt = drawExtMapper.selectByPrimaryKey(income.getDrawExtId());
+            DrawExt drawExt = drawExtMapper.selectByPrimaryKey(income.getDrawExtid());
             IncomeStatistics incomeStatistics = incomeStatisticsMapper.getIncomeByDrawIdAndDate(drawExt.getDrawId());
             if (incomeStatistics == null) {
                 incomeStatistics = new IncomeStatistics();

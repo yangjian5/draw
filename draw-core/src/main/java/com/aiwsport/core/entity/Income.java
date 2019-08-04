@@ -3,7 +3,7 @@ package com.aiwsport.core.entity;
 public class Income {
     private Integer id;
 
-    private Integer drawExtId;
+    private Integer drawExtid;
 
     private String proofUrl;
 
@@ -31,12 +31,12 @@ public class Income {
         this.id = id;
     }
 
-    public Integer getDrawExtId() {
-        return drawExtId;
+    public Integer getDrawExtid() {
+        return drawExtid;
     }
 
-    public void setDrawExtId(Integer drawExtId) {
-        this.drawExtId = drawExtId;
+    public void setDrawExtid(Integer drawExtid) {
+        this.drawExtid = drawExtid;
     }
 
     public String getProofUrl() {
