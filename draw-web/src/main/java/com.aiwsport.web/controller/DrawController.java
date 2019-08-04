@@ -143,7 +143,7 @@ public class DrawController {
                 if(!FileUtil.writeFile(BASE+INCOME_PATH, "", imgName, inputStream)){
                     throw new DrawServerException(DrawServerExceptionFactor.FILE_ERROR);
                 }
-                String paySing = drawService.uploadIncome(open_id, draw_ext_id, income_prize, IMG_HOST+INCOME_PATH+"/"+imgName);
+                String paySing = drawService.uploadIncome(open_id, draw_ext_id, income_prize, owner_prize, IMG_HOST+INCOME_PATH+"/"+imgName);
                 return new ResultMsg("update_owner_draw-uploadIncome", paySing);
             } catch (Exception e) {
                 throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, e.getMessage());

@@ -225,7 +225,7 @@ public class DrawService {
         return drawExtMapper.updateByPrimaryKey(drawExt) > 0;
     }
 
-    public String uploadIncome(String openId, int drawExtId, int incomePrice, String url) throws Exception {
+    public String uploadIncome(String openId, int drawExtId, int incomePrice, int ownerPrize, String url) throws Exception {
         User user = userMapper.getByOpenId(openId);
         if (user == null || user.getId() == 0) {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "user id is not exist");
@@ -234,6 +234,10 @@ public class DrawService {
         DrawExt drawExt = drawExtMapper.selectByPrimaryKey(drawExtId);
         if (drawExt == null) {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "draw ext id is not exist");
+        }
+
+        if (updateDrawExt(drawExtId, ownerPrize)) {
+            throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "update draw ext owner price error");
         }
 
 //        Map<String, Object> resMap = orderService.createWXOrder(openId, "127.0.0.1", "income-"+drawExtId,
