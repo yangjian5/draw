@@ -4,9 +4,7 @@ import com.aiwsport.core.DrawServerException;
 import com.aiwsport.core.DrawServerExceptionFactor;
 import com.aiwsport.core.constant.ResultMsg;
 import com.aiwsport.core.entity.DrawBranner;
-import com.aiwsport.core.model.ShowUsers;
 import com.aiwsport.core.service.BackService;
-import com.aiwsport.core.service.UserService;
 import com.aiwsport.web.verify.ParamVerify;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,9 +21,6 @@ public class BackController {
 
     @Autowired
     private BackService backService;
-
-    @Autowired
-    private UserService userService;
 
 
     @RequestMapping(value = "/banner/update.json")
