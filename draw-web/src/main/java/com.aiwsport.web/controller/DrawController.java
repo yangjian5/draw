@@ -33,7 +33,7 @@ public class DrawController {
 
     private static final String IMG_HOST = "https://aiwsport.com";
 
-    private static final String BASE = "";
+    private static final String BASE = "/home/www-data";
 
     private static final String PATH = "/data1/draw";
 
