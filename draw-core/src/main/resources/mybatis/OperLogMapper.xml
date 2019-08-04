@@ -11,8 +11,8 @@
     <result column="incomePrice" property="incomePrice" jdbcType="DECIMAL" />
     <result column="opName" property="opName" jdbcType="VARCHAR" />
     <result column="opId" property="opId" jdbcType="INTEGER" />
-    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
-    <result column="modifyTime" property="modifytime" jdbcType="TIMESTAMP" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modifyTime" property="modifyTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from oper_log
