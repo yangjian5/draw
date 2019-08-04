@@ -39,7 +39,7 @@ public class DrawController {
 
     private static final String SIMPLE_PATH = "/data1/draw_simple";
 
-    private static final String INCOME_PATH = "s/data1/income";
+    private static final String INCOME_PATH = "/data1/income";
 
     @RequestMapping(value = "/index.json")
     public ResultMsg index(@ParamVerify(isNumber = true)int type,
@@ -134,13 +134,13 @@ public class DrawController {
                                      @ParamVerify(isNumber = true) @RequestParam(name = "owner_prize", required = false, defaultValue = "0") int owner_prize,
                                      @ParamVerify(isNumber = true) @RequestParam(name = "income_prize", required = false, defaultValue = "0") int income_prize,
                                      @RequestParam(name = "income_file", required = false) MultipartFile file){
-        boolean res = false;
+        boolean res;
         if (file != null && income_prize > 0) { // 上传收益
             try {
                 String fileName = file.getOriginalFilename();
                 InputStream inputStream = file.getInputStream();
                 String imgName = System.currentTimeMillis()+"_"+fileName;
-                if(!FileUtil.writeFile(INCOME_PATH, "", imgName, inputStream)){
+                if(!FileUtil.writeFile(BASE+INCOME_PATH, "", imgName, inputStream)){
                     throw new DrawServerException(DrawServerExceptionFactor.FILE_ERROR);
                 }
                 String paySing = drawService.uploadIncome(open_id, draw_ext_id, income_prize, IMG_HOST+INCOME_PATH+"/"+imgName);

@@ -8,14 +8,15 @@ import com.aiwsport.core.model.ShowBranner;
 import com.aiwsport.core.model.ShowDrawExts;
 import com.aiwsport.core.model.ShowDraws;
 import com.aiwsport.core.utils.DataTypeUtils;
+import com.aiwsport.core.utils.PayUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -235,8 +236,13 @@ public class DrawService {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "draw ext id is not exist");
         }
 
-        Map<String, Object> resMap = orderService.createWXOrder(openId, "127.0.0.1", "income-"+drawExtId,
-                BigDecimal.valueOf(incomePrice).divide(BigDecimal.valueOf(100)).toString());
+//        Map<String, Object> resMap = orderService.createWXOrder(openId, "127.0.0.1", "income-"+drawExtId,
+//                BigDecimal.valueOf(incomePrice).divide(BigDecimal.valueOf(100)).toString());
+
+
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("orderNo", PayUtil.getTradeNo());
+        resMap.put("paySign", "dasdadasdadadadqwd2d22d2");
 
         if (resMap.isEmpty() || resMap.get("orderNo") == null) {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "create order is fail");
@@ -246,7 +252,7 @@ public class DrawService {
         String paySign = (String) resMap.get("paySign");
 
         Income income = new Income();
-        income.setDrawExtId(drawExtId);
+        income.setDrawExtid(drawExtId);
         income.setProofPrice(incomePrice);
         income.setProofUrl(url);
         income.setStatus("0");
