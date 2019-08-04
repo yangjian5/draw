@@ -47,7 +47,7 @@ public class DrawService {
     private static Logger logger = LogManager.getLogger();
 
     public boolean createDraw(int uid, String name, String telNo, String drawName,
-                              String author, String desc, String urlHd, String urlSimple, int drawWidth, int drawHigh) throws Exception {
+                              String author, String desc, String urlHd, String urlSimple, String isSale, int drawWidth, int drawHigh) throws Exception {
         Draws draw = new Draws();
         draw.setDrawStatus("0");
         draw.setProdName(name);
@@ -61,6 +61,7 @@ public class DrawService {
         draw.setUrlSimple(urlSimple);
         draw.setDrawPrice(0);
         draw.setOwnCount(0);
+        draw.setIsSale(isSale);
         draw.setDrawWidth(drawWidth);
         draw.setDrawHigh(drawHigh);
         draw.setOwnFinishCount(0);
@@ -84,7 +85,7 @@ public class DrawService {
         return showBranners;
     }
 
-    public boolean updateDraw(int drawId, int createPrice, int ownerPrice, int ownerCount){
+    public boolean updateDraw(int drawId, int createPrice, int ownerPrice, int ownerCount, String isSale){
         Draws draw = drawMapper.selectByPrimaryKey(drawId);
         if (draw == null || draw.getOwnFinishCount() > 0) {
             return false;
@@ -93,6 +94,7 @@ public class DrawService {
         draw.setOwnPrice(ownerPrice);
         draw.setOwnCount(ownerCount);
         draw.setOwnFinishCount(0);
+        draw.setIsSale(isSale);
         draw.setDrawPrice(createPrice);
         return drawMapper.updateByPrimaryKey(draw) > 0;
     }

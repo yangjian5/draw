@@ -65,7 +65,7 @@ public class OrderService {
         return showOrders;
     }
 
-    public Map<String, Object> createOrder(int id, int type, String openId, String tel, String name, String ip){
+    public Map<String, Object> createOrder(int id, int type, String openId, String ip){
         Map<String, Object> resMap = null;
         try {
             String orderNo;
@@ -129,9 +129,7 @@ public class OrderService {
             order.setDrawExtId(drawExtId);
             order.setType(type+"");
             order.setStatus("1");
-            order.setoTel(tel);
             order.setInfo(paySignObj.toString());
-            order.setoName(name);
             order.setOrderPrice(orderPrice);
             orderMapper.insert(order);
         } catch (Exception e) {

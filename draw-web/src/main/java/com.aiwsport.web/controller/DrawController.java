@@ -87,6 +87,7 @@ public class DrawController {
                                  @ParamVerify(isNotBlank = true)String desc,
                                  @ParamVerify(isNumber = true)int draw_width,
                                  @ParamVerify(isNumber = true)int draw_high,
+                                 @ParamVerify(isNotBlank = true)String is_sale,
                                  @RequestParam("draw_file") MultipartFile file) {
 
         try{
@@ -104,7 +105,7 @@ public class DrawController {
             }
 
             boolean res = drawService.createDraw(user.getId(), name, tel_no, draw_name, author, desc, IMG_HOST+SIMPLE_PATH+"/"+imgName,
-                    IMG_HOST+PATH+"/"+imgName, draw_width, draw_high);
+                    IMG_HOST+PATH+"/"+imgName, is_sale, draw_width, draw_high);
             if (!res) {
                 throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "create draw is error");
             }
@@ -119,8 +120,9 @@ public class DrawController {
     public ResultMsg updateDraw(@ParamVerify(isNumber = true)int draw_id,
                                 @ParamVerify(isNumber = true)int create_price,
                                 @ParamVerify(isNotBlank = true)int owner_prize,
-                                @ParamVerify(isNotBlank = true)int owner_count){
-        boolean res = drawService.updateDraw(draw_id, create_price, owner_prize, owner_count);
+                                @ParamVerify(isNotBlank = true)int owner_count,
+                                @ParamVerify(isNotBlank = true)String is_sale){
+        boolean res = drawService.updateDraw(draw_id, create_price, owner_prize, owner_count, is_sale);
         if (!res) {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "update draw is error");
         }
@@ -140,7 +142,7 @@ public class DrawController {
                 String fileName = file.getOriginalFilename();
                 InputStream inputStream = file.getInputStream();
                 String imgName = System.currentTimeMillis()+"_"+fileName;
-                if(!FileUtil.writeFile(BASE+INCOME_PATH, "", imgName, inputStream)){
+                if(!FileUtil.writeFile(INCOME_PATH, "", imgName, inputStream)){
                     throw new DrawServerException(DrawServerExceptionFactor.FILE_ERROR);
                 }
                 String paySing = drawService.uploadIncome(open_id, draw_ext_id, income_prize, owner_prize, IMG_HOST+INCOME_PATH+"/"+imgName);

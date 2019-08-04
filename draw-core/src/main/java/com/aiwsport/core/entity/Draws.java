@@ -33,6 +33,8 @@ public class Draws {
 
     private Integer ownPrice;
 
+    private String isSale;
+
     private String opName;
 
     private Integer opId;
@@ -199,5 +201,13 @@ public class Draws {
 
     public void setOwnPrice(Integer ownPrice) {
         this.ownPrice = ownPrice;
+    }
+
+    public String getIsSale() {
+        return isSale;
+    }
+
+    public void setIsSale(String isSale) {
+        this.isSale = isSale;
     }
 }
