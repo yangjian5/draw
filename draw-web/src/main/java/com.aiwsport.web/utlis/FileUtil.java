@@ -59,7 +59,7 @@ public class FileUtil {
             }
         }
 
-        if (StringUtils.isNotBlank(simPath)) {
+        if (StringUtils.isBlank(simPath)) {
             return true;
         }
 
