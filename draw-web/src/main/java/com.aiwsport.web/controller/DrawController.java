@@ -141,7 +141,7 @@ public class DrawController {
                 String fileName = file.getOriginalFilename();
                 InputStream inputStream = file.getInputStream();
                 String imgName = System.currentTimeMillis()+"_"+fileName;
-                if(!FileUtil.writeFile(INCOME_PATH, "", imgName, inputStream)){
+                if(!FileUtil.writeFile(BASE+INCOME_PATH, "", imgName, inputStream)){
                     throw new DrawServerException(DrawServerExceptionFactor.FILE_ERROR);
                 }
                 String paySing = drawService.uploadIncome(open_id, draw_ext_id, income_prize, owner_prize, IMG_HOST+INCOME_PATH+"/"+imgName);
