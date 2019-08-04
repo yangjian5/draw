@@ -117,10 +117,14 @@ public class DrawService {
         }
 
         List<Draws> draws = drawMapper.getIndex(id, start, end, sort);
+        if (draws == null || draws.size() == 0) {
+            return showDrawExts;
+        }
+
+        showDrawExts = buildShowDrawsIndex(draws);
         if (draws.size() < 15) {
             showDrawExts.setMaxId("-1");
         } else {
-            showDrawExts = buildShowDrawsIndex(draws);
             showDrawExts.setMaxId(id + "-" + page);
         }
         return showDrawExts;
@@ -147,6 +151,10 @@ public class DrawService {
         }
 
         List<DrawExt> drawExts = drawExtMapper.getIndex(id, start, end, sort);
+        if (drawExts == null || drawExts.size() == 0) {
+            return showDrawExts;
+        }
+
         if (drawExts.size() < 15) {
             showDrawExts.setMaxId("-1");
         } else {
@@ -168,10 +176,15 @@ public class DrawService {
         }
 
         List<Draws> draws = drawMapper.getMyList(uid, start, end);
+        if (draws == null || draws.size() == 0) {
+            showDraws.setMaxId("-1");
+            return showDraws;
+        }
+
+        showDraws = buildShowDraws(draws);
         if (draws.size() < 15) {
             showDraws.setMaxId("-1");
         } else {
-            showDraws = buildShowDraws(draws);
             showDraws.setMaxId(page+"");
         }
         return showDraws;
@@ -189,10 +202,14 @@ public class DrawService {
         }
 
         List<DrawExt> drawExts = drawExtMapper.getMyList(uid, start, end);
+        if (drawExts == null || drawExts.size() == 0) {
+            return showDrawExts;
+        }
+
+        showDrawExts = buildShowDrawExts(drawExts);
         if (drawExts.size() < 15) {
             showDrawExts.setMaxId("-1");
         } else {
-            showDrawExts = buildShowDrawExts(drawExts);
             showDrawExts.setMaxId(page+"");
         }
         return showDrawExts;
