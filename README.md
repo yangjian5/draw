@@ -713,6 +713,238 @@ get - /api/op_log
 类型 1-创造权交易 2-所有权交易收益 3-所有权添加收益 4-提现
 
 
+### 17、用户管理
+#### url 
+get - /api/user/select   
+#### 入参
+| 字段      |     类型 |   说明   |
+| :-------- | --------:| :------: |
+| nickName     |   str |  昵称 |
+| page    |   int |1  |
+| count    |   int | 10  |
+
+
+#### 出参
+
+```
+{
+    "code": 200,
+    "message": "userSelect",
+    "data": {
+        "page": 1,
+        "count": 10,
+        "total_count": 2,
+        "users": [
+            {
+                "id": 1,
+                "open_id": "ov8p35OEtLxO7nILiHq6rmBCpkv4",
+                "nick_name": "楊∮",
+                "avatar_url": "https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epnRkt8ueSLqcIUPr7XKaNwmn3y0OvoyFjaNRXwByvtKeZ1JlCdCbuqrELauJflWuPkvVcF7s48Bw/132",
+                "gender": "1",
+                "income": 100000,
+                "create_time": "2019-07-22 14:24:13.0",
+                "modify_time": "2019-07-22 14:24:13.0"
+            },
+            {
+                "id": 2,
+                "open_id": "oe8p35OEtLxO7nILiHq6rmBCpkv4",
+                "nick_name": "楊∮",
+                "avatar_url": "https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epnRkt8ueSLqcIUPr7XKaNwmn3y0OvoyFjaNRXwByvtKeZ1JlCdCbuqrELauJflWuPkvVcF7s48Bw/132",
+                "gender": "1",
+                "income": 0,
+                "create_time": "2019-07-22 14:24:13.0",
+                "modify_time": "2019-07-22 14:24:13.0"
+            }
+        ]
+    },
+    "success": true
+}
+```
+
+
+### 18、图片管理
+#### url 
+get - /api/draw/select  
+#### 入参
+| 字段      |     类型 |   说明   |
+| :-------- | --------:| :------: |
+| drawName    |   str |画名称  |
+| page    |   int |1  |
+| count    |   int | 10  |
+
+
+### 18、图片审核 
+#### url 
+get - /api/draw/check
+#### 入参
+| 字段      |     类型 |   说明   |
+| :-------- | --------:| :------: |
+| id     |   int |  图片ID |
+| drawStatus    |   int |画作状态 0-未审核 1-审核通过 2-审核不通过 |
+
+
+
+### 19、banner update
+#### url 
+get - /api/banner/update
+#### 入参
+| 字段      |     类型 |   说明   |
+| :-------- | --------:| :------: |
+| id     |   int |  banner id |
+| brannerUrl     |   str |  bannerUrl 图片地址 |
+| clickUrl    |   str | 点击url  |
+| type    |   int |类型 1-外部图 2-创造者 |
+| drawId    |   int | 图片ID  |
+| sort    |   int | 排序  |
+
+
+
+### 19、banner insert
+#### url 
+get - /api/banner/update
+#### 入参
+| 字段      |     类型 |   说明   |
+| :-------- | --------:| :------: |
+| brannerUrl     |   str |  bannerUrl 图片地址 |
+| clickUrl    |   str | 点击url  |
+| type    |   int |类型 1-外部图 2-创造者 |
+| drawId    |   int | 图片ID  |
+| sort    |   int | 排序  |
+
+ private String brannerUrl;
+
+    private String clickUrl;
+
+    private String type;
+
+    private Integer drawId;
+
+    private Integer drawExtId;
+
+
+### 19、banner delete
+#### url 
+get - /api/banner/update
+#### 入参
+| 字段      |     类型 |   说明   |
+| :-------- | --------:| :------: |
+| id     |   int |  banner id |
+
+
+
+
+#### 出参
+
+```
+{
+    "code": 200,
+    "message": "drawSelect",
+    "data": {
+        "max_id": null,
+        "draws": [
+            {
+                "id": 17,
+                "prod_uid": 1,
+                "prod_name": "yangjian",
+                "prod_tel": "13200008888",
+                "draw_price": 0,
+                "draw_name": "哪吒脑海",
+                "draw_status": "1",
+                "draw_width": 430,
+                "draw_high": 760,
+                "auth_name": "还算",
+                "url_hd": "https://www.aiwsport.com/data1/draw_simple/1564885525478_WX20190618-103633@2x.png",
+                "url_simple": "https://aiwsport.com/data1/draw/1564902854526_WX20190618-103633@2x.png",
+                "draw_desc": "萨达奥大所",
+                "own_count": 0,
+                "own_finish_count": 0,
+                "op_name": null,
+                "op_id": null,
+                "create_time": "2019-08-04 10:25:43.0",
+                "modify_time": "2019-08-04 10:25:43.0"
+            },
+            {
+                "id": 19,
+                "prod_uid": 1,
+                "prod_name": "yangjian",
+                "prod_tel": "13200008888",
+                "draw_price": 0,
+                "draw_name": "哪吒脑海",
+                "draw_status": "0",
+                "draw_width": 430,
+                "draw_high": 760,
+                "auth_name": "还算",
+                "url_hd": "https://aiwsport.com/data1/draw_simple/1564902854526_WX20190618-103633@2x.png",
+                "url_simple": "https://aiwsport.com/data1/draw/1564902854526_WX20190618-103633@2x.png",
+                "draw_desc": "萨达奥大所",
+                "own_count": 0,
+                "own_finish_count": 0,
+                "op_name": null,
+                "op_id": null,
+                "create_time": "2019-08-04 15:14:14.0",
+                "modify_time": "2019-08-04 15:14:14.0"
+            },
+            {
+                "id": 20,
+                "prod_uid": 1,
+                "prod_name": "yangjian",
+                "prod_tel": "13200008888",
+                "draw_price": 0,
+                "draw_name": "哪吒脑海",
+                "draw_status": "0",
+                "draw_width": 430,
+                "draw_high": 760,
+                "auth_name": "还算",
+                "url_hd": "https://aiwsport.com/data1/draw_simple/1564902941397_WX20190618-103633@2x.png",
+                "url_simple": "https://aiwsport.com/data1/draw/1564902854526_WX20190618-103633@2x.png",
+                "draw_desc": "萨达奥大所",
+                "own_count": 0,
+                "own_finish_count": 0,
+                "op_name": null,
+                "op_id": null,
+                "create_time": "2019-08-04 15:15:41.0",
+                "modify_time": "2019-08-04 15:15:41.0"
+            },
+            {
+                "id": 21,
+                "prod_uid": 1,
+                "prod_name": "yangjian",
+                "prod_tel": "13200008888",
+                "draw_price": 0,
+                "draw_name": "哪吒脑海",
+                "draw_status": "0",
+                "draw_width": 430,
+                "draw_high": 760,
+                "auth_name": "还算",
+                "url_hd": "https://aiwsport.com/data1/draw_simple/1564903261973_WX20190618-103633@2x.png",
+                "url_simple": "https://aiwsport.com/data1/draw/1564903261973_WX20190618-103633@2x.png",
+                "draw_desc": "萨达奥大所",
+                "own_count": 0,
+                "own_finish_count": 0,
+                "op_name": null,
+                "op_id": null,
+                "create_time": "2019-08-04 15:21:09.0",
+                "modify_time": "2019-08-04 15:21:09.0"
+            }
+        ],
+        "page": 1,
+        "count": 10,
+        "total_count": 4
+    },
+    "success": true
+}
+```
+
+
+
+
+类型 1-创造权交易 2-所有权交易收益 3-所有权添加收益 4-提现
+
+
+
+
+
+
 ### 
 所有url 后加 .json
 - [X]  藏品(首页)

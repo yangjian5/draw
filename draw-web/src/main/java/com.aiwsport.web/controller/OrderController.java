@@ -3,9 +3,7 @@ package com.aiwsport.web.controller;
 import com.aiwsport.core.DrawServerException;
 import com.aiwsport.core.DrawServerExceptionFactor;
 import com.aiwsport.core.constant.ResultMsg;
-import com.aiwsport.core.constant.WxConfig;
 import com.aiwsport.core.service.OrderService;
-import com.aiwsport.core.utils.PayUtil;
 import com.aiwsport.core.utils.XmlUtil;
 import com.aiwsport.web.utlis.ParseUrl;
 import com.aiwsport.web.verify.ParamVerify;
@@ -58,7 +56,7 @@ public class OrderController {
         return new ResultMsg("buy", orderService.myOrder(open_id, status));
     }
 
-    @RequestMapping("/wx_notify")
+    @RequestMapping("/wx_notify.json")
     public void wxNotify(HttpServletRequest request, HttpServletResponse response) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader((ServletInputStream)request.getInputStream()));
         String line;
@@ -76,10 +74,12 @@ public class OrderController {
 
         String returnCode = resMap.get("return_code");
         if("SUCCESS".equals(returnCode)){
+            orderService.finishPay(resMap.get("orderNo"));
+
             //验证签名是否正确
-            String reSign = PayUtil.getSign(resMap, resMap.get("sign"));
-            String realSign = PayUtil.getSign(resMap, WxConfig.SECRET);
-            if(reSign.equals(realSign)){
+//            String reSign = PayUtil.getSign(resMap, resMap.get("sign"));
+//            String realSign = PayUtil.getSign(resMap, WxConfig.SECRET);
+//            if(reSign.equals(realSign)){
                 /*此处添加自己的业务逻辑代码start*/
                 orderService.finishPay(resMap.get("orderNo"));
                 /*此处添加自己的业务逻辑代码end */
@@ -87,7 +87,7 @@ public class OrderController {
                 //通知微信服务器已经支付成功
                 resXml = "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"
                         + "<return_msg><![CDATA[OK]]></return_msg>" + "</xml> ";
-            }
+//            }
         }else{
             resXml = "<xml>" + "<return_code><![CDATA[FAIL]]></return_code>"
                     + "<return_msg><![CDATA[报文为空]]></return_msg>" + "</xml> ";
