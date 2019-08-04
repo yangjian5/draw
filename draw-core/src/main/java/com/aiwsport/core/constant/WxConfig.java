@@ -2,13 +2,13 @@ package com.aiwsport.core.constant;
 
 public class WxConfig {
     //小程序appid
-    public static final String appid = "wx169ddfe67114165d";
+    public static final String appid = "wx212677b8e5e12f06";
     //微信支付的商户id
     public static final String mch_id = "123456";
     //微信支付的商户密钥
-    public static final String SECRET = "e26e1b29d8fc04e461d3277c919100aa";
+    public static final String SECRET = "339315a194cfcbda9d9d8aa653e59ea8";
     //支付成功后的服务器回调url
-    public static final String notify_url = "https://dram.yj.com/api/wx_notify.json";
+    public static final String notify_url = "https://aiwsport.com/api/wx_notify.json";
     //签名方式
     public static final String SIGNTYPE = "MD5";
     //交易类型
