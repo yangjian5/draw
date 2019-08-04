@@ -658,6 +658,7 @@ get - /api/update_draw
 | draw_id    |   str |   |
 | create_price    |   int |  创造这价格 分 |
 | owner_count    |   int |  所有权份额 分 |
+| is_sale    |   str |  0-不出售 1-出售 分 |
 
 #### 出参
 

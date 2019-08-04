@@ -87,7 +87,6 @@ public class DrawController {
                                  @ParamVerify(isNotBlank = true)String desc,
                                  @ParamVerify(isNumber = true)int draw_width,
                                  @ParamVerify(isNumber = true)int draw_high,
-                                 @ParamVerify(isNotBlank = true)String is_sale,
                                  @RequestParam("draw_file") MultipartFile file) {
 
         try{
@@ -105,7 +104,7 @@ public class DrawController {
             }
 
             boolean res = drawService.createDraw(user.getId(), name, tel_no, draw_name, author, desc, IMG_HOST+SIMPLE_PATH+"/"+imgName,
-                    IMG_HOST+PATH+"/"+imgName, is_sale, draw_width, draw_high);
+                    IMG_HOST+PATH+"/"+imgName, draw_width, draw_high);
             if (!res) {
                 throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "create draw is error");
             }
