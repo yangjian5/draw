@@ -118,8 +118,9 @@ public class DrawController {
     @RequestMapping(value = "/update_draw.json")
     public ResultMsg updateDraw(@ParamVerify(isNumber = true)int draw_id,
                                 @ParamVerify(isNumber = true)int create_price,
+                                @ParamVerify(isNotBlank = true)int owner_prize,
                                 @ParamVerify(isNotBlank = true)int owner_count){
-        boolean res = drawService.updateDraw(draw_id, create_price, owner_count);
+        boolean res = drawService.updateDraw(draw_id, create_price, owner_prize, owner_count);
         if (!res) {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "update draw is error");
         }
@@ -130,11 +131,11 @@ public class DrawController {
     @RequestMapping(value = "/update_owner_draw.json")
     public ResultMsg updateOwnerDraw(@ParamVerify(isNotBlank = true)String open_id,
                                      @ParamVerify(isNumber = true)int draw_ext_id,
-                                     @ParamVerify(isNumber = true) @RequestParam(name = "ext_price", required = false, defaultValue = "0") int ext_price,
-                                     @ParamVerify(isNumber = true) @RequestParam(name = "income_price", required = false, defaultValue = "0") int income_price,
+                                     @ParamVerify(isNumber = true) @RequestParam(name = "owner_prize", required = false, defaultValue = "0") int owner_prize,
+                                     @ParamVerify(isNumber = true) @RequestParam(name = "income_prize", required = false, defaultValue = "0") int income_prize,
                                      @RequestParam(name = "income_file", required = false) MultipartFile file){
         boolean res = false;
-        if (file != null && income_price > 0) { // 上传收益
+        if (file != null && income_prize > 0) { // 上传收益
             try {
                 String fileName = file.getOriginalFilename();
                 InputStream inputStream = file.getInputStream();
@@ -142,13 +143,13 @@ public class DrawController {
                 if(!FileUtil.writeFile(INCOME_PATH, "", imgName, inputStream)){
                     throw new DrawServerException(DrawServerExceptionFactor.FILE_ERROR);
                 }
-                String paySing = drawService.uploadIncome(open_id, draw_ext_id, income_price, IMG_HOST+INCOME_PATH+"/"+imgName);
+                String paySing = drawService.uploadIncome(open_id, draw_ext_id, income_prize, IMG_HOST+INCOME_PATH+"/"+imgName);
                 return new ResultMsg("update_owner_draw-uploadIncome", paySing);
             } catch (Exception e) {
                 throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, e.getMessage());
             }
         } else { // 修改所有权价格
-            res = drawService.updateDrawExt(draw_ext_id, ext_price);
+            res = drawService.updateDrawExt(draw_ext_id, owner_prize);
         }
         return new ResultMsg("update_owner_draw", res);
     }

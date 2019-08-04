@@ -18,14 +18,14 @@
     </selectKey>
     insert into order_statistics (drawId, sPrice, createTime,
       type)
-    values (#{drawid,jdbcType=INTEGER}, #{sprice,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP},
+    values (#{drawId,jdbcType=INTEGER}, #{sPrice,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
       #{type,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.aiwsport.core.entity.OrderStatistics" >
     update order_statistics
-    set drawId = #{drawid,jdbcType=INTEGER},
-      sPrice = #{sprice,jdbcType=INTEGER},
-      createTime = #{createtime,jdbcType=TIMESTAMP},
+    set drawId = #{drawId,jdbcType=INTEGER},
+      sPrice = #{sPrice,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
       type = #{type,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

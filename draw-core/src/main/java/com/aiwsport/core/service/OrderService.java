@@ -147,7 +147,7 @@ public class OrderService {
             }
 
             DrawExt drawExt = drawExtMapper.selectByPrimaryKey(income.getDrawExtId());
-            IncomeStatistics incomeStatistics = incomeStatisticsMapper.getTodayIncome(drawExt.getDrawId());
+            IncomeStatistics incomeStatistics = incomeStatisticsMapper.getIncomeByDrawIdAndDate(drawExt.getDrawId());
             if (incomeStatistics == null) {
                 incomeStatistics = new IncomeStatistics();
                 incomeStatistics.setDrawId(order.getDrawId());
@@ -189,7 +189,7 @@ public class OrderService {
 
             // 收益计算统计
             BigDecimal income = BigDecimal.valueOf(order.getOrderPrice()).multiply(BigDecimal.valueOf(0.05));
-            IncomeStatistics incomeStatistics = incomeStatisticsMapper.getTodayIncome(order.getDrawId());
+            IncomeStatistics incomeStatistics = incomeStatisticsMapper.getIncomeByDrawIdAndDate(order.getDrawId());
             if (incomeStatistics == null) {
                 incomeStatistics = new IncomeStatistics();
                 incomeStatistics.setDrawId(order.getDrawId());
@@ -202,6 +202,7 @@ public class OrderService {
                 incomeStatisticsMapper.updateByPrimaryKey(incomeStatistics);
             }
         }
+
         orderStatistics.setsPrice(order.getOrderPrice());
         orderStatistics.setType(order.getType());
         orderStatistics.setCreateTime(DataTypeUtils.formatCurDateTime());

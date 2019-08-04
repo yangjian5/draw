@@ -15,7 +15,7 @@ public interface IncomeStatisticsMapper {
 
     int updateByPrimaryKey(IncomeStatistics record);
 
-    IncomeStatistics getTodayIncome(Integer drawId);
+    IncomeStatistics getIncomeByDrawIdAndDate(Integer drawId);
 
     List<IncomeStatistics> getStatistics(Integer drawId, Integer range);
 }

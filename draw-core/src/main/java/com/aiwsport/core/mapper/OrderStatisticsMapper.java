@@ -1,5 +1,6 @@
 package com.aiwsport.core.mapper;
 
+import com.aiwsport.core.entity.IncomeStatistics;
 import com.aiwsport.core.entity.OrderStatistics;
 import java.util.List;
 
@@ -16,5 +17,7 @@ public interface OrderStatisticsMapper {
 
     List<OrderStatistics> getStatistics(Integer drawId, Integer range, Integer type);
 
+    IncomeStatistics getOrderByDrawIdAndDate(Integer drawId);
 
+    IncomeStatistics getOrderByDrawExtIdAndDate(Integer drawExtId);
 }
