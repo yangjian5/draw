@@ -25,4 +25,6 @@ public interface DrawsMapper {
     List<Draws> getDrawsByDrawName(PageParam pageParam);
 
     int getCount(String drawName);
+
+    int updateOwnFinishCount(int drawId);
 }

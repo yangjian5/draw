@@ -120,5 +120,13 @@
     limit #{start,jdbcType=INTEGER},#{length,jdbcType=INTEGER}
   </select>
 
+  <update id="updateOwnFinishCount" parameterType="java.lang.Integer" >
+    update draws set ownFinishCount=ownFinishCount+1
+    where id = #{id,jdbcType=INTEGER} where ownCount > ownFinishCount
+  </update>
+
+
+
+
 
 </mapper>

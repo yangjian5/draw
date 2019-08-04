@@ -96,7 +96,12 @@ public class OrderService {
 
                 drawExtId = drawExt.getId();
                 drawId = drawExt.getDrawId();
-                Draws draws = drawsMapper.selectByPrimaryKey(drawId);
+
+                if (drawsMapper.updateOwnFinishCount(drawId) == 0){
+                    return null;
+                }
+
+                Draws draws = drawsMapper.selectByPrimaryKey(id);
                 if (draws == null) {
                     return null;
                 }
@@ -203,10 +208,18 @@ public class OrderService {
             }
         }
 
-        orderStatistics.setsPrice(order.getOrderPrice());
-        orderStatistics.setType(order.getType());
-        orderStatistics.setCreateTime(DataTypeUtils.formatCurDateTime());
-        orderStatisticsMapper.insert(orderStatistics);
+        OrderStatistics orderStatistics1 = orderStatisticsMapper.getOrderByDrawIdAndDate(order.getDrawId());
+        if (orderStatistics1 == null) {
+            orderStatistics.setsPrice(order.getOrderPrice());
+            orderStatistics.setType(order.getType());
+            orderStatistics.setCreateTime(DataTypeUtils.formatCurDateTime());
+            orderStatisticsMapper.insert(orderStatistics);
+        } else {
+            orderStatistics1.setsPrice(order.getOrderPrice());
+            orderStatistics1.setType(order.getType());
+            orderStatistics1.setCreateTime(DataTypeUtils.formatCurDateTime());
+            orderStatisticsMapper.updateByPrimaryKey(orderStatistics1);
+        }
 
         // 修改订单状态
         order.setStatus("2");

@@ -54,4 +54,9 @@
     order by id asc
   </select>
 
+  <select id="getOrderByDrawIdAndDate" resultMap="BaseResultMap" >
+    select id, drawId, sPrice, createTime, type
+    from order_statistics where drawId = #{arg0} and to_days(createTime) = to_days(now())
+  </select>
+
 </mapper>
