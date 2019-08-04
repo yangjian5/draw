@@ -75,4 +75,12 @@
     limit #{arg1}, #{arg2}
   </select>
 
+  <select id="getMaxPriceByDrawId" resultMap="BaseResultMap">
+    select id, extUid, drawId, extPrice, opName, opId, createTime, modifyTime
+    from draw_ext
+    where drawId = #{drawId,jdbcType=INTEGER}
+    order by extPrice asc
+    limit 1
+  </select>
+
 </mapper>

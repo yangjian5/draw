@@ -86,6 +86,7 @@ public class TransferController {
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             // 异常返回
+            return new ResultMsg("withdrawal", "withdrawal is fail");
         }
 
         restmap = new HashMap<>();

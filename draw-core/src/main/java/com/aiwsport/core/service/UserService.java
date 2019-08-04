@@ -54,6 +54,24 @@ public class UserService {
         return userMapper.getByOpenId(openid);
     }
 
+    public List<OperLog> getOpLog(Integer uid) {
+        List<OperLog> operLogs = operLogMapper.getByUid(uid);
+        operLogs.forEach(operLog -> {
+            String type = operLog.getType();
+            if ("1".equals(type)) {
+                operLog.setType("创造权交易");
+            } else if ("2".equals(type)) {
+                operLog.setType("所有权交易收益");
+            } else if ("3".equals(type)) {
+                operLog.setType("藏品收益");
+            } else if ("4".equals(type)) {
+                operLog.setType("收益提现");
+            }
+        });
+        return operLogs;
+    }
+
+
     public List<User> getUsersByNickName(String nickName, Integer page, Integer count) {
         PageParam pageParam = new PageParam();
         pageParam.setStart((page - 1) * count);
@@ -62,13 +80,22 @@ public class UserService {
         return userMapper.getUsersByNickName(pageParam);
     }
 
-    public boolean withdrawal(int uid, String tradeNo, int price){
+    public boolean withdrawal(int uid, String tradeNo, int price) {
         OperLog operLog = new OperLog();
         operLog.setUid(uid);
         operLog.setOrderId(0);
         operLog.setIncomeId(0);
         operLog.setType("4");
+        operLog.setTradeno(tradeNo);
         operLog.setIncomePrice(price);
+        String time = "2019-10-10 00:00:01";
+        try {
+            time = DataTypeUtils.formatCurDateTime();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        operLog.setCreateTime(time);
+        operLog.setModifyTime(time);
         return operLogMapper.insert(operLog) > 0;
     }
 

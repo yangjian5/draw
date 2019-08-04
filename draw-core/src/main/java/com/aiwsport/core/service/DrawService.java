@@ -96,41 +96,45 @@ public class DrawService {
         return drawMapper.updateByPrimaryKey(draw) > 0;
     }
 
-    public ShowDraws getDraws(int sort, String maxId){
+    public ShowDrawExts getDraws(int sort, String maxId){
         int start = 0;
-        int end = start + 1;
+        int end = start + 14;
         int id;
         int page = 1;
         if (StringUtils.isNotBlank(maxId)) {
             String[] maxs = maxId.split("-");
             id = Integer.parseInt(maxs[0]);
             start = (Integer.parseInt(maxs[1]) -1 ) * 15;
-            end = start + 1;
+            end = start + 14;
             page = Integer.parseInt(maxs[1]) + 1;
         } else {
             Draws draw = drawMapper.getMaxOne();
             if (draw == null) {
-                return new ShowDraws();
+                return new ShowDrawExts();
             }
             id = draw.getId();
         }
 
         List<Draws> draws = drawMapper.getIndex(id, start, end, sort);
-        ShowDraws showDraws = buildShowDraws(draws);
-        showDraws.setMaxId(id + "-" + page);
-        return showDraws;
+        ShowDrawExts showDrawExts = buildShowDrawsIndex(draws);
+        if (draws.size() < 15) {
+            showDrawExts.setMaxId("-1");
+        } else {
+            showDrawExts.setMaxId(id + "-" + page);
+        }
+        return showDrawExts;
     }
 
     public ShowDrawExts getDrawExts(int sort, String maxId){
         int start = 0;
-        int end = start + 1;
+        int end = start + 14;
         int id;
         int page = 1;
         if (StringUtils.isNotBlank(maxId)) {
             String[] maxs = maxId.split("-");
             id = Integer.parseInt(maxs[0]);
             start = (Integer.parseInt(maxs[1]) -1 ) * 15;
-            end = start + 1;
+            end = start + 14;
             page = Integer.parseInt(maxs[1]) + 1;
         } else {
             DrawExt drawExt = drawExtMapper.getMaxOne();
@@ -142,39 +146,51 @@ public class DrawService {
 
         List<DrawExt> drawExts = drawExtMapper.getIndex(id, start, end, sort);
         ShowDrawExts showDrawExts = buildShowDrawExts(drawExts);
-        showDrawExts.setMaxId(id + "-" + page);
+        if (drawExts.size() < 15) {
+            showDrawExts.setMaxId("-1");
+        } else {
+            showDrawExts.setMaxId(id + "-" + page);
+        }
         return showDrawExts;
     }
 
     public ShowDraws getMyDraws(int uid, String maxId){
         int start = 0;
-        int end = start + 1;
+        int end = start + 14;
         int page = 1;
         if (StringUtils.isNotBlank(maxId)) {
             start = (Integer.parseInt(maxId) -1 ) * 15;
-            end = start + 2;
+            end = start + 14;
             page = Integer.parseInt(maxId) + 1;
         }
 
         List<Draws> draws = drawMapper.getMyList(uid, start, end);
         ShowDraws showDraws = buildShowDraws(draws);
-        showDraws.setMaxId(page+"");
+        if (draws.size() < 15) {
+            showDraws.setMaxId("-1");
+        } else {
+            showDraws.setMaxId(page+"");
+        }
         return showDraws;
     }
 
     public ShowDrawExts getMyDrawExts(int uid, String maxId){
         int start = 0;
-        int end = start + 1;
+        int end = start + 14;
         int page = 1;
         if (StringUtils.isNotBlank(maxId)) {
             start = (Integer.parseInt(maxId) -1 ) * 15;
-            end = start + 2;
+            end = start + 14;
             page = Integer.parseInt(maxId) + 1;
         }
 
         List<DrawExt> drawExts = drawExtMapper.getMyList(uid, start, end);
         ShowDrawExts showDrawExts = buildShowDrawExts(drawExts);
-        showDrawExts.setMaxId(page+"");
+        if (drawExts.size() < 15) {
+            showDrawExts.setMaxId("-1");
+        } else {
+            showDrawExts.setMaxId(page+"");
+        }
         return showDrawExts;
     }
 
@@ -230,6 +246,17 @@ public class DrawService {
 
         ShowDrawExts showDrawExts = new ShowDrawExts();
         showDrawExts.setDrawExt(drawExts);
+        return showDrawExts;
+    }
+
+    private ShowDrawExts buildShowDrawsIndex (List<Draws> draws) {
+        ShowDrawExts showDrawExts = new ShowDrawExts();
+        showDrawExts.setDrawExt(new ArrayList<>());
+        draws.forEach(draws1 -> {
+            DrawExt drawExt = drawExtMapper.getMaxPriceByDrawId(draws1.getId());
+            drawExt.setDraws(draws1);
+            showDrawExts.getDrawExt().add(drawExt);
+        });
         return showDrawExts;
     }
 

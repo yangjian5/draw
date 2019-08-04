@@ -86,7 +86,7 @@
     select id, prodUid, prodName, prodTel, drawPrice, drawName, drawStatus, drawWidth, drawHigh, authName,
     urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, opName, opId, createTime, modifyTime
     from draws
-    where id &lt;= #{arg0}
+    where id &lt;= #{arg0} and drawStatus = 1
     order by drawPrice
       <if test="arg3 == 1">
         desc

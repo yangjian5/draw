@@ -13,4 +13,6 @@ public interface OperLogMapper {
     List<OperLog> selectAll();
 
     int updateByPrimaryKey(OperLog record);
+
+    List<OperLog> getByUid(Integer uid);
 }

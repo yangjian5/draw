@@ -6,6 +6,7 @@
     <id column="uid" property="uid" jdbcType="INTEGER" />
     <result column="orderId" property="orderId" jdbcType="INTEGER" />
     <result column="incomeId" property="incomeId" jdbcType="INTEGER" />
+    <result column="tradeno" property="tradeno" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="incomePrice" property="incomePrice" jdbcType="DECIMAL" />
     <result column="opName" property="opName" jdbcType="VARCHAR" />
@@ -21,10 +22,10 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into oper_log (uid, orderId, incomeId, type,
+    insert into oper_log (uid, orderId, incomeId, tradeno, type,
       incomePrice, opName, opId, 
       createTime, modifyTime)
-    values (#{uid,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{incomeId,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR},
+    values (#{uid,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{incomeId,jdbcType=INTEGER}, #{tradeno,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR},
       #{incomePrice,jdbcType=DECIMAL}, #{opName,jdbcType=VARCHAR}, #{opId,jdbcType=INTEGER},
       #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
@@ -33,6 +34,7 @@
     set orderId = #{orderid,jdbcType=INTEGER},
       uid = #{uid,jdbcType=INTEGER},
       incomeId = #{incomeId,jdbcType=INTEGER},
+      tradeno = #{tradeno,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
       incomePrice = #{incomePrice,jdbcType=DECIMAL},
       opName = #{opName,jdbcType=VARCHAR},
@@ -42,12 +44,18 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, uid, orderId, incomeId, type, incomePrice, opName, opId, createTime, modifyTime
+    select id, uid, orderId, incomeId, tradeno, type, incomePrice, opName, opId, createTime, modifyTime
     from oper_log
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, uid, orderId, incomeId, type, incomePrice, opName, opId, createTime, modifyTime
+    select id, uid, orderId, incomeId, tradeno, type, incomePrice, opName, opId, createTime, modifyTime
     from oper_log
   </select>
+  <select id="getByUid" resultMap="BaseResultMap" >
+    select id, uid, orderId, incomeId, tradeno, type, incomePrice, opName, opId, createTime, modifyTime
+    from oper_log where uid = #{uid,jdbcType=INTEGER}
+  </select>
+
+
 </mapper>

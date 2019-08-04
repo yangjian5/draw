@@ -1,7 +1,5 @@
 package com.aiwsport.core.entity;
 
-import java.util.Date;
-
 public class OperLog {
     private Integer id;
 
@@ -11,6 +9,8 @@ public class OperLog {
 
     private Integer incomeId;
 
+    private String tradeno;
+
     private String type;
 
     private Integer incomePrice;
@@ -19,9 +19,9 @@ public class OperLog {
 
     private Integer opId;
 
-    private Date createTime;
+    private String createTime;
 
-    private Date modifyTime;
+    private String modifyTime;
 
     public Integer getId() {
         return id;
@@ -79,19 +79,19 @@ public class OperLog {
         this.opId = opId;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public Date getModifyTime() {
+    public String getModifyTime() {
         return modifyTime;
     }
 
-    public void setModifyTime(Date modifyTime) {
+    public void setModifyTime(String modifyTime) {
         this.modifyTime = modifyTime;
     }
 
@@ -101,5 +101,13 @@ public class OperLog {
 
     public void setUid(Integer uid) {
         this.uid = uid;
+    }
+
+    public String getTradeno() {
+        return tradeno;
+    }
+
+    public void setTradeno(String tradeno) {
+        this.tradeno = tradeno;
     }
 }

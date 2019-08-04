@@ -60,4 +60,13 @@ public class UserController {
         User user = userService.getUser(open_id);
         return new ResultMsg("get_user", user);
     }
+
+    @RequestMapping(value = "/get_op_log.json")
+    public ResultMsg getOpLog(@ParamVerify(isNotBlank = true)String open_id) {
+        User user = userService.getUser(open_id);
+        if (user == null) {
+            throw new DrawServerException(DrawServerExceptionFactor.BIND_ERROR, "user is exist");
+        }
+        return new ResultMsg("get_op_log", userService.getOpLog(user.getId()));
+    }
 }
