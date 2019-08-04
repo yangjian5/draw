@@ -31,13 +31,13 @@ public class DrawController {
     @Autowired
     private UserService userService;
 
-    private static final String IMG_HOST = "https://www.yangjian.com";
+    private static final String IMG_HOST = "https://aiwsport.com";
 
-    private static final String PATH = "/home/www-data/data1/draw";
+    private static final String PATH = "/data1/draw";
 
-    private static final String SIMPLE_PATH = "/home/www-data/data1/draw_simple";
+    private static final String SIMPLE_PATH = "/data1/draw_simple";
 
-    private static final String INCOME_PATH = "/home/www-data/data1/income";
+    private static final String INCOME_PATH = "/data1/income";
 
     @RequestMapping(value = "/index.json")
     public ResultMsg index(@ParamVerify(isNumber = true)int type,
