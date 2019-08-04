@@ -44,7 +44,7 @@
 
   <select id="getStatistics" resultMap="BaseResultMap" >
     select id, drawId, incomePrice, createTime
-    from income_statistics where drawId = #{arg0}
+    from income_statistics where drawId = #{arg0} and
     <if test="arg1 == 1">
       DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(createTime)
     </if>
