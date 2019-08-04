@@ -727,6 +727,7 @@ get - /api/user/select
 #### 出参
 
 ```
+
 {
     "code": 200,
     "message": "userSelect",
@@ -759,6 +760,7 @@ get - /api/user/select
     },
     "success": true
 }
+
 ```
 
 
@@ -862,69 +864,6 @@ get - /api/banner/update
                 "op_id": null,
                 "create_time": "2019-08-04 10:25:43.0",
                 "modify_time": "2019-08-04 10:25:43.0"
-            },
-            {
-                "id": 19,
-                "prod_uid": 1,
-                "prod_name": "yangjian",
-                "prod_tel": "13200008888",
-                "draw_price": 0,
-                "draw_name": "哪吒脑海",
-                "draw_status": "0",
-                "draw_width": 430,
-                "draw_high": 760,
-                "auth_name": "还算",
-                "url_hd": "https://aiwsport.com/data1/draw_simple/1564902854526_WX20190618-103633@2x.png",
-                "url_simple": "https://aiwsport.com/data1/draw/1564902854526_WX20190618-103633@2x.png",
-                "draw_desc": "萨达奥大所",
-                "own_count": 0,
-                "own_finish_count": 0,
-                "op_name": null,
-                "op_id": null,
-                "create_time": "2019-08-04 15:14:14.0",
-                "modify_time": "2019-08-04 15:14:14.0"
-            },
-            {
-                "id": 20,
-                "prod_uid": 1,
-                "prod_name": "yangjian",
-                "prod_tel": "13200008888",
-                "draw_price": 0,
-                "draw_name": "哪吒脑海",
-                "draw_status": "0",
-                "draw_width": 430,
-                "draw_high": 760,
-                "auth_name": "还算",
-                "url_hd": "https://aiwsport.com/data1/draw_simple/1564902941397_WX20190618-103633@2x.png",
-                "url_simple": "https://aiwsport.com/data1/draw/1564902854526_WX20190618-103633@2x.png",
-                "draw_desc": "萨达奥大所",
-                "own_count": 0,
-                "own_finish_count": 0,
-                "op_name": null,
-                "op_id": null,
-                "create_time": "2019-08-04 15:15:41.0",
-                "modify_time": "2019-08-04 15:15:41.0"
-            },
-            {
-                "id": 21,
-                "prod_uid": 1,
-                "prod_name": "yangjian",
-                "prod_tel": "13200008888",
-                "draw_price": 0,
-                "draw_name": "哪吒脑海",
-                "draw_status": "0",
-                "draw_width": 430,
-                "draw_high": 760,
-                "auth_name": "还算",
-                "url_hd": "https://aiwsport.com/data1/draw_simple/1564903261973_WX20190618-103633@2x.png",
-                "url_simple": "https://aiwsport.com/data1/draw/1564903261973_WX20190618-103633@2x.png",
-                "draw_desc": "萨达奥大所",
-                "own_count": 0,
-                "own_finish_count": 0,
-                "op_name": null,
-                "op_id": null,
-                "create_time": "2019-08-04 15:21:09.0",
-                "modify_time": "2019-08-04 15:21:09.0"
             }
         ],
         "page": 1,
