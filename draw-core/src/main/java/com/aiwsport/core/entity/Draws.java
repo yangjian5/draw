@@ -43,6 +43,8 @@ public class Draws {
 
     private String modifyTime;
 
+    private DrawExt drawExt;
+
     public Integer getId() {
         return id;
     }
@@ -209,5 +211,13 @@ public class Draws {
 
     public void setIsSale(String isSale) {
         this.isSale = isSale;
+    }
+
+    public DrawExt getDrawExt() {
+        return drawExt;
+    }
+
+    public void setDrawExt(DrawExt drawExt) {
+        this.drawExt = drawExt;
     }
 }

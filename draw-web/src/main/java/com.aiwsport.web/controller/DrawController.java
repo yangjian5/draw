@@ -49,11 +49,7 @@ public class DrawController {
             max_id = "";
         }
 
-        if (type == 1) {
-            return new ResultMsg("index", drawService.getDraws(sort, max_id));
-        } else {
-            return new ResultMsg("index", drawService.getDrawExts(sort, max_id));
-        }
+        return new ResultMsg("index", drawService.getDraws(sort, max_id, type));
     }
 
     @RequestMapping(value = "/branner.json")
@@ -70,13 +66,8 @@ public class DrawController {
             throw new DrawServerException(DrawServerExceptionFactor.PARAM_VERIFY_FAIL, "user is not exist");
         }
 
-        if (type == 1) {
-            return new ResultMsg("index", drawService.getMyDraws(user.getId(), max_id));
-        } else {
-            return new ResultMsg("index", drawService.getMyDrawExts(user.getId(), max_id));
-        }
+        return new ResultMsg("my_draw", drawService.getMyDraws(user.getId(), max_id, type));
     }
-
 
     @RequestMapping(value = "/upload_image.json")
     public ResultMsg uploadImage(@ParamVerify(isNotBlank = true)String open_id,
