@@ -8,6 +8,7 @@ import com.aiwsport.core.service.BackService;
 import com.aiwsport.web.verify.ParamVerify;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -40,7 +41,7 @@ public class BackController {
     }
 
     @RequestMapping(value = "/user/select.json")
-    public ResultMsg userSelect(@ParamVerify(isNotNull = true) String nickName,
+    public ResultMsg userSelect(@RequestParam(name = "nickName", required = false, defaultValue = "") String nickName,
                                 @ParamVerify(isNumber = true) int page,
                                 @ParamVerify(isNumber = true) int count) {
         if (page <= 0 || count < 0) {
@@ -51,12 +52,13 @@ public class BackController {
 
 
     @RequestMapping(value = "/draw/select.json")
-    public ResultMsg drawSelect(@ParamVerify(isNotNull = true) String drawName,
+    public ResultMsg drawSelect(@RequestParam(name = "drawName", required = false, defaultValue = "") String drawName,
                                 @ParamVerify(isNumber = true) int page,
                                 @ParamVerify(isNumber = true) int count) {
         if (page <= 0 || count < 0) {
             throw new DrawServerException(DrawServerExceptionFactor.PARAM_COUNT_FAIL, "param is error");
         }
+
         return new ResultMsg("drawSelect", backService.showDraws(drawName, page, count));
     }
 
