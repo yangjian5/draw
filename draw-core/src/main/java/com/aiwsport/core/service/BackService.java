@@ -4,6 +4,7 @@ import com.aiwsport.core.entity.DrawBranner;
 import com.aiwsport.core.entity.Draws;
 import com.aiwsport.core.entity.User;
 import com.aiwsport.core.mapper.DrawBrannerMapper;
+import com.aiwsport.core.mapper.DrawsMapper;
 import com.aiwsport.core.model.ShowDraws;
 import com.aiwsport.core.model.ShowUsers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class BackService {
     private UserService userService;
     @Autowired
     private DrawService drawService;
+    @Autowired
+    private DrawsMapper drawMapper;
+
 
     public boolean bannerUpdate(DrawBranner drawBranner) {
         return drawBrannerMapper.updateByPrimaryKey(drawBranner) > 0;
@@ -56,5 +60,12 @@ public class BackService {
         showDraws.setTotalCount(drawCount);
         showDraws.setDraws(drawsByDrawName);
         return showDraws;
+    }
+
+    public boolean drawCheck(int id, int drawStatus) {
+        Draws draws = new Draws();
+        draws.setId(id);
+        draws.setDrawStatus(drawStatus + "");
+        return drawMapper.updateDrawsStatus(draws) > 0;
     }
 }

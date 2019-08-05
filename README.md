@@ -814,15 +814,6 @@ get - /api/banner/update
 | drawId    |   int | 图片ID  |
 | sort    |   int | 排序  |
 
- private String brannerUrl;
-
-    private String clickUrl;
-
-    private String type;
-
-    private Integer drawId;
-
-    private Integer drawExtId;
 
 
 ### 19、banner delete

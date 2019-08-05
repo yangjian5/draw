@@ -27,4 +27,6 @@ public interface DrawsMapper {
     int getCount(String drawName);
 
     int updateOwnFinishCount(int drawId);
+
+    int updateDrawsStatus(Draws record);
 }

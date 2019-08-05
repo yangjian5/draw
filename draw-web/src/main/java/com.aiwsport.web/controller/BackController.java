@@ -62,5 +62,12 @@ public class BackController {
         return new ResultMsg("drawSelect", backService.showDraws(drawName, page, count));
     }
 
+    @RequestMapping(value = "/draw/check.json")
+    public ResultMsg drawCheck(@ParamVerify(isNumber = true) int id,
+                               @ParamVerify(isNumber = true) int drawStatus) {
+
+        return new ResultMsg("drawCheck", backService.drawCheck(id, drawStatus));
+    }
+
 
 }

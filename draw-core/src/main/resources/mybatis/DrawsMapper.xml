@@ -35,7 +35,7 @@
       drawPrice, drawName, drawStatus, drawWidth, drawHigh,
       authName, urlHd, urlSimple,
       drawDesc, ownCount, ownFinishCount,isSale
-      opName, opId, createTime, 
+      opName, opId, createTime,
       modifyTime)
     values (#{prodUid,jdbcType=INTEGER}, #{prodName,jdbcType=VARCHAR}, #{prodTel,jdbcType=VARCHAR},
       #{drawPrice,jdbcType=INTEGER}, #{drawName,jdbcType=VARCHAR}, #{drawStatus,jdbcType=VARCHAR},
@@ -126,6 +126,12 @@
     update draws set ownFinishCount=ownFinishCount+1
     where id = #{id,jdbcType=INTEGER} where ownCount > ownFinishCount
   </update>
+
+  <update id="updateDrawsStatus" parameterType="com.aiwsport.core.entity.Draws">
+    update draws set drawStatus=#{drawStatus,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
 
 
 
