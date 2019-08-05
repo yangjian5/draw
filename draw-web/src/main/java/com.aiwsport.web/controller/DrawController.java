@@ -155,5 +155,4 @@ public class DrawController {
         return new ResultMsg("update_owner_draw", res);
     }
 
-
 }
