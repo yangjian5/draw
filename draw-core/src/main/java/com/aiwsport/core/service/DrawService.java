@@ -99,6 +99,12 @@ public class DrawService {
         return drawMapper.updateByPrimaryKey(draw) > 0;
     }
 
+    public Draws getDraw(int id) {
+        Draws draws = drawMapper.selectByPrimaryKey(id);
+        draws.setDrawExt(drawExtMapper.selectByPrimaryKey(id));
+        return draws;
+    }
+
     public ShowDraws getDraws(int sort, String maxId, int type) {
         int start = 0;
         int end = start + 14;
@@ -129,10 +135,10 @@ public class DrawService {
 
         if (type == 1) {
             List<Draws> draws = drawMapper.getIndex(id, start, end, sort);
-            return buildShowDraws(draws, id+"-"+page);
+            return buildShowDraws(draws, id + "-" + page);
         } else {
             List<DrawExt> drawExts = drawExtMapper.getIndex(id, start, end, sort);
-            return buildShowDrawExts(drawExts, id+"-"+page);
+            return buildShowDrawExts(drawExts, id + "-" + page);
         }
     }
 
