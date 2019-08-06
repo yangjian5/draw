@@ -42,15 +42,21 @@ public class DrawController {
     private static final String INCOME_PATH = "/data1/income";
 
     @RequestMapping(value = "/index.json")
-    public ResultMsg index(@ParamVerify(isNumber = true)int type,
-                           @ParamVerify(isNumber = true)int sort,
+    public ResultMsg index(@ParamVerify(isNumber = true) int type,
+                           @ParamVerify(isNumber = true) int sort,
                            String max_id) {
         if ("0".equals(max_id)) {
             max_id = "";
         }
-
         return new ResultMsg("index", drawService.getDraws(sort, max_id, type));
     }
+
+    @RequestMapping(value = "/draw/get.json")
+    public ResultMsg index(@ParamVerify(isNumber = true) int drawId) {
+
+        return new ResultMsg("drawGet", drawService.getDraw(drawId));
+    }
+
 
     @RequestMapping(value = "/branner.json")
     public ResultMsg branner() {
@@ -87,8 +93,8 @@ public class DrawController {
 
 
     @RequestMapping(value = "/my_draw.json")
-    public ResultMsg myDraw(@ParamVerify(isNumber = true)int type,
-                            @ParamVerify(isNotBlank = true)String open_id,
+    public ResultMsg myDraw(@ParamVerify(isNumber = true) int type,
+                            @ParamVerify(isNotBlank = true) String open_id,
                             String max_id) {
         User user = userService.getUser(open_id);
         if (user == null) {
@@ -99,22 +105,22 @@ public class DrawController {
     }
 
     @RequestMapping(value = "/upload_image.json")
-    public ResultMsg uploadImage(@ParamVerify(isNotBlank = true)String open_id,
-                                 @ParamVerify(isNotBlank = true)String name,
-                                 @ParamVerify(isNumber = true, isNotBlank=true)String tel_no,
-                                 @ParamVerify(isNotBlank = true)String draw_name,
-                                 @ParamVerify(isNotBlank = true)String author,
-                                 @ParamVerify(isNotBlank = true)String desc,
-                                 @ParamVerify(isNumber = true)int draw_width,
-                                 @ParamVerify(isNumber = true)int draw_high,
+    public ResultMsg uploadImage(@ParamVerify(isNotBlank = true) String open_id,
+                                 @ParamVerify(isNotBlank = true) String name,
+                                 @ParamVerify(isNumber = true, isNotBlank = true) String tel_no,
+                                 @ParamVerify(isNotBlank = true) String draw_name,
+                                 @ParamVerify(isNotBlank = true) String author,
+                                 @ParamVerify(isNotBlank = true) String desc,
+                                 @ParamVerify(isNumber = true) int draw_width,
+                                 @ParamVerify(isNumber = true) int draw_high,
                                  @RequestParam("draw_file") MultipartFile file) {
 
-        try{
+        try {
             String fileName = file.getOriginalFilename();
             InputStream inputStream = file.getInputStream();
-            String imgName = System.currentTimeMillis()+"_"+fileName;
-            System.out.println("imgName "+imgName);
-            if(!FileUtil.writeFile(BASE+PATH, BASE+SIMPLE_PATH, imgName, inputStream)){
+            String imgName = System.currentTimeMillis() + "_" + fileName;
+            System.out.println("imgName " + imgName);
+            if (!FileUtil.writeFile(BASE + PATH, BASE + SIMPLE_PATH, imgName, inputStream)) {
                 throw new DrawServerException(DrawServerExceptionFactor.FILE_ERROR);
             }
 
@@ -123,8 +129,8 @@ public class DrawController {
                 throw new DrawServerException(DrawServerExceptionFactor.PARAM_VERIFY_FAIL, "open_id is not exist");
             }
 
-            boolean res = drawService.createDraw(user.getId(), name, tel_no, draw_name, author, desc, IMG_HOST+SIMPLE_PATH+"/"+imgName,
-                    IMG_HOST+PATH+"/"+imgName, draw_width, draw_high);
+            boolean res = drawService.createDraw(user.getId(), name, tel_no, draw_name, author, desc, IMG_HOST + SIMPLE_PATH + "/" + imgName,
+                    IMG_HOST + PATH + "/" + imgName, draw_width, draw_high);
             if (!res) {
                 throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "create draw is error");
             }
@@ -136,11 +142,11 @@ public class DrawController {
     }
 
     @RequestMapping(value = "/update_draw.json")
-    public ResultMsg updateDraw(@ParamVerify(isNumber = true)int draw_id,
-                                @ParamVerify(isNumber = true)int create_price,
-                                @ParamVerify(isNotBlank = true)int owner_prize,
-                                @ParamVerify(isNotBlank = true)int owner_count,
-                                @ParamVerify(isNotBlank = true)String is_sale){
+    public ResultMsg updateDraw(@ParamVerify(isNumber = true) int draw_id,
+                                @ParamVerify(isNumber = true) int create_price,
+                                @ParamVerify(isNotBlank = true) int owner_prize,
+                                @ParamVerify(isNotBlank = true) int owner_count,
+                                @ParamVerify(isNotBlank = true) String is_sale) {
         boolean res = drawService.updateDraw(draw_id, create_price, owner_prize, owner_count, is_sale);
         if (!res) {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "update draw is error");
@@ -150,20 +156,20 @@ public class DrawController {
     }
 
     @RequestMapping(value = "/update_owner_draw.json")
-    public ResultMsg updateOwnerDraw(@ParamVerify(isNotBlank = true)String open_id,
-                                     @ParamVerify(isNumber = true)int draw_ext_id,
+    public ResultMsg updateOwnerDraw(@ParamVerify(isNotBlank = true) String open_id,
+                                     @ParamVerify(isNumber = true) int draw_ext_id,
                                      @ParamVerify(isNumber = true) @RequestParam(name = "owner_prize", required = false, defaultValue = "0") int owner_prize,
                                      @ParamVerify(isNumber = true) @RequestParam(name = "income_prize", required = false, defaultValue = "0") int income_prize,
-                                     @RequestParam(name = "income_file", required = false) MultipartFile file){
+                                     @RequestParam(name = "income_file", required = false) MultipartFile file) {
         if (file != null && income_prize > 0) { // 上传收益
             try {
                 String fileName = file.getOriginalFilename();
                 InputStream inputStream = file.getInputStream();
-                String imgName = System.currentTimeMillis()+"_"+fileName;
-                if(!FileUtil.writeFile(BASE+INCOME_PATH, "", imgName, inputStream)){
+                String imgName = System.currentTimeMillis() + "_" + fileName;
+                if (!FileUtil.writeFile(BASE + INCOME_PATH, "", imgName, inputStream)) {
                     throw new DrawServerException(DrawServerExceptionFactor.FILE_ERROR);
                 }
-                String paySing = drawService.uploadIncome(open_id, draw_ext_id, income_prize, owner_prize, IMG_HOST+INCOME_PATH+"/"+imgName);
+                String paySing = drawService.uploadIncome(open_id, draw_ext_id, income_prize, owner_prize, IMG_HOST + INCOME_PATH + "/" + imgName);
                 return new ResultMsg("update_owner_draw-uploadIncome", paySing);
             } catch (Exception e) {
                 throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, e.getMessage());

@@ -9,6 +9,7 @@ import com.aiwsport.core.utils.DataTypeUtils;
 import com.aiwsport.core.utils.HttpUtils;
 import com.aiwsport.core.utils.PayUtil;
 import com.aiwsport.core.utils.XmlUtil;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import java.util.Map;
 
 @Service
 public class OrderService {
+
 
     @Autowired
     private DrawExtMapper drawExtMapper;
@@ -284,5 +286,19 @@ public class OrderService {
         }
         return response;
     }
+
+
+    public List<Order> getOrderByCode(String code, int page, int count) {
+        PageParam pageParam = new PageParam();
+        pageParam.setStart((page - 1) * count);
+        pageParam.setLength(count);
+        pageParam.setDrawName(code);
+        return orderMapper.getOrderByCode(pageParam);
+    }
+
+    public int getOrderCount(String code) {
+        return orderMapper.getCount(code);
+    }
+
 
 }
