@@ -57,6 +57,35 @@ public class DrawController {
         return new ResultMsg("branner", drawService.getBranner());
     }
 
+    @RequestMapping(value = "/upload_branner.json")
+    public ResultMsg uploadImage(@ParamVerify(isNotBlank = true) String click_url,
+                                 @ParamVerify(isNumber = true)Integer draw_id,
+                                 @ParamVerify(isNumber = true)int type,
+                                 @ParamVerify(isNumber = true)int sort,
+                                 @RequestParam(name = "branner_file", required = false) MultipartFile file) {
+
+        try {
+            String brannerUrl = "";
+            if (file != null) {
+                String fileName = file.getOriginalFilename();
+                InputStream inputStream = file.getInputStream();
+                if(!FileUtil.writeFile(BASE+PATH, "", System.currentTimeMillis()+"_"+fileName, inputStream)){
+                    throw new DrawServerException(DrawServerExceptionFactor.FILE_ERROR);
+                }
+                brannerUrl = IMG_HOST+SIMPLE_PATH+"/"+System.currentTimeMillis()+"_"+fileName;
+            }
+            boolean res = drawService.uploadBranner(click_url, draw_id, type, sort, brannerUrl);
+            if (!res) {
+                throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "upload_branner is fail ");
+            }
+        } catch (Exception e) {
+            throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "upload_branner is fail ");
+        }
+
+        return new ResultMsg("upload_branner", true);
+    }
+
+
     @RequestMapping(value = "/my_draw.json")
     public ResultMsg myDraw(@ParamVerify(isNumber = true)int type,
                             @ParamVerify(isNotBlank = true)String open_id,

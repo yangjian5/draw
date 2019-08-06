@@ -15,6 +15,8 @@ public class DrawBranner {
 
     private Integer drawExtId;
 
+    private Integer sort;
+
     private String opName;
 
     private Integer opId;
@@ -101,5 +103,13 @@ public class DrawBranner {
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 }
