@@ -41,15 +41,12 @@
 
   <select id="getStatistics" resultMap="BaseResultMap" >
     select id, drawId, sPrice, createTime, type
-    from order_statistics where drawId = #{arg0} and type = #{arg2} and
+    from order_statistics where drawId = #{arg0} and type = #{arg2}
     <if test="arg1 == 1">
-      DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(createTime)
+      and DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(createTime)
     </if>
     <if test="arg1 == 2">
-      DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(createTime)
-    </if>
-    <if test="arg1 == 3">
-      1=1
+      and DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(createTime)
     </if>
     order by id asc
   </select>
