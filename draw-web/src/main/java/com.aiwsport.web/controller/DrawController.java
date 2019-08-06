@@ -126,7 +126,6 @@ public class DrawController {
                                      @ParamVerify(isNumber = true) @RequestParam(name = "owner_prize", required = false, defaultValue = "0") int owner_prize,
                                      @ParamVerify(isNumber = true) @RequestParam(name = "income_prize", required = false, defaultValue = "0") int income_prize,
                                      @RequestParam(name = "income_file", required = false) MultipartFile file){
-        boolean res;
         if (file != null && income_prize > 0) { // 上传收益
             try {
                 String fileName = file.getOriginalFilename();
@@ -141,9 +140,11 @@ public class DrawController {
                 throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, e.getMessage());
             }
         } else { // 修改所有权价格
-            res = drawService.updateDrawExt(draw_ext_id, owner_prize);
+            if (!drawService.updateDrawExt(draw_ext_id, owner_prize)) {
+                throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "update_owner_draw is error");
+            }
         }
-        return new ResultMsg("update_owner_draw", res);
+        return new ResultMsg("update_owner_draw", true);
     }
 
 }
