@@ -64,12 +64,11 @@ public class DrawController {
     }
 
     @RequestMapping(value = "/upload_branner.json")
-    public ResultMsg uploadImage(@ParamVerify(isNotBlank = true) String click_url,
-                                 @ParamVerify(isNumber = true)Integer draw_id,
+    public ResultMsg uploadImage(String click_url,
+                                 Integer draw_id,
                                  @ParamVerify(isNumber = true)int type,
                                  @ParamVerify(isNumber = true)int sort,
                                  @RequestParam(name = "branner_file", required = false) MultipartFile file) {
-
         try {
             String brannerUrl = "";
             if (file != null) {
