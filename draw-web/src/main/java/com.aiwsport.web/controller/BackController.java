@@ -70,4 +70,16 @@ public class BackController {
     }
 
 
+    @RequestMapping(value = "/order/select.json")
+    public ResultMsg orderSelect(@RequestParam(name = "code", required = false, defaultValue = "") String code,
+                                @ParamVerify(isNumber = true) int page,
+                                @ParamVerify(isNumber = true) int count) {
+        if (page <= 0 || count < 0) {
+            throw new DrawServerException(DrawServerExceptionFactor.PARAM_COUNT_FAIL, "param is error");
+        }
+
+        return new ResultMsg("orderSelect", backService.getOrders(code, page, count));
+    }
+
+
 }

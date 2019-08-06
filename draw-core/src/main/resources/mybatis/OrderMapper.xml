@@ -76,4 +76,18 @@
     from order_info
     where uid = #{arg0} and status = #{arg1}
   </select>
+
+  <select id="getCount" resultType="int" parameterType="java.lang.String">
+    select count(1)
+    from order_info
+    where code LIKE CONCAT('%',#{code,jdbcType=VARCHAR},'%')
+  </select>
+  <select id="getOrderByCode" resultMap="BaseResultMap" parameterType="com.aiwsport.core.entity.PageParam">
+   select id, code, drawId, drawExtId, uid, oName, oTel, type, status, orderPrice, info, opName, opid,
+    createTime, modifyTime
+    from order_info
+    where code LIKE CONCAT('%',#{code,jdbcType=VARCHAR},'%')
+    limit #{start,jdbcType=INTEGER},#{length,jdbcType=INTEGER}
+  </select>
+
 </mapper>
