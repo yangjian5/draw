@@ -59,17 +59,17 @@
       <if test="drawId != null">
         drawId = #{drawId,jdbcType=INTEGER},
       </if>
-      <if test="opname != null">
-        opname = #{opname,jdbcType=VARCHAR},
+      <if test="opName != null">
+        opName = #{opName,jdbcType=VARCHAR},
       </if>
-      <if test="opid != null">
-        opId = #{opid,jdbcType=INTEGER},
+      <if test="opId != null">
+        opId = #{opId,jdbcType=INTEGER},
       </if>
-      <if test="createtime != null">
-        createTime = #{createtime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="modifytime != null">
-        modifyTime = #{modifytime,jdbcType=TIMESTAMP}
+      <if test="modifyTime != null">
+        modifyTime = #{modifyTime,jdbcType=TIMESTAMP}
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
