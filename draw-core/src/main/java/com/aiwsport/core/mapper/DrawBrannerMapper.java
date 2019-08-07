@@ -13,4 +13,7 @@ public interface DrawBrannerMapper {
     List<DrawBranner> selectAll();
 
     int updateByPrimaryKey(DrawBranner record);
+
+    int updateByPrimaryKeyWithIf(DrawBranner record);
+
 }

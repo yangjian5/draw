@@ -36,7 +36,7 @@ public class BackService {
 
 
     public boolean bannerUpdate(DrawBranner drawBranner) {
-        return drawBrannerMapper.updateByPrimaryKey(drawBranner) > 0;
+        return drawBrannerMapper.updateByPrimaryKeyWithIf(drawBranner) > 0;
     }
 
     public boolean bannerInsert(DrawBranner drawBranner) {

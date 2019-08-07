@@ -43,6 +43,39 @@
       modifyTime = #{modifytime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <update id="updateByPrimaryKeyWithIf" parameterType="com.aiwsport.core.entity.DrawBranner" >
+    update draw_branner
+    <set>
+      <if test="brannerUrl != null">
+        brannerUrl = #{brannerurl,jdbcType=VARCHAR},
+      </if>
+      <if test="clickUrl != null">
+        clickUrl = #{clickUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="drawid != null">
+        drawid = #{drawid,jdbcType=INTEGER},
+      </if>
+      <if test="opname != null">
+        opname = #{opname,jdbcType=VARCHAR},
+      </if>
+      <if test="opid != null">
+        opId = #{opid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null">
+        modifyTime = #{modifytime,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, brannerUrl, clickUrl, type, drawId, opName, opId, createTime,
     modifyTime
@@ -54,4 +87,5 @@
     modifyTime
     from draw_branner order by sort asc
   </select>
+
 </mapper>
