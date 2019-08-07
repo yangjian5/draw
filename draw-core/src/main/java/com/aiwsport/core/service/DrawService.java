@@ -85,6 +85,16 @@ public class DrawService {
         return showBranners;
     }
 
+    public boolean uploadBranner(String clickUrl, int drawId, int type, int sort, String brannerUrl) {
+        DrawBranner drawBranner = new DrawBranner();
+        drawBranner.setBrannerUrl(brannerUrl);
+        drawBranner.setClickUrl(clickUrl);
+        drawBranner.setDrawId(drawId);
+        drawBranner.setType(type+"");
+        drawBranner.setSort(sort);
+        return drawBrannerMapper.insert(drawBranner) > 0;
+    }
+
     public boolean updateDraw(int drawId, int createPrice, int ownerPrice, int ownerCount, String isSale) {
         Draws draw = drawMapper.selectByPrimaryKey(drawId);
         if (draw == null || draw.getOwnFinishCount() > 0) {
