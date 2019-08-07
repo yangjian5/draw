@@ -292,7 +292,7 @@ public class OrderService {
         PageParam pageParam = new PageParam();
         pageParam.setStart((page - 1) * count);
         pageParam.setLength(count);
-        pageParam.setDrawName(code);
+        pageParam.setCode(code);
         return orderMapper.getOrderByCode(pageParam);
     }
 

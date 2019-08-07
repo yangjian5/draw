@@ -9,6 +9,15 @@ public class PageParam {
     private int length;
     private String nickName;
     private String drawName;
+    private String code;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public String getDrawName() {
         return drawName;
