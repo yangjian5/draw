@@ -37,6 +37,8 @@ public class DrawController {
 
     private static final String PATH = "/data1/draw";
 
+    private static final String BRANNER = "/data1/branner";
+
     private static final String SIMPLE_PATH = "/data1/draw_simple";
 
     private static final String INCOME_PATH = "/data1/income";
@@ -74,7 +76,7 @@ public class DrawController {
             if (file != null) {
                 String fileName = file.getOriginalFilename();
                 InputStream inputStream = file.getInputStream();
-                if (!FileUtil.writeFile(BASE + PATH, "", System.currentTimeMillis() + "_" + fileName, inputStream)) {
+                if (!FileUtil.writeFile(BASE + BRANNER, "", System.currentTimeMillis() + "_" + fileName, inputStream)) {
                     throw new DrawServerException(DrawServerExceptionFactor.FILE_ERROR);
                 }
                 brannerUrl = IMG_HOST + SIMPLE_PATH + "/" + System.currentTimeMillis() + "_" + fileName;
