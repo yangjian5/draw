@@ -80,6 +80,7 @@ public class DrawService {
                 Draws draws = drawMapper.selectByPrimaryKey(drawBranner.getId());
                 showBranner.setDraws(draws);
             }
+            showBranners.add(showBranner);
         });
 
         return showBranners;
