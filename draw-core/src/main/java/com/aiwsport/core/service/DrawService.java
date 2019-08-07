@@ -77,7 +77,8 @@ public class DrawService {
             ShowBranner showBranner = new ShowBranner();
             showBranner.setBranner(drawBranner);
             if ("2".equals(drawBranner.getType())) {
-                Draws draws = drawMapper.selectByPrimaryKey(drawBranner.getId());
+                Draws draws = drawMapper.selectByPrimaryKey(drawBranner.getDrawId());
+                draws.setDrawExt(drawExtMapper.getMaxPriceByDrawId(draws.getId()));
                 showBranner.setDraws(draws);
             }
             showBranners.add(showBranner);
