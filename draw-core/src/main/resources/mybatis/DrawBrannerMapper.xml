@@ -22,8 +22,15 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into draw_branner (brannerUrl, clickUrl, type, sort,
-      drawId, opName,
-      opId, createTime, modifyTime
+      brannerUrl,
+      clickUrl,
+      type,
+      sort,
+      drawId,
+      opName,
+      opId,
+      createTime,
+      modifyTime
       )
     values (#{brannerUrl,jdbcType=VARCHAR}, #{clickUrl,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}
       #{drawId,jdbcType=INTEGER}, #{opName,jdbcType=VARCHAR},

@@ -40,6 +40,9 @@ public class BackService {
     }
 
     public boolean bannerInsert(DrawBranner drawBranner) {
+        drawBranner.setOpId(1);
+        drawBranner.setOpName("admin");
+        drawBranner.setDrawExtId(drawMapper.selectByPrimaryKey(drawBranner.getId()).getId());
         return drawBrannerMapper.insert(drawBranner) > 0;
     }
 
