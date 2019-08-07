@@ -29,7 +29,7 @@ import java.util.Map;
  * 提现相关接口
  */
 @RestController
-@RequestMapping(value = "/api/")
+@RequestMapping(value = "/api")
 public class TransferController {
 
     @Autowired

@@ -22,7 +22,7 @@ import java.io.InputStream;
  * @author yangjian
  */
 @RestController
-@RequestMapping(value = "/api/")
+@RequestMapping(value = "/api")
 public class DrawController {
 
     @Autowired

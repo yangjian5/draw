@@ -20,7 +20,7 @@ import java.util.List;
  * @author yangjian
  */
 @RestController
-@RequestMapping(value = "/api/")
+@RequestMapping(value = "/api")
 public class StatisticsController {
 
     @Autowired

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author yangjian
  */
 @RestController
-@RequestMapping(value = "/api/")
+@RequestMapping(value = "/api")
 public class BackController {
 
     @Autowired
