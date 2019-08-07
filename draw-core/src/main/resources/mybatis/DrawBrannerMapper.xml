@@ -57,7 +57,7 @@
         sort = #{sort,jdbcType=INTEGER},
       </if>
       <if test="drawid != null">
-        drawid = #{drawid,jdbcType=INTEGER},
+        drawId = #{drawId,jdbcType=INTEGER},
       </if>
       <if test="opname != null">
         opname = #{opname,jdbcType=VARCHAR},
