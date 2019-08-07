@@ -87,7 +87,7 @@ public class DrawService {
 
     public boolean uploadBranner(String clickUrl, int drawId, int type, int sort, String brannerUrl) {
         DrawBranner drawBranner = new DrawBranner();
-        drawBranner.setBrannerUrl(brannerUrl);
+        drawBranner.setBrannerUrl("");
         drawBranner.setClickUrl(clickUrl);
         drawBranner.setDrawId(drawId);
         drawBranner.setType(type+"");
