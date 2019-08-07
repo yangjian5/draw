@@ -67,7 +67,7 @@ public class DrawController {
 
     @RequestMapping(value = "/upload_branner.json")
     public ResultMsg uploadImage(String click_url,
-                                 Integer draw_id,
+                                 @RequestParam(name = "draw_id", required = false) Integer draw_id,
                                  @ParamVerify(isNumber = true) int type,
                                  @ParamVerify(isNumber = true) int sort,
                                  @RequestParam(name = "branner_file", required = false) MultipartFile file) {
