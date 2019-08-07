@@ -42,6 +42,8 @@ public class BackService {
     public boolean bannerInsert(DrawBranner drawBranner) {
         drawBranner.setOpId(1);
         drawBranner.setOpName("admin");
+        //目前 brannerUrl 没有
+        drawBranner.setBrannerUrl("");
         Draws draws = drawMapper.selectByPrimaryKey(drawBranner.getId());
         if(draws!= null){
             drawBranner.setDrawExtId(draws.getId());
