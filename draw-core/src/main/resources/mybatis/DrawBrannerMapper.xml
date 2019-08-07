@@ -32,7 +32,7 @@
       createTime,
       modifyTime
       )
-    values (#{brannerUrl,jdbcType=VARCHAR}, #{clickUrl,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}
+    values (#{brannerUrl,jdbcType=VARCHAR}, #{clickUrl,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER},
       #{drawId,jdbcType=INTEGER}, #{opName,jdbcType=VARCHAR},
       #{opId,jdbcType=INTEGER}, now(), now()
       )
