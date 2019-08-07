@@ -79,7 +79,7 @@ public class DrawController {
                 if (!FileUtil.writeFile(BASE + BRANNER, "", System.currentTimeMillis() + "_" + fileName, inputStream)) {
                     throw new DrawServerException(DrawServerExceptionFactor.FILE_ERROR);
                 }
-                brannerUrl = IMG_HOST + SIMPLE_PATH + "/" + System.currentTimeMillis() + "_" + fileName;
+                brannerUrl = IMG_HOST + BRANNER + "/" + System.currentTimeMillis() + "_" + fileName;
             }
             boolean res = drawService.uploadBranner(click_url, draw_id, type, sort, brannerUrl);
             if (!res) {

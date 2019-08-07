@@ -84,13 +84,13 @@
 
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, brannerUrl, clickUrl, type, drawId, opName, opId, createTime,
+    select id, brannerUrl, clickUrl, type, sort, drawId, opName, opId, createTime,
     modifyTime
     from draw_branner
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, brannerUrl, clickUrl, type, drawId, opName, opId, createTime,
+    select id, brannerUrl, clickUrl, type, sort, drawId, opName, opId, createTime,
     modifyTime
     from draw_branner order by sort asc
   </select>
