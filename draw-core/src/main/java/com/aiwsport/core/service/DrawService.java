@@ -111,7 +111,7 @@ public class DrawService {
 
     public Draws getDraw(int id) {
         Draws draws = drawMapper.selectByPrimaryKey(id);
-        draws.setDrawExt(drawExtMapper.selectByPrimaryKey(id));
+        draws.setDrawExt(drawExtMapper.getMaxPriceByDrawId(id));
         return draws;
     }
 
