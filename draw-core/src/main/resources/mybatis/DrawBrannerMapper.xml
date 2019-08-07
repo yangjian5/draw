@@ -21,7 +21,7 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into draw_branner (brannerUrl, clickUrl, type, sort,
+    insert into draw_branner (
       brannerUrl,
       clickUrl,
       type,
