@@ -27,7 +27,7 @@
       )
     values (#{brannerUrl,jdbcType=VARCHAR}, #{clickUrl,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}
       #{drawId,jdbcType=INTEGER}, #{opName,jdbcType=VARCHAR},
-      #{opId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}
+      #{opId,jdbcType=INTEGER}, now(), now()
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.aiwsport.core.entity.DrawBranner" >
