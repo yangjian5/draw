@@ -87,14 +87,29 @@ public class DrawService {
         return showBranners;
     }
 
-    public boolean uploadBranner(String clickUrl, int drawId, int type, int sort, String brannerUrl) {
-        DrawBranner drawBranner = new DrawBranner();
-        drawBranner.setBrannerUrl(brannerUrl);
-        drawBranner.setClickUrl(clickUrl);
-        drawBranner.setDrawId(drawId);
-        drawBranner.setType(type+"");
-        drawBranner.setSort(sort);
-        return drawBrannerMapper.insert(drawBranner) > 0;
+    public boolean uploadBranner(Integer id, String clickUrl, int drawId, int type, int sort, String brannerUrl) {
+        if (id == null || id == 0) {
+            DrawBranner drawBranner = new DrawBranner();
+            drawBranner.setBrannerUrl(brannerUrl);
+            drawBranner.setClickUrl(clickUrl);
+            drawBranner.setDrawId(drawId);
+            drawBranner.setType(type+"");
+            drawBranner.setSort(sort);
+            return drawBrannerMapper.insert(drawBranner) > 0;
+        } else {
+            DrawBranner drawBranner = drawBrannerMapper.selectByPrimaryKey(id);
+            if (drawBranner == null) {
+                return false;
+            }
+            if (StringUtils.isNotBlank(brannerUrl)) {
+                drawBranner.setBrannerUrl(brannerUrl);
+            }
+            drawBranner.setClickUrl(clickUrl);
+            drawBranner.setDrawId(drawId);
+            drawBranner.setType(type+"");
+            drawBranner.setSort(sort);
+            return drawBrannerMapper.updateByPrimaryKey(drawBranner) > 0;
+        }
     }
 
     public boolean updateDraw(int drawId, int createPrice, int ownerPrice, int ownerCount, String isSale) {

@@ -66,7 +66,8 @@ public class DrawController {
     }
 
     @RequestMapping(value = "/upload_branner.json")
-    public ResultMsg uploadImage(String click_url,
+    public ResultMsg uploadImage(@ParamVerify(isNumber = true) @RequestParam(name = "id", required = false) Integer id,
+                                 String click_url,
                                  @RequestParam(name = "draw_id", required = false) Integer draw_id,
                                  @ParamVerify(isNumber = true) int type,
                                  @ParamVerify(isNumber = true) int sort,
@@ -81,7 +82,7 @@ public class DrawController {
                 }
                 brannerUrl = IMG_HOST + BRANNER + "/" + System.currentTimeMillis() + "_" + fileName;
             }
-            boolean res = drawService.uploadBranner(click_url, draw_id, type, sort, brannerUrl);
+            boolean res = drawService.uploadBranner(id, click_url, draw_id, type, sort, brannerUrl);
             if (!res) {
                 throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "upload_branner insert is fail ");
             }
