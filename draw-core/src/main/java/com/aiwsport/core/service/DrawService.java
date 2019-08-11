@@ -215,7 +215,7 @@ public class DrawService {
             return false;
         }
         drawExt.setExtPrice(extPrice);
-        return drawExtMapper.updateByPrimaryKey(drawExt) > 0;
+        return drawExtMapper.updateByPrimaryKey(drawExt) > -1;
     }
 
     public String uploadIncome(String openId, int drawExtId, int incomePrice, int ownerPrize, String url) throws Exception {
