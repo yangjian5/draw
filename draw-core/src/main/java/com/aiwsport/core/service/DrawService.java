@@ -229,7 +229,7 @@ public class DrawService {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "draw ext id is not exist");
         }
 
-        if (updateDrawExt(drawExtId, ownerPrize)) {
+        if (!updateDrawExt(drawExtId, ownerPrize)) {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "update draw ext owner price error");
         }
 
