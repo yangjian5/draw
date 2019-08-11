@@ -78,8 +78,10 @@ public class DrawService {
             showBranner.setBranner(drawBranner);
             if ("2".equals(drawBranner.getType())) {
                 Draws draws = drawMapper.selectByPrimaryKey(drawBranner.getDrawId());
-                draws.setDrawExt(drawExtMapper.getMaxPriceByDrawId(draws.getId()));
-                showBranner.setDraws(draws);
+                if (draws != null) {
+                    draws.setDrawExt(drawExtMapper.getMaxPriceByDrawId(draws.getId()));
+                    showBranner.setDraws(draws);
+                }
             }
             showBranners.add(showBranner);
         });
