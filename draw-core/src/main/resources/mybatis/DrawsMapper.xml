@@ -34,15 +34,15 @@
     insert into draws (prodUid, prodName, prodTel,
       drawPrice, drawName, drawStatus, drawWidth, drawHigh,
       authName, urlHd, urlSimple,
-      drawDesc, ownCount, ownFinishCount,isSale
+      drawDesc, ownCount, ownFinishCount,isSale,
       opName, opId, createTime,
       modifyTime)
     values (#{prodUid,jdbcType=INTEGER}, #{prodName,jdbcType=VARCHAR}, #{prodTel,jdbcType=VARCHAR},
       #{drawPrice,jdbcType=INTEGER}, #{drawName,jdbcType=VARCHAR}, #{drawStatus,jdbcType=VARCHAR},
       #{drawWidth,jdbcType=INTEGER}, #{drawHigh,jdbcType=INTEGER},
       #{authName,jdbcType=VARCHAR}, #{urlHd,jdbcType=VARCHAR}, #{urlSimple,jdbcType=VARCHAR},
-      #{drawDesc,jdbcType=VARCHAR}, #{ownCount,jdbcType=INTEGER}, #{ownFinishCount,jdbcType=INTEGER},#{isSale,jdbcType=VARCHAR},
-      #{opName,jdbcType=VARCHAR}, #{opId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+      #{drawDesc,jdbcType=VARCHAR}, #{ownCount,jdbcType=INTEGER}, #{ownFinishCount,jdbcType=INTEGER},
+      #{isSale,jdbcType=VARCHAR}, #{opName,jdbcType=VARCHAR}, #{opId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
       #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.aiwsport.core.entity.Draws" >
