@@ -65,6 +65,13 @@ public class DrawController {
         return new ResultMsg("branner", drawService.getBranner());
     }
 
+    @RequestMapping(value = "/delete_draw.json")
+    public ResultMsg deleteDraw(@ParamVerify(isNumber = true) Integer id,
+                                @ParamVerify(isNumber = true) Integer type) {
+        return new ResultMsg("delete_draw", drawService.delDraw(id, type));
+    }
+
+
     @RequestMapping(value = "/upload_branner.json")
     public ResultMsg uploadImage(@ParamVerify(isNumber = true) @RequestParam(name = "id", required = false) Integer id,
                                  String click_url,
@@ -77,10 +84,11 @@ public class DrawController {
             if (file != null) {
                 String fileName = file.getOriginalFilename();
                 InputStream inputStream = file.getInputStream();
-                if (!FileUtil.writeFile(BASE + BRANNER, "", System.currentTimeMillis() + "_" + fileName, inputStream)) {
+                String name = System.currentTimeMillis() + "_" + fileName;
+                if (!FileUtil.writeFile(BASE + BRANNER, "", name, inputStream)) {
                     throw new DrawServerException(DrawServerExceptionFactor.FILE_ERROR);
                 }
-                brannerUrl = IMG_HOST + BRANNER + "/" + System.currentTimeMillis() + "_" + fileName;
+                brannerUrl = IMG_HOST + BRANNER + "/" + name;
             }
             boolean res = drawService.uploadBranner(id, click_url, draw_id, type, sort, brannerUrl);
             if (!res) {

@@ -87,6 +87,25 @@ public class DrawService {
         return showBranners;
     }
 
+    public boolean delDraw(int id, int type) {
+        if (type == 1) {
+            if (drawExtMapper.deleteDrawExt(id) > 0) {
+                return drawMapper.deleteByPrimaryKey(id) > 0;
+            }
+            return false;
+        } else {
+            DrawExt drawExt = drawExtMapper.selectByPrimaryKey(id);
+            if (drawExt == null) {
+                return false;
+            }
+            Draws draws = drawMapper.selectByPrimaryKey(drawExt.getDrawId());
+            draws.setOwnFinishCount(draws.getOwnFinishCount()-1);
+            draws.setOwnCount(draws.getOwnCount()-1);
+            drawMapper.updateByPrimaryKey(draws);
+            return drawExtMapper.deleteByPrimaryKey(id) > 0;
+        }
+    }
+
     public boolean uploadBranner(Integer id, String clickUrl, int drawId, int type, int sort, String brannerUrl) {
         if (id == null || id == 0) {
             DrawBranner drawBranner = new DrawBranner();

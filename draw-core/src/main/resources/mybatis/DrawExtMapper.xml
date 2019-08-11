@@ -83,4 +83,9 @@
     limit 1
   </select>
 
+  <delete id="deleteDrawExt" parameterType="java.lang.Integer" >
+    delete from draw_ext
+    where drawId = #{drawId,jdbcType=INTEGER}
+  </delete>
+
 </mapper>
