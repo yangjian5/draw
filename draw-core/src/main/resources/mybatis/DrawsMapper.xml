@@ -265,10 +265,4 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from draws
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-
-
 </mapper>
