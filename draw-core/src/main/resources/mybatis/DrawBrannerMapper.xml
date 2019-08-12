@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.aiwsport.core.entity.DrawBranner" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="brannerUrl" property="brannerUrl" jdbcType="VARCHAR" />
+    <result column="simpleUrl" property="simpleUrl" jdbcType="VARCHAR" />
     <result column="clickUrl" property="clickUrl" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="sort" property="sort" jdbcType="INTEGER" />
@@ -23,6 +24,7 @@
     </selectKey>
     insert into draw_branner (
       brannerUrl,
+      simpleUrl,
       clickUrl,
       type,
       sort,
@@ -32,7 +34,7 @@
       createTime,
       modifyTime
       )
-    values (#{brannerUrl,jdbcType=VARCHAR}, #{clickUrl,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER},
+    values (#{brannerUrl,jdbcType=VARCHAR}, #{simpleUrl,jdbcType=VARCHAR}, #{clickUrl,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER},
       #{drawId,jdbcType=INTEGER}, #{opName,jdbcType=VARCHAR},
       #{opId,jdbcType=INTEGER}, now(), now()
       )
@@ -40,6 +42,7 @@
   <update id="updateByPrimaryKey" parameterType="com.aiwsport.core.entity.DrawBranner" >
     update draw_branner
     set brannerUrl = #{brannerurl,jdbcType=VARCHAR},
+      simpleUrl = #{simpleUrl,jdbcType=VARCHAR},
       clickUrl = #{clickurl,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
       sort = #{sort,jdbcType=INTEGER},
@@ -56,6 +59,9 @@
     <set>
       <if test="brannerUrl != null">
         brannerUrl = #{brannerurl,jdbcType=VARCHAR},
+      </if>
+      <if test="simpleUrl != null">
+        simpleUrl = #{simpleUrl,jdbcType=VARCHAR},
       </if>
       <if test="clickUrl != null">
         clickUrl = #{clickUrl,jdbcType=VARCHAR},
@@ -84,13 +90,13 @@
 
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, brannerUrl, clickUrl, type, sort, drawId, opName, opId, createTime,
+    select id, brannerUrl, simpleUrl, clickUrl, type, sort, drawId, opName, opId, createTime,
     modifyTime
     from draw_branner
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, brannerUrl, clickUrl, type, sort, drawId, opName, opId, createTime,
+    select id, brannerUrl, simpleUrl, clickUrl, type, sort, drawId, opName, opId, createTime,
     modifyTime
     from draw_branner order by sort asc
   </select>

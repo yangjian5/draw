@@ -108,7 +108,7 @@ public class DrawService {
         }
     }
 
-    public boolean uploadBranner(Integer id, String clickUrl, int drawId, int type, int sort, String brannerUrl) {
+    public boolean uploadBranner(Integer id, String clickUrl, int drawId, int type, int sort, String brannerUrl, String simpleUrl) {
         if (id == null || id == 0) {
             DrawBranner drawBranner = new DrawBranner();
             drawBranner.setBrannerUrl(brannerUrl);
@@ -116,6 +116,7 @@ public class DrawService {
             drawBranner.setDrawId(drawId);
             drawBranner.setType(type+"");
             drawBranner.setSort(sort);
+            drawBranner.setSimpleUrl(simpleUrl);
             return drawBrannerMapper.insert(drawBranner) > 0;
         } else {
             DrawBranner drawBranner = drawBrannerMapper.selectByPrimaryKey(id);
@@ -124,6 +125,7 @@ public class DrawService {
             }
             if (StringUtils.isNotBlank(brannerUrl)) {
                 drawBranner.setBrannerUrl(brannerUrl);
+                drawBranner.setSimpleUrl(simpleUrl);
             }
             drawBranner.setClickUrl(clickUrl);
             drawBranner.setDrawId(drawId);

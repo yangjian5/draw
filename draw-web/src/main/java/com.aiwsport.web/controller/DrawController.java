@@ -39,6 +39,8 @@ public class DrawController {
 
     private static final String BRANNER = "/data1/branner";
 
+    private static final String SIMPLE_BRANNER = "/data1/branner_simple";
+
     private static final String SIMPLE_PATH = "/data1/draw_simple";
 
     private static final String INCOME_PATH = "/data1/income";
@@ -81,16 +83,18 @@ public class DrawController {
                                  @RequestParam(name = "branner_file", required = false) MultipartFile file) {
         try {
             String brannerUrl = "";
+            String simpleUrl = "";
             if (file != null) {
                 String fileName = file.getOriginalFilename();
                 InputStream inputStream = file.getInputStream();
                 String name = System.currentTimeMillis() + "_" + fileName;
-                if (!FileUtil.writeFile(BASE + BRANNER, "", name, inputStream)) {
+                if (!FileUtil.writeFile(BASE + BRANNER, BASE+SIMPLE_BRANNER, name, inputStream)) {
                     throw new DrawServerException(DrawServerExceptionFactor.FILE_ERROR);
                 }
                 brannerUrl = IMG_HOST + BRANNER + "/" + name;
+                simpleUrl = IMG_HOST + SIMPLE_BRANNER + "/" + name;
             }
-            boolean res = drawService.uploadBranner(id, click_url, draw_id, type, sort, brannerUrl);
+            boolean res = drawService.uploadBranner(id, click_url, draw_id, type, sort, brannerUrl, simpleUrl);
             if (!res) {
                 throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "upload_branner insert is fail ");
             }

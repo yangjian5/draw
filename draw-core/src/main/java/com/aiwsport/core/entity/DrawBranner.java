@@ -7,6 +7,8 @@ public class DrawBranner {
 
     private String brannerUrl;
 
+    private String simpleUrl;
+
     private String clickUrl;
 
     private String type;
@@ -111,5 +113,13 @@ public class DrawBranner {
 
     public void setSort(Integer sort) {
         this.sort = sort;
+    }
+
+    public String getSimpleUrl() {
+        return simpleUrl;
+    }
+
+    public void setSimpleUrl(String simpleUrl) {
+        this.simpleUrl = simpleUrl;
     }
 }

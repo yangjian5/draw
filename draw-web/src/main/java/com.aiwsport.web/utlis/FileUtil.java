@@ -69,7 +69,7 @@ public class FileUtil {
             if(!sf.exists()){
                 sf.mkdirs();
             }
-            Thumbnails.of(inputPath).scale(0.3f).outputQuality(0.3f).outputFormat(imgType).toFile(simPath + "/" + name);
+            Thumbnails.of(inputPath).scale(0.1f).outputQuality(0.1f).outputFormat(imgType).toFile(simPath + "/" + name);
         } catch (Exception e1) {
             e1.printStackTrace();
             logger.error("Thumbnails is error: " + e1);
