@@ -157,10 +157,16 @@ public class DrawController {
 
     @RequestMapping(value = "/update_draw.json")
     public ResultMsg updateDraw(@ParamVerify(isNumber = true) int draw_id,
-                                @ParamVerify(isNumber = true) int create_price,
-                                @ParamVerify(isNotBlank = true) int owner_prize,
-                                @ParamVerify(isNotBlank = true) int owner_count,
+                                @RequestParam(name = "create_price", required = false, defaultValue = "0") Integer create_price,
+                                @RequestParam(name = "owner_prize", required = false, defaultValue = "0") Integer owner_prize,
+                                @RequestParam(name = "owner_count", required = false, defaultValue = "0") Integer owner_count,
                                 @ParamVerify(isNotBlank = true) String is_sale) {
+        if ("1".equals(is_sale)) {
+            if (create_price == 0 || owner_prize == 0 || owner_count == 0) {
+                throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "update draw param is error");
+            }
+        }
+
         boolean res = drawService.updateDraw(draw_id, create_price, owner_prize, owner_count, is_sale);
         if (!res) {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "update draw is error");
