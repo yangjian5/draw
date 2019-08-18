@@ -4,7 +4,7 @@ public class WxConfig {
     //小程序appid
     public static final String appid = "wx212677b8e5e12f06";
     //微信支付的商户id
-    public static final String mch_id = "123456";
+    public static final String mch_id = "1481009602";
     //微信支付的商户密钥
     public static final String SECRET = "339315a194cfcbda9d9d8aa653e59ea8";
     //支付成功后的服务器回调url

@@ -17,6 +17,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 import javax.net.ssl.SSLContext;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -39,14 +40,18 @@ public class HttpUtils {
 
     private static SSLContext wx_ssl_context = null; //微信支付ssl证书
 
-    private static final String MCH_ID  = "1000000000";//证书密码默认是商户号
+    private static final String MCH_ID  = "Xygz2016#";//证书密码默认是商户号
 
     static{
         Resource resource = new ClassPathResource("apiclient_cert.p12");//该证书名字最好改为别人猜不到的
         try {
             KeyStore keystore = KeyStore.getInstance("PKCS12");
             char[] keyPassword = MCH_ID.toCharArray(); //证书密码
-            keystore.load(resource.getInputStream(), keyPassword);
+            String filepath = "/data1/";
+            FileInputStream instream = new FileInputStream(filepath+"apiclient_cert.p12");
+
+
+            keystore.load(instream, keyPassword);
             wx_ssl_context = SSLContexts.custom().loadKeyMaterial(keystore, keyPassword).build();
         } catch (Exception e) {
             e.printStackTrace();

@@ -113,12 +113,12 @@ public class OrderService {
                 goodName = draws.getDrawName()+"所有权";
             }
 
-//            resMap = createWXOrder(openId, ip, goodName,
-//                    BigDecimal.valueOf(orderPrice).divide(BigDecimal.valueOf(100)).toString());
+            resMap = createWXOrder(openId, ip, goodName,
+                    BigDecimal.valueOf(orderPrice).divide(BigDecimal.valueOf(100)).toString());
 
-            resMap = new HashMap<>();
-            resMap.put("orderNo", PayUtil.getTradeNo());
-            resMap.put("paySign", "dasdadasdadadadqwd2d22d2");
+//            resMap = new HashMap<>();
+//            resMap.put("orderNo", PayUtil.getTradeNo());
+//            resMap.put("paySign", "dasdadasdadadadqwd2d22d2");
             Object orderNoObj = resMap.get("orderNo");
             Object paySignObj = resMap.get("paySign");
             if (orderNoObj == null || paySignObj == null) {
@@ -238,33 +238,28 @@ public class OrderService {
         packageParams.put("nonce_str", nonce_str);
         packageParams.put("body", goodName);//商品名称
         packageParams.put("out_trade_no", orderNo); //商户订单号
-        packageParams.put("total_fee", money); //支付金额，这边需要转成字符串类型，否则后面的签名会失败
-        packageParams.put("spbill_create_ip", ip);//获取本机的IP地址
+        packageParams.put("total_fee", "1"); //支付金额，这边需要转成字符串类型，否则后面的签名会失败
+        packageParams.put("spbill_create_ip", "134.175.110.50");//获取本机的IP地址
         packageParams.put("notify_url", WxConfig.notify_url);
         packageParams.put("trade_type", WxConfig.TRADETYPE);
         packageParams.put("openid", openId);
         //把数组所有元素，按照"参数=参数值"的模式用"＆"字符拼接成字符串
         // MD5运算生成签名，这里是第一次签名，用于调用统一下单接口
-        String mysign = PayUtil.getSign(packageParams, WxConfig.SECRET);
+        String mysign = PayUtil.getSign(packageParams, "artchain825c3af0bd36a25c1396c72b");
         packageParams.put("sign", mysign);
 
         logger.info("=======================第一次签名："+ mysign +"============ ======");
 
         //拼接统一下单接口使用的XML数据，要将上一步生成的签名一起拼接进去
         String xml = XmlUtil.xmlFormat(packageParams, false);
-
         System.out.println("调试模式_统一下单接口请求XML数据："+ xml);
-
         //调用统一下单接口，并接受返回的结果
-        String restxml = HttpUtils.posts(WxConfig.pay_url, xml);
-
+        String restxml = HttpUtils.post(WxConfig.pay_url, xml);
         System.out.println("调试模式_统一下单接口返回XML数据："+restxml);
 
         //将解析结果存储在HashMap中
         Map<String, String> restmap = XmlUtil.xmlParse(restxml);
-
         String return_code = restmap.get("return_code"); //返回状态码
-
         //返回给移动端需要的参数
         Map<String, Object> response = new HashMap<>();
         if ("SUCCESS".equals(return_code)) {
@@ -276,10 +271,9 @@ public class OrderService {
             long timeStamp = System.currentTimeMillis() / 1000;
             response.put("timeStamp", timeStamp +""); //这边要将返回的时间戳转化成字符串，不然小程序端调用wx.requestPayment方法会报签名错误
             response.put("orderNo", orderNo); //商户订单号
-
-            String stringSignTemp ="appId ="+ WxConfig.appid +"＆nonceStr ="+ nonce_str +"＆package = prepay_id ="+ prepay_id +"＆signType ="+ WxConfig.SIGNTYPE +"＆timeStamp ="+ timeStamp;
+            String stringSignTemp ="appId="+ WxConfig.appid +"&nonceStr="+ nonce_str +"&package=prepay_id="+ prepay_id +"&signType="+ WxConfig.SIGNTYPE +"&timeStamp="+ timeStamp;
             //再次签名，这个签名用于小程序端调用wx.requesetPayment方法
-            String paySign = PayUtil.sign(stringSignTemp, WxConfig.SECRET);
+            String paySign = PayUtil.sign(stringSignTemp, "artchain825c3af0bd36a25c1396c72b");
             logger.info("=======================第二次签名："+ paySign +"============ ======");
             response.put("paySign", paySign);
             //更新订单信息

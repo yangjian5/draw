@@ -28,11 +28,33 @@ public class PayUtil {
     }
 
     public static String getSign(Map<String, String> params, String paternerKey) throws UnsupportedEncodingException {
-        return DigestUtils.md5Hex(createSign(params, true) + "&key=" + paternerKey).toUpperCase();
+        return DigestUtils.md5Hex(
+                getContentBytes(createSign(params, false) + "&key=" + paternerKey, "utf-8"))
+                .toUpperCase();
+    }
+
+    /**
+     * @param content
+     * @param charset
+     * @return
+     * @throws java.security.SignatureException
+     * @throws UnsupportedEncodingException
+     */
+    public static byte[] getContentBytes(String content, String charset) {
+        if (charset == null || "".equals(charset)) {
+            return content.getBytes();
+        }
+        try {
+            return content.getBytes(charset);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("MD5签名过程中出现错误,指定的编码集不对,您目前指定的编码集是:" + charset);
+        }
     }
 
     public static String sign(String str, String paternerKey) throws UnsupportedEncodingException {
-        return DigestUtils.md5Hex(URLEncoder.encode(str, "UTF-8") + "&key=" + paternerKey).toUpperCase();
+        return DigestUtils.md5Hex(
+                getContentBytes(str + "&key=" + paternerKey, "utf-8"))
+                .toUpperCase();
     }
 
     /**
