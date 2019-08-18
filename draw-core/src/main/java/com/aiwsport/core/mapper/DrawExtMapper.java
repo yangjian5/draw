@@ -24,4 +24,6 @@ public interface DrawExtMapper {
     DrawExt getMaxPriceByDrawId(int drawId);
 
     int deleteDrawExt(int drawId);
+
+    int getCount(int drawId, int uid);
 }

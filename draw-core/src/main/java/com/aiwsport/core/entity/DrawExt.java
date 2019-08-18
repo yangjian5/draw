@@ -21,6 +21,8 @@ public class DrawExt {
 
     private Draws draws;
 
+    private Integer count;
+
     public Integer getId() {
         return id;
     }
@@ -91,5 +93,13 @@ public class DrawExt {
 
     public void setDraws(Draws draws) {
         this.draws = draws;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 }

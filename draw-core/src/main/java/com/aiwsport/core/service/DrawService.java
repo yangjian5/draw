@@ -218,6 +218,9 @@ public class DrawService {
             return buildShowDraws(draws, page + "");
         } else {
             List<DrawExt> drawExts = drawExtMapper.getMyList(uid, start, end);
+            drawExts.forEach(drawExt -> {
+                drawExt.setCount(drawExtMapper.getCount(drawExt.getDrawId(), uid));
+            });
             return buildShowDrawExts(drawExts, page + "");
         }
     }

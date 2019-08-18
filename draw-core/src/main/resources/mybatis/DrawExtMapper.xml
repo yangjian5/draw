@@ -76,6 +76,12 @@
     limit #{arg1}, #{arg2}
   </select>
 
+  <select id="getCount" resultType="java.lang.Integer">
+    select count(1)
+    from draw_ext
+    where drawId = #{arg0} and extUid = #{arg1}
+  </select>
+
   <select id="getMaxPriceByDrawId" resultMap="BaseResultMap">
     select id, extUid, drawId, extPrice, opName, opId, createTime, modifyTime
     from draw_ext
