@@ -141,12 +141,11 @@ public class DrawService {
             return false;
         }
 
-        draw.setOwnPrice(ownerPrice);
         draw.setOwnCount(ownerCount);
         draw.setOwnFinishCount(0);
         draw.setIsSale(isSale);
         draw.setDrawPrice(createPrice);
-        if (drawMapper.updateByPrimaryKey(draw) > 0) {
+        if (drawMapper.updateByPrimaryKey(draw) > -1) {
             drawExtMapper.deleteDrawExt(drawId);
             for (int i=0; i<ownerCount; i++) {
                 DrawExt drawExt = new DrawExt();

@@ -31,8 +31,6 @@ public class Draws {
 
     private Integer ownFinishCount;
 
-    private Integer ownPrice;
-
     private String isSale;
 
     private String opName;
@@ -195,14 +193,6 @@ public class Draws {
 
     public void setDrawHigh(Integer drawHigh) {
         this.drawHigh = drawHigh;
-    }
-
-    public Integer getOwnPrice() {
-        return ownPrice;
-    }
-
-    public void setOwnPrice(Integer ownPrice) {
-        this.ownPrice = ownPrice;
     }
 
     public String getIsSale() {
