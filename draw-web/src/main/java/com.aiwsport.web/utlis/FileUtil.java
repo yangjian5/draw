@@ -28,8 +28,10 @@ public class FileUtil {
 
         String inputPath = "";
 
-        try {
+        int available = 0;
 
+        try {
+            available = input.available();
             File sf=new File(path);
             if(!sf.exists()){
                 sf.mkdirs();
@@ -69,7 +71,14 @@ public class FileUtil {
             if(!sf.exists()){
                 sf.mkdirs();
             }
-            Thumbnails.of(inputPath).scale(0.2f).outputQuality(0.2f).outputFormat(imgType).toFile(simPath + "/" + name);
+
+            if (available > 1024 * 1024) {
+                Thumbnails.of(inputPath).scale(0.2f).outputQuality(0.2f).outputFormat(imgType).toFile(simPath + "/" + name);
+            } else if (available > 1024 * 512) {
+                Thumbnails.of(inputPath).scale(0.4f).outputQuality(0.4f).outputFormat(imgType).toFile(simPath + "/" + name);
+            } else {
+                Thumbnails.of(inputPath).scale(0.6f).outputQuality(0.6f).outputFormat(imgType).toFile(simPath + "/" + name);
+            }
         } catch (Exception e1) {
             e1.printStackTrace();
             logger.error("Thumbnails is error: " + e1);
