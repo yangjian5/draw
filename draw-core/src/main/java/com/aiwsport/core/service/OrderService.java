@@ -104,7 +104,7 @@ public class OrderService {
                     return null;
                 }
 
-                Draws draws = drawsMapper.selectByPrimaryKey(id);
+                Draws draws = drawsMapper.selectByPrimaryKey(drawExt.getDrawId());
                 if (draws == null) {
                     throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "draws is not exist");
                 }

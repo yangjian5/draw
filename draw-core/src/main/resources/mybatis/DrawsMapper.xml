@@ -124,7 +124,7 @@
 
   <update id="updateOwnFinishCount" parameterType="java.lang.Integer" >
     update draws set ownFinishCount=ownFinishCount+1
-    where id = #{id,jdbcType=INTEGER} where ownCount > ownFinishCount
+    where id = #{id,jdbcType=INTEGER} and ownCount > ownFinishCount
   </update>
 
   <update id="updateDrawsStatus" parameterType="com.aiwsport.core.entity.Draws">
