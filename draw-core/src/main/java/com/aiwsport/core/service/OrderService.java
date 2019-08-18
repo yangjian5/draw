@@ -1,6 +1,8 @@
 package com.aiwsport.core.service;
 
 
+import com.aiwsport.core.DrawServerException;
+import com.aiwsport.core.DrawServerExceptionFactor;
 import com.aiwsport.core.constant.WxConfig;
 import com.aiwsport.core.entity.*;
 import com.aiwsport.core.mapper.*;
@@ -9,7 +11,6 @@ import com.aiwsport.core.utils.DataTypeUtils;
 import com.aiwsport.core.utils.HttpUtils;
 import com.aiwsport.core.utils.PayUtil;
 import com.aiwsport.core.utils.XmlUtil;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,13 +79,13 @@ public class OrderService {
 
             User user = userMapper.getByOpenId(openId);
             if (user == null) {
-                return null;
+                throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "user is not exist");
             }
 
             if (type == 1) {
                 Draws draws = drawsMapper.selectByPrimaryKey(id);
                 if (draws == null) {
-                    return null;
+                    throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "draws is not exist");
                 }
 
                 drawId = draws.getId();
@@ -93,7 +94,7 @@ public class OrderService {
             } else {
                 DrawExt drawExt = drawExtMapper.selectByPrimaryKey(id);
                 if (drawExt == null) {
-                    return null;
+                    throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "drawExt is not exist");
                 }
 
                 drawExtId = drawExt.getId();
@@ -105,7 +106,7 @@ public class OrderService {
 
                 Draws draws = drawsMapper.selectByPrimaryKey(id);
                 if (draws == null) {
-                    return null;
+                    throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "draws is not exist");
                 }
 
                 orderPrice = drawExt.getExtPrice();
