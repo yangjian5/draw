@@ -11,6 +11,7 @@ import com.aiwsport.core.utils.DataTypeUtils;
 import com.aiwsport.core.utils.HttpUtils;
 import com.aiwsport.core.utils.PayUtil;
 import com.aiwsport.core.utils.XmlUtil;
+import com.alibaba.fastjson.JSON;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,8 +69,8 @@ public class OrderService {
         return showOrders;
     }
 
-    public Map<String, Object> createOrder(int id, int type, String openId, String ip){
-        Map<String, Object> resMap = null;
+    public Map<String, String> createOrder(int id, int type, String openId, String ip){
+        Map<String, String> resMap = null;
         try {
             String orderNo;
             int drawId;
@@ -132,7 +133,7 @@ public class OrderService {
             order.setDrawExtId(drawExtId);
             order.setType(type+"");
             order.setStatus("1");
-            order.setInfo(paySignObj.toString());
+            order.setInfo(JSON.toJSONString(resMap));
             order.setOrderPrice(orderPrice);
             orderMapper.insert(order);
         } catch (Exception e) {
@@ -228,7 +229,7 @@ public class OrderService {
     }
 
 
-    public Map<String, Object> createWXOrder(String openId, String ip, String goodName, String money) throws Exception {
+    public Map<String, String> createWXOrder(String openId, String ip, String goodName, String money) throws Exception {
         //生成的随机字符串
         String nonce_str = PayUtil.getNonceStr();
         String orderNo = PayUtil.getTradeNo();
@@ -261,9 +262,9 @@ public class OrderService {
         Map<String, String> restmap = XmlUtil.xmlParse(restxml);
         String return_code = restmap.get("return_code"); //返回状态码
         //返回给移动端需要的参数
-        Map<String, Object> response = new HashMap<>();
+        Map<String, String> response = new HashMap<>();
         if ("SUCCESS".equals(return_code)) {
-            response.put("appid", WxConfig.appid);
+            response.put("appId", WxConfig.appid);
             //业务结果
             String prepay_id = restmap.get("prepay_id"); //返回的预付单信息
             response.put("nonceStr",nonce_str);
@@ -276,6 +277,7 @@ public class OrderService {
             String paySign = PayUtil.sign(stringSignTemp, "artchain825c3af0bd36a25c1396c72b");
             logger.info("=======================第二次签名："+ paySign +"============ ======");
             response.put("paySign", paySign);
+            response.put("signType", WxConfig.SIGNTYPE);
             //更新订单信息
             //业务逻辑代码
         }
