@@ -272,6 +272,7 @@ public class OrderService {
             long timeStamp = System.currentTimeMillis() / 1000;
             response.put("timeStamp", timeStamp +""); //这边要将返回的时间戳转化成字符串，不然小程序端调用wx.requestPayment方法会报签名错误
             response.put("orderNo", orderNo); //商户订单号
+            response.put("total_fee", "1"); //商户订单号
             String stringSignTemp ="appId="+ WxConfig.appid +"&nonceStr="+ nonce_str +"&package=prepay_id="+ prepay_id +"&signType="+ WxConfig.SIGNTYPE +"&timeStamp="+ timeStamp;
             //再次签名，这个签名用于小程序端调用wx.requesetPayment方法
             String paySign = PayUtil.sign(stringSignTemp, "artchain825c3af0bd36a25c1396c72b");

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.util.Map;
 
 /**
  * 首页展示
@@ -192,8 +193,8 @@ public class DrawController {
                         throw new DrawServerException(DrawServerExceptionFactor.FILE_ERROR);
                     }
                 }
-                String paySing = drawService.uploadIncome(open_id, draw_ext_id, income_prize, owner_prize, IMG_HOST + INCOME_PATH + "/" + imgName);
-                return new ResultMsg("update_owner_draw-uploadIncome", paySing);
+                Map<String, String> resMap = drawService.uploadIncome(open_id, draw_ext_id, income_prize, owner_prize, IMG_HOST + INCOME_PATH + "/" + imgName);
+                return new ResultMsg("update_owner_draw-uploadIncome", resMap);
             } catch (Exception e) {
                 throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, e.getMessage());
             }

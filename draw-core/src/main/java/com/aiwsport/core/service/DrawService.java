@@ -7,15 +7,15 @@ import com.aiwsport.core.mapper.*;
 import com.aiwsport.core.model.ShowBranner;
 import com.aiwsport.core.model.ShowDraws;
 import com.aiwsport.core.utils.DataTypeUtils;
-import com.aiwsport.core.utils.PayUtil;
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -234,7 +234,7 @@ public class DrawService {
         return drawExtMapper.updateByPrimaryKey(drawExt) > -1;
     }
 
-    public String uploadIncome(String openId, int drawExtId, int incomePrice, int ownerPrize, String url) throws Exception {
+    public Map<String, String> uploadIncome(String openId, int drawExtId, int incomePrice, int ownerPrize, String url) throws Exception {
         User user = userMapper.getByOpenId(openId);
         if (user == null || user.getId() == 0) {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "user id is not exist");
@@ -249,33 +249,31 @@ public class DrawService {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "update draw ext owner price error");
         }
 
-//        Map<String, Object> resMap = orderService.createWXOrder(openId, "127.0.0.1", "income-"+drawExtId,
-//                BigDecimal.valueOf(incomePrice).divide(BigDecimal.valueOf(100)).toString());
+        Map<String, String> resMap = orderService.createWXOrder(openId, "127.0.0.1", "income-"+drawExtId,
+                BigDecimal.valueOf(incomePrice).divide(BigDecimal.valueOf(100)).toString());
 
 
-        Map<String, Object> resMap = new HashMap<>();
-        resMap.put("orderNo", PayUtil.getTradeNo());
-        resMap.put("paySign", "dasdadasdadadadqwd2d22d2");
+//        Map<String, Object> resMap = new HashMap<>();
+//        resMap.put("orderNo", PayUtil.getTradeNo());
+//        resMap.put("paySign", "dasdadasdadadadqwd2d22d2");
 
         if (resMap.isEmpty() || resMap.get("orderNo") == null) {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "create order is fail");
         }
 
-        String orderNo = (String) resMap.get("orderNo");
-        String paySign = (String) resMap.get("paySign");
-
+        String orderNo = resMap.get("orderNo");
         Income income = new Income();
         income.setDrawExtid(drawExtId);
         income.setProofPrice(incomePrice);
         income.setProofUrl(url);
         income.setStatus("0");
-        income.setInfo(paySign);
+        income.setInfo(JSON.toJSONString(resMap));
         income.setOrderNo(orderNo);
         String time = DataTypeUtils.formatCurDateTime();
         income.setCreateTime(time);
         income.setModifyTime(time);
         incomeMapper.insert(income);
-        return paySign;
+        return resMap;
     }
 
     private ShowDraws buildShowDrawExts(List<DrawExt> drawExts, String maxId) {
