@@ -268,7 +268,7 @@ public class OrderService {
             //业务结果
             String prepay_id = restmap.get("prepay_id"); //返回的预付单信息
             response.put("nonceStr",nonce_str);
-            response.put("package", "prepay_id ="+ prepay_id);
+            response.put("package", "prepay_id="+ prepay_id);
             long timeStamp = System.currentTimeMillis() / 1000;
             response.put("timeStamp", timeStamp +""); //这边要将返回的时间戳转化成字符串，不然小程序端调用wx.requestPayment方法会报签名错误
             response.put("orderNo", orderNo); //商户订单号
