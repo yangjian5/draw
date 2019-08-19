@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
@@ -56,7 +55,7 @@ public class OrderController {
 
     @RequestMapping("/wx_notify.json")
     public void wxNotify(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        BufferedReader br = new BufferedReader(new InputStreamReader((ServletInputStream)request.getInputStream()));
+        BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
         String line;
         StringBuilder sb = new StringBuilder();
         while((line = br.readLine())!=null){
