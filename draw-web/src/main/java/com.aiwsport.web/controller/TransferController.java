@@ -9,7 +9,6 @@ import com.aiwsport.core.service.UserService;
 import com.aiwsport.core.utils.HttpUtils;
 import com.aiwsport.core.utils.PayUtil;
 import com.aiwsport.core.utils.XmlUtil;
-import com.aiwsport.web.utlis.ParseUrl;
 import com.aiwsport.web.verify.ParamVerify;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,8 +77,8 @@ public class TransferController {
             //parm.put("re_user_name", "安迪"); //check_name设置为FORCE_CHECK或OPTION_CHECK，则必填
             parm.put("amount", BigDecimal.valueOf(amount).divide(BigDecimal.valueOf(100)).toString()); //转账金额
             parm.put("desc", user.getNickName() +" 申请提现金额："+amount+"分 " + user.getId()); //企业付款描述信息
-            parm.put("spbill_create_ip", ParseUrl.getLocalIp(request)); //Ip地址
-            parm.put("sign", PayUtil.getSign(parm, WxConfig.SECRET));
+            parm.put("spbill_create_ip", "134.175.110.50"); //Ip地址
+            parm.put("sign", PayUtil.getSign(parm, "artchain825c3af0bd36a25c1396c72b"));
 
             String restxml = HttpUtils.posts(WxConfig.TRANSFERS_PAY, XmlUtil.xmlFormat(parm, false));
             restmap = XmlUtil.xmlParse(restxml);
@@ -88,25 +87,15 @@ public class TransferController {
             // 异常返回
             return new ResultMsg("withdrawal", "withdrawal is fail");
         }
-
-        restmap = new HashMap<>();
-        restmap.put("result_code", "SUCCESS");
-
         /** ========================================================提现结果处理===================================================*/
         if (!CollectionUtils.isEmpty(restmap) && "SUCCESS".equals(restmap.get("result_code"))) {
             logger.info("转账成功");
-//            Map<String, String> transferMap = new HashMap<>();
-//            transferMap.put("partnerTradeNo", restmap.get("partner_trade_no"));//商户转账订单号
-//            transferMap.put("paymentNo", restmap.get("payment_no")); //微信订单号
-//            transferMap.put("paymentTime", restmap.get("payment_time")); //微信支付成功时间
-
             //生成提现记录
             userService.withdrawal(user.getId(), tradeNo, -amount);
         } else {
             // 转账失败返回
             return new ResultMsg("withdrawal", "withdrawal is fail");
         }
-
         return new ResultMsg("withdrawal", true);
     }
 
