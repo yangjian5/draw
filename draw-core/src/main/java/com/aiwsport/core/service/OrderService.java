@@ -183,8 +183,6 @@ public class OrderService {
 
             // 商品所属人修改
             Draws draws = drawsMapper.selectByPrimaryKey(order.getDrawId());
-            draws.setProdName(order.getoName());
-            draws.setProdTel(order.getoTel());
             draws.setProdUid(user.getId());
             drawsMapper.updateByPrimaryKey(draws);
         } else {

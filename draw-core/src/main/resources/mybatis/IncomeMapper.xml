@@ -55,6 +55,6 @@
   </select>
   <select id="getIncomeByOrderNo" resultMap="BaseResultMap" >
     select id, drawExtid, proofUrl, proofPrice, info, orderNo, status, opName, opId, createTime, modifyTime
-    from income
+    from where orderNo = #{orderNo,jdbcType=VARCHAR}
   </select>
 </mapper>

@@ -71,7 +71,7 @@ public class OrderController {
 
         String returnCode = resMap.get("return_code");
         if("SUCCESS".equals(returnCode)){
-            orderService.finishPay(resMap.get("orderNo"));
+            orderService.finishPay(resMap.get("out_trade_no"));
 
             //验证签名是否正确
 //            String reSign = PayUtil.getSign(resMap, resMap.get("sign"));

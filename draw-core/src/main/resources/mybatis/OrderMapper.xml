@@ -68,7 +68,7 @@
     select id, code, drawId, drawExtId, uid, oName, oTel, type, status, orderPrice, info, opName, opid,
     createTime, modifyTime
     from order_info
-    where code = #{orderNo,jdbcType=VARCHAR}
+    where code = #{orderNo,jdbcType=VARCHAR} and status = 1
   </select>
   <select id="getOrderByUid" resultMap="BaseResultMap" >
     select id, code, drawId, drawExtId, uid, oName, oTel, type, status, orderPrice, info, opName, opid,
