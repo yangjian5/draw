@@ -132,7 +132,7 @@ public class DrawService {
             drawBranner.setDrawId(drawId);
             drawBranner.setType(type+"");
             drawBranner.setSort(sort);
-            return drawBrannerMapper.updateByPrimaryKey(drawBranner) > 0;
+            return drawBrannerMapper.updateByPrimaryKey(drawBranner) > -1;
         }
     }
 

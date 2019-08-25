@@ -41,16 +41,16 @@
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.aiwsport.core.entity.DrawBranner" >
     update draw_branner
-    set brannerUrl = #{brannerurl,jdbcType=VARCHAR},
+    set brannerUrl = #{brannerUrl,jdbcType=VARCHAR},
       simpleUrl = #{simpleUrl,jdbcType=VARCHAR},
-      clickUrl = #{clickurl,jdbcType=VARCHAR},
+      clickUrl = #{clickUrl,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
       sort = #{sort,jdbcType=INTEGER},
-      drawId = #{drawid,jdbcType=INTEGER},
-      opName = #{opname,jdbcType=VARCHAR},
-      opId = #{opid,jdbcType=INTEGER},
-      createTime = #{createtime,jdbcType=TIMESTAMP},
-      modifyTime = #{modifytime,jdbcType=TIMESTAMP}
+      drawId = #{drawId,jdbcType=INTEGER},
+      opName = #{opName,jdbcType=VARCHAR},
+      opId = #{opId,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      modifyTime = #{modifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
