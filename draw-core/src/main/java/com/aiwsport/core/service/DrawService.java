@@ -136,34 +136,40 @@ public class DrawService {
         }
     }
 
-    public boolean updateDraw(int drawId, int createPrice, int ownerPrice, int ownerCount, String isSale, String open_id) {
+    public boolean updateDraw(int drawId, int createPrice, int ownerPrice, int ownerCount, String isSale, String isUpdate) {
         Draws draw = drawMapper.selectByPrimaryKey(drawId);
         if (draw == null) {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "藏品不存在");
         }
 
-        draw.setOwnCount(ownerCount);
+        if ("1".equals(isUpdate)) {
+            draw.setOwnCount(ownerCount);
+        }
+
         draw.setIsSale(isSale);
         draw.setDrawPrice(createPrice);
         if (drawMapper.updateByPrimaryKey(draw) > -1) {
-            DrawExt drawExtOld = drawExtMapper.getMaxPriceByDrawIda(drawId);
+            if ("1".equals(isUpdate)) {
+                DrawExt drawExtOld = drawExtMapper.getMaxPriceByDrawIda(drawId);
 
-            drawExtMapper.deleteDrawExt(drawId);
-            for (int i=0; i<ownerCount; i++) {
-                DrawExt drawExt = new DrawExt();
-                drawExt.setExtPrice(ownerPrice);
-                drawExt.setExtUid(draw.getProdUid());
-                drawExt.setExtIsSale("1");
+                drawExtMapper.deleteDrawExt(drawId);
+                for (int i=0; i<ownerCount; i++) {
+                    DrawExt drawExt = new DrawExt();
+                    drawExt.setExtPrice(ownerPrice);
+                    drawExt.setExtUid(draw.getProdUid());
+                    drawExt.setExtIsSale("1");
 
-                if (drawExtOld == null || drawExtOld.getExtStatus().equals("0")) {
-                    drawExt.setExtStatus("0");
-                } else {
-                    drawExt.setExtStatus("1");
+                    if (drawExtOld == null || drawExtOld.getExtStatus().equals("0")) {
+                        drawExt.setExtStatus("0");
+                    } else {
+                        drawExt.setExtStatus("1");
+                    }
+
+                    drawExt.setDrawId(drawId);
+                    drawExtMapper.insert(drawExt);
                 }
-
-                drawExt.setDrawId(drawId);
-                drawExtMapper.insert(drawExt);
             }
+
             return true;
         } else {
             return false;

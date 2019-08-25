@@ -162,7 +162,8 @@ public class DrawController {
                                 @RequestParam(name = "owner_prize", required = false, defaultValue = "0") Integer owner_prize,
                                 @RequestParam(name = "owner_count", required = false, defaultValue = "0") Integer owner_count,
                                 @ParamVerify(isNotBlank = true) String is_sale,
-                                @ParamVerify(isNotBlank = true)String open_id) {
+                                @ParamVerify(isNotBlank = true)String open_id,
+                                @ParamVerify(isNotBlank = true)String is_update_count) {
         if ("1".equals(is_sale)) {
             if (create_price == 0 || owner_prize == 0 || owner_count == 0) {
                 throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "update draw param is error");
