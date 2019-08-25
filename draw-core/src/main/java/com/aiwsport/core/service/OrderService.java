@@ -237,8 +237,8 @@ public class OrderService {
         packageParams.put("nonce_str", nonce_str);
         packageParams.put("body", goodName);//商品名称
         packageParams.put("out_trade_no", orderNo); //商户订单号
-        packageParams.put("total_fee", "1"); //支付金额，这边需要转成字符串类型，否则后面的签名会失败
-        packageParams.put("spbill_create_ip", "134.175.110.50");//获取本机的IP地址
+        packageParams.put("total_fee", money); //支付金额，这边需要转成字符串类型，否则后面的签名会失败
+        packageParams.put("spbill_create_ip", "124.207.111.78");//获取本机的IP地址
         packageParams.put("notify_url", WxConfig.notify_url);
         packageParams.put("trade_type", WxConfig.TRADETYPE);
         packageParams.put("openid", openId);
