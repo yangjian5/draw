@@ -23,6 +23,8 @@ public interface DrawExtMapper {
 
     DrawExt getMaxPriceByDrawId(int drawId);
 
+    DrawExt getMaxPriceByDrawIda(int drawId);
+
     int deleteDrawExt(int drawId);
 
     int getCount(int drawId, int uid);

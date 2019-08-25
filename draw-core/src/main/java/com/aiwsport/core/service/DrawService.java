@@ -164,7 +164,7 @@ public class DrawService {
 
     public Draws getDraw(int id) {
         Draws draws = drawMapper.selectByPrimaryKey(id);
-        draws.setDrawExt(drawExtMapper.getMaxPriceByDrawId(id));
+        draws.setDrawExt(drawExtMapper.getMaxPriceByDrawIda(id));
         return draws;
     }
 
@@ -198,7 +198,7 @@ public class DrawService {
 
         if (type == 1) {
             List<Draws> draws = drawMapper.getIndex(id, start, end, sort);
-            return buildShowDraws(draws, id + "-" + page);
+            return buildShowDraws(draws, id + "-" + page, "");
         } else {
             List<DrawExt> drawExts = drawExtMapper.getIndex(id, start, end, sort);
             return buildShowDrawExts(drawExts, id + "-" + page);
@@ -217,7 +217,7 @@ public class DrawService {
 
         if (type == 1) {
             List<Draws> draws = drawMapper.getMyList(uid, start, end);
-            return buildShowDraws(draws, page + "");
+            return buildShowDraws(draws, page + "", "my");
         } else {
             List<DrawExt> drawExts = drawExtMapper.getMyList(uid, start, end);
             drawExts.forEach(drawExt -> {
@@ -301,14 +301,20 @@ public class DrawService {
         return showDraws;
     }
 
-    private ShowDraws buildShowDraws(List<Draws> draws, String maxId) {
+    private ShowDraws buildShowDraws(List<Draws> draws, String maxId, String type) {
         ShowDraws showDraws = new ShowDraws();
         if (draws == null || draws.size() == 0) {
             showDraws.setMaxId("-1");
             return showDraws;
         }
 
-        draws.forEach(d -> d.setDrawExt(drawExtMapper.getMaxPriceByDrawId(d.getId())));
+        draws.forEach(d -> {
+            if ("my".equals(type)) {
+                d.setDrawExt(drawExtMapper.getMaxPriceByDrawIda(d.getId()));
+            } else {
+                d.setDrawExt(drawExtMapper.getMaxPriceByDrawId(d.getId()));
+            }
+        });
 
         showDraws.setDraws(draws);
         if (draws.size() < 15) {

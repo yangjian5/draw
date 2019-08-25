@@ -94,6 +94,14 @@
     limit 1
   </select>
 
+  <select id="getMaxPriceByDrawIda" resultMap="BaseResultMap">
+    select id, extUid, drawId, extPrice, extStatus, extIsSale, opName, opId, createTime, modifyTime
+    from draw_ext
+    where drawId = #{drawId,jdbcType=INTEGER}
+    order by extPrice asc
+    limit 1
+  </select>
+
   <delete id="deleteDrawExt" parameterType="java.lang.Integer" >
     delete from draw_ext
     where drawId = #{drawId,jdbcType=INTEGER}
