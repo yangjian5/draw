@@ -26,4 +26,6 @@ public interface DrawExtMapper {
     int deleteDrawExt(int drawId);
 
     int getCount(int drawId, int uid);
+
+    int updateExtStatus(int drawId, String extStatus);
 }

@@ -5,6 +5,7 @@ import com.aiwsport.core.entity.Draws;
 import com.aiwsport.core.entity.Order;
 import com.aiwsport.core.entity.User;
 import com.aiwsport.core.mapper.DrawBrannerMapper;
+import com.aiwsport.core.mapper.DrawExtMapper;
 import com.aiwsport.core.mapper.DrawsMapper;
 import com.aiwsport.core.model.ShowBackOrder;
 import com.aiwsport.core.model.ShowDraws;
@@ -30,6 +31,9 @@ public class BackService {
     private DrawService drawService;
     @Autowired
     private DrawsMapper drawMapper;
+
+    @Autowired
+    private DrawExtMapper drawExtMapper;
 
     @Autowired
     private OrderService orderService;
@@ -81,6 +85,7 @@ public class BackService {
         Draws draws = new Draws();
         draws.setId(id);
         draws.setDrawStatus(drawStatus + "");
+        drawExtMapper.updateExtStatus(id, drawStatus+"");
         return drawMapper.updateDrawsStatus(draws) > 0;
     }
 
