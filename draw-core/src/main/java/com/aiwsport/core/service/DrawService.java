@@ -138,8 +138,8 @@ public class DrawService {
 
     public boolean updateDraw(int drawId, int createPrice, int ownerPrice, int ownerCount, String isSale, String open_id) {
         Draws draw = drawMapper.selectByPrimaryKey(drawId);
-        if (draw == null || draw.getOwnFinishCount() > 0) {
-            return false;
+        if (draw == null) {
+            throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "藏品不存在");
         }
 
         draw.setOwnCount(ownerCount);
