@@ -78,18 +78,18 @@ public class DrawController {
     @RequestMapping(value = "/upload_branner.json")
     public ResultMsg uploadImage(@ParamVerify(isNumber = true) @RequestParam(name = "id", required = false) Integer id,
                                  String click_url,
+                                 @RequestParam(name = "branner_url", required = false, defaultValue = "") String brannerUrl,
+                                 @RequestParam(name = "simple_url", required = false, defaultValue = "") String simpleUrl,
                                  @RequestParam(name = "draw_id", required = false) Integer draw_id,
                                  @ParamVerify(isNumber = true) int type,
                                  @ParamVerify(isNumber = true) int sort,
                                  @RequestParam(name = "branner_file", required = false) MultipartFile file) {
         try {
-            String brannerUrl = "";
-            String simpleUrl = "";
             if (file != null) {
                 String fileName = file.getOriginalFilename();
                 InputStream inputStream = file.getInputStream();
                 String name = System.currentTimeMillis() + "_" + fileName;
-                if (!FileUtil.writeFile(BASE + BRANNER, BASE+SIMPLE_BRANNER, name, inputStream)) {
+                if (!FileUtil.writeFile(BASE + BRANNER, BASE + SIMPLE_BRANNER, name, inputStream)) {
                     throw new DrawServerException(DrawServerExceptionFactor.FILE_ERROR);
                 }
                 brannerUrl = IMG_HOST + BRANNER + "/" + name;
