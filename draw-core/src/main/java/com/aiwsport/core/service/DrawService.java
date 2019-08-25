@@ -136,34 +136,40 @@ public class DrawService {
         }
     }
 
-    public boolean updateDraw(int drawId, int createPrice, int ownerPrice, int ownerCount, String isSale) {
+    public boolean updateDraw(int drawId, int createPrice, int ownerPrice, int ownerCount, String isSale, String open_id) {
         Draws draw = drawMapper.selectByPrimaryKey(drawId);
-        if (draw == null || draw.getOwnFinishCount() > 0) {
+        if (draw == null) {
             return false;
         }
 
-        draw.setOwnCount(ownerCount);
-        draw.setOwnFinishCount(0);
+        User user = userMapper.getByOpenId(open_id);
+        int count = drawExtMapper.getCount(draw.getId(), user.getId());
+        if (draw.getOwnFinishCount() == 0 && count == draw.getOwnCount()) {
+            draw.setOwnCount(ownerCount);
+        }
+
         draw.setIsSale(isSale);
         draw.setDrawPrice(createPrice);
         if (drawMapper.updateByPrimaryKey(draw) > -1) {
-            DrawExt drawExtOld = drawExtMapper.getMaxPriceByDrawIda(drawId);
+            if (draw.getOwnFinishCount() == 0 && count == draw.getOwnCount()) {
+                DrawExt drawExtOld = drawExtMapper.getMaxPriceByDrawIda(drawId);
 
-            drawExtMapper.deleteDrawExt(drawId);
-            for (int i=0; i<ownerCount; i++) {
-                DrawExt drawExt = new DrawExt();
-                drawExt.setExtPrice(ownerPrice);
-                drawExt.setExtUid(draw.getProdUid());
-                drawExt.setExtIsSale("1");
+                drawExtMapper.deleteDrawExt(drawId);
+                for (int i=0; i<ownerCount; i++) {
+                    DrawExt drawExt = new DrawExt();
+                    drawExt.setExtPrice(ownerPrice);
+                    drawExt.setExtUid(draw.getProdUid());
+                    drawExt.setExtIsSale("1");
 
-                if (drawExtOld == null || drawExtOld.getExtStatus().equals("0")) {
-                    drawExt.setExtStatus("0");
-                } else {
-                    drawExt.setExtStatus("1");
+                    if (drawExtOld == null || drawExtOld.getExtStatus().equals("0")) {
+                        drawExt.setExtStatus("0");
+                    } else {
+                        drawExt.setExtStatus("1");
+                    }
+
+                    drawExt.setDrawId(drawId);
+                    drawExtMapper.insert(drawExt);
                 }
-
-                drawExt.setDrawId(drawId);
-                drawExtMapper.insert(drawExt);
             }
             return true;
         } else {
@@ -275,8 +281,10 @@ public class DrawService {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "update draw ext owner price error");
         }
 
+        incomePrice = BigDecimal.valueOf(incomePrice).multiply(BigDecimal.valueOf(0.05)).intValue();
+
         Map<String, String> resMap = orderService.createWXOrder(openId, "127.0.0.1", "income-"+drawExtId,
-                BigDecimal.valueOf(incomePrice).multiply(BigDecimal.valueOf(0.05)).intValue()+"");
+                incomePrice+"");
 
 
 //        Map<String, Object> resMap = new HashMap<>();

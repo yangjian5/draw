@@ -109,5 +109,4 @@
     update draw_ext set extStatus=#{arg0}
     where drawId = #{arg1}
   </update>
-
 </mapper>
