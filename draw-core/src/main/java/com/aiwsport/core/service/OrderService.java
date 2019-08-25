@@ -182,12 +182,14 @@ public class OrderService {
             // 商品所属人修改
             Draws draws = drawsMapper.selectByPrimaryKey(order.getDrawId());
             draws.setProdUid(user.getId());
+            draws.setIsSale("0");
             drawsMapper.updateByPrimaryKey(draws);
         } else {
             orderStatistics.setDrawId(order.getDrawExtId());
 
             DrawExt drawExt = drawExtMapper.selectByPrimaryKey(order.getDrawExtId());
             drawExt.setExtUid(order.getUid());
+            drawExt.setExtIsSale("0");
             drawExtMapper.updateByPrimaryKey(drawExt);
 
             // 收益计算统计
