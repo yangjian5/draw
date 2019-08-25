@@ -138,38 +138,31 @@ public class DrawService {
 
     public boolean updateDraw(int drawId, int createPrice, int ownerPrice, int ownerCount, String isSale, String open_id) {
         Draws draw = drawMapper.selectByPrimaryKey(drawId);
-        if (draw == null) {
+        if (draw == null || draw.getOwnFinishCount() > 0) {
             return false;
         }
 
-        User user = userMapper.getByOpenId(open_id);
-        int count = drawExtMapper.getCount(draw.getId(), user.getId());
-        if (draw.getOwnFinishCount() == 0 && count == draw.getOwnCount()) {
-            draw.setOwnCount(ownerCount);
-        }
-
+        draw.setOwnCount(ownerCount);
         draw.setIsSale(isSale);
         draw.setDrawPrice(createPrice);
         if (drawMapper.updateByPrimaryKey(draw) > -1) {
-            if (draw.getOwnFinishCount() == 0 && count == draw.getOwnCount()) {
-                DrawExt drawExtOld = drawExtMapper.getMaxPriceByDrawIda(drawId);
+            DrawExt drawExtOld = drawExtMapper.getMaxPriceByDrawIda(drawId);
 
-                drawExtMapper.deleteDrawExt(drawId);
-                for (int i=0; i<ownerCount; i++) {
-                    DrawExt drawExt = new DrawExt();
-                    drawExt.setExtPrice(ownerPrice);
-                    drawExt.setExtUid(draw.getProdUid());
-                    drawExt.setExtIsSale("1");
+            drawExtMapper.deleteDrawExt(drawId);
+            for (int i=0; i<ownerCount; i++) {
+                DrawExt drawExt = new DrawExt();
+                drawExt.setExtPrice(ownerPrice);
+                drawExt.setExtUid(draw.getProdUid());
+                drawExt.setExtIsSale("1");
 
-                    if (drawExtOld == null || drawExtOld.getExtStatus().equals("0")) {
-                        drawExt.setExtStatus("0");
-                    } else {
-                        drawExt.setExtStatus("1");
-                    }
-
-                    drawExt.setDrawId(drawId);
-                    drawExtMapper.insert(drawExt);
+                if (drawExtOld == null || drawExtOld.getExtStatus().equals("0")) {
+                    drawExt.setExtStatus("0");
+                } else {
+                    drawExt.setExtStatus("1");
                 }
+
+                drawExt.setDrawId(drawId);
+                drawExtMapper.insert(drawExt);
             }
             return true;
         } else {
