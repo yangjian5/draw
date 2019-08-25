@@ -144,7 +144,7 @@ public class OrderService {
             orderMapper.insert(order);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, e.getMessage());
         }
 
         return resMap;
