@@ -227,10 +227,11 @@ public class DrawService {
             List<Draws> draws = drawMapper.getMyList(uid, start, end);
             draws.forEach(d -> {
                 int count = drawExtMapper.getCount(d.getId(), uid);
-                if (d.getOwnFinishCount() == 0 || d.getOwnCount() == count) {
+                if (d.getOwnFinishCount() == 0 && d.getOwnCount() == count) {
                     d.setIsUpdateCount(1);
+                } else {
+                    d.setIsUpdateCount(0);
                 }
-                d.setIsUpdateCount(0);
             });
 
             return buildShowDraws(draws, page + "", "my");
@@ -323,8 +324,9 @@ public class DrawService {
                         int count = drawExtMapper.getCount(draws.getId(), uid);
                         if (draws.getOwnFinishCount() == 0 || draws.getOwnCount() == count) {
                             draws.setIsUpdateCount(1);
+                        } else {
+                            draws.setIsUpdateCount(0);
                         }
-                        draws.setIsUpdateCount(0);
                     }
 
                     draws.setDrawExt(drawExt);
