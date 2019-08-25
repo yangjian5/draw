@@ -17,12 +17,12 @@
     </selectKey>
     insert into income_statistics (drawId, incomePrice, createTime
       )
-    values (#{drawid,jdbcType=INTEGER}, #{incomeprice,jdbcType=INTEGER}, #{createtime,jdbcType=INTEGER}
+    values (#{drawId,jdbcType=INTEGER}, #{incomeprice,jdbcType=INTEGER}, #{createtime,jdbcType=INTEGER}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.aiwsport.core.entity.IncomeStatistics" >
     update income_statistics
-    set drawId = #{drawid,jdbcType=INTEGER},
+    set drawId = #{drawId,jdbcType=INTEGER},
       incomePrice = #{incomeprice,jdbcType=INTEGER},
       createTime = #{createtime,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
