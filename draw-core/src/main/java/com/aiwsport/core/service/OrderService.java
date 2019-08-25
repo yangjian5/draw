@@ -17,7 +17,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -114,8 +113,7 @@ public class OrderService {
                 goodName = draws.getDrawName()+"所有权";
             }
 
-            resMap = createWXOrder(openId, ip, goodName,
-                    BigDecimal.valueOf(orderPrice).divide(BigDecimal.valueOf(100)).toString());
+            resMap = createWXOrder(openId, ip, goodName,orderPrice+"");
 
 //            resMap = new HashMap<>();
 //            resMap.put("orderNo", PayUtil.getTradeNo());

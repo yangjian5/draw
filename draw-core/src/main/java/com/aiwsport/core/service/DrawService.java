@@ -250,7 +250,7 @@ public class DrawService {
         }
 
         Map<String, String> resMap = orderService.createWXOrder(openId, "127.0.0.1", "income-"+drawExtId,
-                BigDecimal.valueOf(incomePrice).multiply(BigDecimal.valueOf(0.05)).toString());
+                BigDecimal.valueOf(incomePrice).multiply(BigDecimal.valueOf(0.05)).intValue()+"");
 
 
 //        Map<String, Object> resMap = new HashMap<>();
