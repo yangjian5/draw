@@ -146,13 +146,21 @@ public class DrawService {
         draw.setIsSale(isSale);
         draw.setDrawPrice(createPrice);
         if (drawMapper.updateByPrimaryKey(draw) > -1) {
+            DrawExt drawExtOld = drawExtMapper.getMaxPriceByDrawIda(drawId);
+
             drawExtMapper.deleteDrawExt(drawId);
             for (int i=0; i<ownerCount; i++) {
                 DrawExt drawExt = new DrawExt();
                 drawExt.setExtPrice(ownerPrice);
                 drawExt.setExtUid(draw.getProdUid());
                 drawExt.setExtIsSale("1");
-                drawExt.setExtStatus("0");
+
+                if (drawExtOld == null || drawExtOld.getExtStatus().equals("0")) {
+                    drawExt.setExtStatus("0");
+                } else {
+                    drawExt.setExtStatus("1");
+                }
+
                 drawExt.setDrawId(drawId);
                 drawExtMapper.insert(drawExt);
             }
