@@ -209,6 +209,23 @@ public class OrderService {
 
             // 商品所属人修改
             Draws draws = drawsMapper.selectByPrimaryKey(order.getDrawId());
+            OperLog operLog = new OperLog();
+            operLog.setUid(draws.getProdUid());
+            operLog.setOrderId(order.getId());
+            operLog.setIncomeId(0);
+            operLog.setType(order.getType());
+            operLog.setTradeno(orderNo);
+            operLog.setIncomePrice(order.getOrderPrice());
+            String time = "2019-10-10 00:00:01";
+            try {
+                time = DataTypeUtils.formatCurDateTime();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            operLog.setCreateTime(time);
+            operLog.setModifyTime(time);
+            operLogMapper.insert(operLog);
+
             draws.setProdUid(user.getId());
             draws.setIsSale("0");
             drawsMapper.updateByPrimaryKey(draws);
@@ -216,6 +233,26 @@ public class OrderService {
             orderStatistics.setDrawId(order.getDrawExtId());
 
             DrawExt drawExt = drawExtMapper.selectByPrimaryKey(order.getDrawExtId());
+
+            OperLog operLog = new OperLog();
+            operLog.setUid(drawExt.getExtUid());
+            operLog.setOrderId(order.getId());
+            operLog.setIncomeId(0);
+            operLog.setType(order.getType());
+            operLog.setTradeno(orderNo);
+            operLog.setIncomePrice(order.getOrderPrice());
+            String time = "2019-10-10 00:00:01";
+            try {
+                time = DataTypeUtils.formatCurDateTime();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            operLog.setCreateTime(time);
+            operLog.setModifyTime(time);
+            operLogMapper.insert(operLog);
+
+
+
             drawExt.setExtUid(order.getUid());
             drawExt.setExtIsSale("0");
             drawExtMapper.updateByPrimaryKey(drawExt);
@@ -236,22 +273,7 @@ public class OrderService {
             }
         }
 
-        OperLog operLog = new OperLog();
-        operLog.setUid(user.getId());
-        operLog.setOrderId(order.getId());
-        operLog.setIncomeId(0);
-        operLog.setType(order.getType());
-        operLog.setTradeno(orderNo);
-        operLog.setIncomePrice(order.getOrderPrice());
-        String time = "2019-10-10 00:00:01";
-        try {
-            time = DataTypeUtils.formatCurDateTime();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        operLog.setCreateTime(time);
-        operLog.setModifyTime(time);
-        operLogMapper.insert(operLog);
+
 
         OrderStatistics orderStatistics1 = orderStatisticsMapper.getOrderByDrawIdAndDate(order.getDrawId());
         if (orderStatistics1 == null) {
