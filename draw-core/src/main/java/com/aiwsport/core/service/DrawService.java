@@ -91,7 +91,7 @@ public class DrawService {
 
     public boolean delDraw(int id, int type) {
         if (type == 1) {
-            if (drawExtMapper.deleteDrawExt(id) > 0) {
+            if (drawExtMapper.deleteDrawExt(id) > -1) {
                 return drawMapper.deleteByPrimaryKey(id) > 0;
             }
             return false;
