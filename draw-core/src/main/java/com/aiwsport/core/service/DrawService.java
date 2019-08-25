@@ -209,7 +209,7 @@ public class DrawService {
             return buildShowDraws(draws, id + "-" + page, "");
         } else {
             List<DrawExt> drawExts = drawExtMapper.getIndex(id, start, end, sort);
-            return buildShowDrawExts(drawExts, id + "-" + page);
+            return buildShowDrawExts(drawExts, id + "-" + page, 0);
         }
     }
 
@@ -225,6 +225,14 @@ public class DrawService {
 
         if (type == 1) {
             List<Draws> draws = drawMapper.getMyList(uid, start, end);
+            draws.forEach(d -> {
+                int count = drawExtMapper.getCount(d.getId(), uid);
+                if (d.getOwnFinishCount() == 0 || d.getOwnCount() == count) {
+                    d.setIsUpdateCount(1);
+                }
+                d.setIsUpdateCount(0);
+            });
+
             return buildShowDraws(draws, page + "", "my");
         } else {
             List<DrawExt> drawExts = drawExtMapper.getMyList(uid, start, end);
@@ -245,7 +253,7 @@ public class DrawService {
             drawExtList.forEach(drawExt -> {
                 drawExt.setCount(drawExtMapper.getCount(drawExt.getDrawId(), uid));
             });
-            return buildShowDrawExts(drawExtList, page + "");
+            return buildShowDrawExts(drawExtList, page + "", uid);
         }
     }
 
@@ -303,7 +311,7 @@ public class DrawService {
         return resMap;
     }
 
-    private ShowDraws buildShowDrawExts(List<DrawExt> drawExts, String maxId) {
+    private ShowDraws buildShowDrawExts(List<DrawExt> drawExts, String maxId, int uid) {
         if (drawExts == null || drawExts.size() == 0) {
             return new ShowDraws();
         }
@@ -311,6 +319,14 @@ public class DrawService {
         List<Draws> drawsList = drawExts.stream()
                 .map(drawExt -> {
                     Draws draws = drawMapper.selectByPrimaryKey(drawExt.getDrawId());
+                    if (uid != 0) {
+                        int count = drawExtMapper.getCount(draws.getId(), uid);
+                        if (draws.getOwnFinishCount() == 0 || draws.getOwnCount() == count) {
+                            draws.setIsUpdateCount(1);
+                        }
+                        draws.setIsUpdateCount(0);
+                    }
+
                     draws.setDrawExt(drawExt);
                     return draws;
                 }).collect(Collectors.toList());

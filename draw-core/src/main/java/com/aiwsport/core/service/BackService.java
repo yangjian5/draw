@@ -1,9 +1,6 @@
 package com.aiwsport.core.service;
 
-import com.aiwsport.core.entity.DrawBranner;
-import com.aiwsport.core.entity.Draws;
-import com.aiwsport.core.entity.Order;
-import com.aiwsport.core.entity.User;
+import com.aiwsport.core.entity.*;
 import com.aiwsport.core.mapper.DrawBrannerMapper;
 import com.aiwsport.core.mapper.DrawExtMapper;
 import com.aiwsport.core.mapper.DrawsMapper;
@@ -85,6 +82,12 @@ public class BackService {
         Draws draws = new Draws();
         draws.setId(id);
         draws.setDrawStatus(drawStatus + "");
+
+        DrawExt drawExt = drawExtMapper.getMaxPriceByDrawIda(id);
+        if (drawExt == null) {
+            return false;
+        }
+
         drawExtMapper.updateExtStatus(drawStatus+"", id);
         return drawMapper.updateDrawsStatus(draws) > 0;
     }
