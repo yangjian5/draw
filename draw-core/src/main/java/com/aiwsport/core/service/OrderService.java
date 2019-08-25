@@ -47,6 +47,9 @@ public class OrderService {
     @Autowired
     private IncomeStatisticsMapper incomeStatisticsMapper;
 
+    @Autowired
+    private OperLogMapper operLogMapper;
+
     private static Logger logger = LogManager.getLogger();
 
     public List<ShowOrder> myOrder(String openId, String status) {
@@ -177,6 +180,23 @@ public class OrderService {
             User user = userMapper.selectByPrimaryKey(draws.getProdUid());
             user.setIncome(user.getIncome() + income.getProofPrice());
             userMapper.updateByPrimaryKey(user);
+
+            OperLog operLog = new OperLog();
+            operLog.setUid(user.getId());
+            operLog.setOrderId(0);
+            operLog.setIncomeId(income.getId());
+            operLog.setType("3");
+            operLog.setTradeno(orderNo);
+            operLog.setIncomePrice(income.getProofPrice());
+            String time = "2019-10-10 00:00:01";
+            try {
+                time = DataTypeUtils.formatCurDateTime();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            operLog.setCreateTime(time);
+            operLog.setModifyTime(time);
+            operLogMapper.insert(operLog);
             return;
         }
 
@@ -215,6 +235,23 @@ public class OrderService {
                 incomeStatisticsMapper.updateByPrimaryKey(incomeStatistics);
             }
         }
+
+        OperLog operLog = new OperLog();
+        operLog.setUid(user.getId());
+        operLog.setOrderId(order.getId());
+        operLog.setIncomeId(0);
+        operLog.setType(order.getType());
+        operLog.setTradeno(orderNo);
+        operLog.setIncomePrice(order.getOrderPrice());
+        String time = "2019-10-10 00:00:01";
+        try {
+            time = DataTypeUtils.formatCurDateTime();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        operLog.setCreateTime(time);
+        operLog.setModifyTime(time);
+        operLogMapper.insert(operLog);
 
         OrderStatistics orderStatistics1 = orderStatisticsMapper.getOrderByDrawIdAndDate(order.getDrawId());
         if (orderStatistics1 == null) {
