@@ -226,9 +226,17 @@ public class OrderService {
             operLog.setModifyTime(time);
             operLogMapper.insert(operLog);
 
+
+            User user1 = userMapper.selectByPrimaryKey(draws.getProdUid());
+            user1.setIncome(user1.getIncome() + order.getOrderPrice());
+            userMapper.updateByPrimaryKey(user1);
+
             draws.setProdUid(user.getId());
             draws.setIsSale("0");
             drawsMapper.updateByPrimaryKey(draws);
+
+
+
         } else {
             orderStatistics.setDrawId(order.getDrawExtId());
 
@@ -251,7 +259,9 @@ public class OrderService {
             operLog.setModifyTime(time);
             operLogMapper.insert(operLog);
 
-
+            User user1 = userMapper.selectByPrimaryKey(drawExt.getExtUid());
+            user1.setIncome(user1.getIncome() + order.getOrderPrice());
+            userMapper.updateByPrimaryKey(user1);
 
             drawExt.setExtUid(order.getUid());
             drawExt.setExtIsSale("0");
