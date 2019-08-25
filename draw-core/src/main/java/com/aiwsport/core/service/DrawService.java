@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -228,10 +229,24 @@ public class DrawService {
             return buildShowDraws(draws, page + "", "my");
         } else {
             List<DrawExt> drawExts = drawExtMapper.getMyList(uid, start, end);
-            drawExts.forEach(drawExt -> {
+
+
+            List<DrawExt> drawExtList = new ArrayList<>();
+            drawExts.stream()
+                    .collect(Collectors.groupingBy(DrawExt::getDrawId, Collectors.toList()))
+                    .entrySet().stream()
+                    .map(entry-> {
+                        List<DrawExt> drawExts1 = entry.getValue().stream()
+                                .sorted(Comparator.comparingInt(DrawExt::getExtPrice))
+                                .limit(1).collect(Collectors.toList());
+                        drawExtList.add(drawExts1.get(0));
+                        return null;
+                    }).collect(Collectors.toList());
+
+            drawExtList.forEach(drawExt -> {
                 drawExt.setCount(drawExtMapper.getCount(drawExt.getDrawId(), uid));
             });
-            return buildShowDrawExts(drawExts, page + "");
+            return buildShowDrawExts(drawExtList, page + "");
         }
     }
 
