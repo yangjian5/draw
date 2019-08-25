@@ -151,6 +151,8 @@ public class DrawService {
                 DrawExt drawExt = new DrawExt();
                 drawExt.setExtPrice(ownerPrice);
                 drawExt.setExtUid(draw.getProdUid());
+                drawExt.setExtIsSale("1");
+                drawExt.setExtStatus("0");
                 drawExt.setDrawId(drawId);
                 drawExtMapper.insert(drawExt);
             }
@@ -225,16 +227,17 @@ public class DrawService {
         }
     }
 
-    public boolean updateDrawExt(int drawExtId, int extPrice) {
+    public boolean updateDrawExt(int drawExtId, int extPrice, String isSale) {
         DrawExt drawExt = drawExtMapper.selectByPrimaryKey(drawExtId);
         if (drawExt == null) {
             return false;
         }
         drawExt.setExtPrice(extPrice);
+        drawExt.setExtIsSale(isSale);
         return drawExtMapper.updateByPrimaryKey(drawExt) > -1;
     }
 
-    public Map<String, String> uploadIncome(String openId, int drawExtId, int incomePrice, int ownerPrize, String url) throws Exception {
+    public Map<String, String> uploadIncome(String openId, int drawExtId, int incomePrice, int ownerPrize, String isSale, String url) throws Exception {
         User user = userMapper.getByOpenId(openId);
         if (user == null || user.getId() == 0) {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "user id is not exist");
@@ -245,7 +248,7 @@ public class DrawService {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "draw ext id is not exist");
         }
 
-        if (!updateDrawExt(drawExtId, ownerPrize)) {
+        if (!updateDrawExt(drawExtId, ownerPrize, isSale)) {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "update draw ext owner price error");
         }
 

@@ -6,6 +6,8 @@
     <result column="extUid" property="extUid" jdbcType="INTEGER" />
     <result column="drawId" property="drawId" jdbcType="INTEGER" />
     <result column="extPrice" property="extPrice" jdbcType="INTEGER" />
+    <result column="extStatus" property="extStatus" jdbcType="VARCHAR" />
+    <result column="extIsSale" property="extIsSale" jdbcType="VARCHAR" />
     <result column="opName" property="opName" jdbcType="VARCHAR" />
     <result column="opId" property="opId" jdbcType="INTEGER" />
     <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
@@ -19,11 +21,11 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into draw_ext (extUid, drawId, extPrice, 
+    insert into draw_ext (extUid, drawId, extPrice,extStatus,extIsSale,
       opName, opId, createTime, 
       modifyTime)
     values (#{extUid,jdbcType=INTEGER}, #{drawId,jdbcType=INTEGER}, #{extPrice,jdbcType=INTEGER},
-      #{opName,jdbcType=VARCHAR}, #{opId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+      #{extStatus,jdbcType=VARCHAR},#{extIsSale,jdbcType=VARCHAR},#{opName,jdbcType=VARCHAR}, #{opId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
       #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.aiwsport.core.entity.DrawExt" >
@@ -31,6 +33,8 @@
     set extUid = #{extUid,jdbcType=INTEGER},
       drawId = #{drawId,jdbcType=INTEGER},
       extPrice = #{extPrice,jdbcType=INTEGER},
+      extStatus = #{extStatus,jdbcType=VARCHAR},
+      extIsSale = #{extIsSale,jdbcType=VARCHAR},
       opName = #{opName,jdbcType=VARCHAR},
       opId = #{opId,jdbcType=INTEGER},
       createTime = #{createTime,jdbcType=TIMESTAMP},
@@ -38,25 +42,25 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, extUid, drawId, extPrice, opName, opId, createTime, modifyTime
+    select id, extUid, drawId, extPrice, extStatus,extIsSale, opName, opId, createTime, modifyTime
     from draw_ext
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, extUid, drawId, extPrice, opName, opId, createTime, modifyTime
+    select id, extUid, drawId, extPrice, extStatus,extIsSale, opName, opId, createTime, modifyTime
     from draw_ext
   </select>
 
   <select id="getMaxOne" resultMap="BaseResultMap" >
-    select id, extUid, drawId, extPrice, opName, opId, createTime, modifyTime
+    select id, extUid, drawId, extPrice, extStatus,extIsSale, opName, opId, createTime, modifyTime
     from draw_ext order by id desc limit 1;
   </select>
 
   <select id="getIndex" resultMap="BaseResultMap" >
-    select id, extUid, drawId, MIN(extPrice) AS extPrice, opName, opId, createTime, modifyTime
+    select id, extUid, drawId, MIN(extPrice) AS extPrice, extStatus,extIsSale, opName, opId, createTime, modifyTime
     from draw_ext
     GROUP BY drawId
-    having id &lt;= #{arg0}
+    having id &lt;= #{arg0} and extStatus = 1
     order by extPrice
     <if test="arg3 == 1">
       desc
@@ -68,7 +72,7 @@
   </select>
 
   <select id="getMyList" resultMap="BaseResultMap">
-    select id, extUid, drawId, MIN(extPrice) AS extPrice, opName, opId, createTime, modifyTime
+    select id, extUid, drawId, MIN(extPrice) AS extPrice, extStatus,extIsSale, opName, opId, createTime, modifyTime
     from draw_ext
     GROUP BY drawId
     having extUid = #{arg0}
@@ -83,9 +87,9 @@
   </select>
 
   <select id="getMaxPriceByDrawId" resultMap="BaseResultMap">
-    select id, extUid, drawId, extPrice, opName, opId, createTime, modifyTime
+    select id, extUid, drawId, extPrice, extStatus, extIsSale, opName, opId, createTime, modifyTime
     from draw_ext
-    where drawId = #{drawId,jdbcType=INTEGER}
+    where drawId = #{drawId,jdbcType=INTEGER} and extStatus = 1 and extIsSale = 1
     order by extPrice asc
     limit 1
   </select>

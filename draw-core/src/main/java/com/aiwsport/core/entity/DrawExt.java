@@ -13,6 +13,10 @@ public class DrawExt {
 
     private String opName;
 
+    private String extStatus;
+
+    private String extIsSale;
+
     private Integer opId;
 
     private Date createTime;
@@ -101,5 +105,21 @@ public class DrawExt {
 
     public void setCount(Integer count) {
         this.count = count;
+    }
+
+    public String getExtStatus() {
+        return extStatus;
+    }
+
+    public void setExtStatus(String extStatus) {
+        this.extStatus = extStatus;
+    }
+
+    public String getExtIsSale() {
+        return extIsSale;
+    }
+
+    public void setExtIsSale(String extIsSale) {
+        this.extIsSale = extIsSale;
     }
 }
