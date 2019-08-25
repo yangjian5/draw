@@ -170,7 +170,7 @@ public class DrawController {
             }
         }
 
-        boolean res = drawService.updateDraw(draw_id, create_price, owner_prize, owner_count, is_sale, open_id);
+        boolean res = drawService.updateDraw(draw_id, create_price, owner_prize, owner_count, is_sale, is_update_count);
         if (!res) {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "update draw is error");
         }
