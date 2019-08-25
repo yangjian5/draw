@@ -17,14 +17,14 @@
     </selectKey>
     insert into income_statistics (drawId, incomePrice, createTime
       )
-    values (#{drawId,jdbcType=INTEGER}, #{incomePrice,jdbcType=INTEGER}, #{createtime,jdbcType=INTEGER}
+    values (#{drawId,jdbcType=INTEGER}, #{incomePrice,jdbcType=INTEGER}, #{createTime,jdbcType=INTEGER}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.aiwsport.core.entity.IncomeStatistics" >
     update income_statistics
     set drawId = #{drawId,jdbcType=INTEGER},
       incomePrice = #{incomePrice,jdbcType=INTEGER},
-      createTime = #{createtime,jdbcType=INTEGER}
+      createTime = #{createTime,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
