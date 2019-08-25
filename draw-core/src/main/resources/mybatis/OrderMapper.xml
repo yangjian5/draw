@@ -74,7 +74,7 @@
     select id, code, drawId, drawExtId, uid, oName, oTel, type, status, orderPrice, info, opName, opid,
     createTime, modifyTime
     from order_info
-    where uid = #{arg0} and status = #{arg1}
+    where uid = #{arg0} and status = #{arg1} order by createTime desc
   </select>
 
   <select id="getCount" resultType="int" parameterType="java.lang.String">
