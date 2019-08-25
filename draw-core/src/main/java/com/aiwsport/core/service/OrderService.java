@@ -100,7 +100,7 @@ public class OrderService {
                 drawExtId = drawExt.getId();
                 drawId = drawExt.getDrawId();
 
-                if (drawsMapper.updateOwnFinishCount(drawId) > -1){
+                if (drawsMapper.updateOwnFinishCount(drawId) < -1){
                     return null;
                 }
 
