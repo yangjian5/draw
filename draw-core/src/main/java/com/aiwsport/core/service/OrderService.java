@@ -89,7 +89,7 @@ public class OrderService {
                 }
 
                 if (draws.getProdUid().intValue() == user.getId().intValue()) {
-                    throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "not by your self");
+                    throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "不能购买自己的创造权");
                 }
 
                 drawId = draws.getId();

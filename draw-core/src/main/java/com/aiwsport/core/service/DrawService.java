@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -135,14 +136,13 @@ public class DrawService {
         }
     }
 
-    public boolean updateDraw(int drawId, int createPrice, int ownerPrice, int ownerCount, String isSale) {
+    public boolean updateDraw(int drawId, int createPrice, int ownerPrice, int ownerCount, String isSale, String open_id) {
         Draws draw = drawMapper.selectByPrimaryKey(drawId);
         if (draw == null || draw.getOwnFinishCount() > 0) {
             return false;
         }
 
         draw.setOwnCount(ownerCount);
-        draw.setOwnFinishCount(0);
         draw.setIsSale(isSale);
         draw.setDrawPrice(createPrice);
         if (drawMapper.updateByPrimaryKey(draw) > -1) {
@@ -228,10 +228,24 @@ public class DrawService {
             return buildShowDraws(draws, page + "", "my");
         } else {
             List<DrawExt> drawExts = drawExtMapper.getMyList(uid, start, end);
-            drawExts.forEach(drawExt -> {
+
+
+            List<DrawExt> drawExtList = new ArrayList<>();
+            drawExts.stream()
+                    .collect(Collectors.groupingBy(DrawExt::getDrawId, Collectors.toList()))
+                    .entrySet().stream()
+                    .map(entry-> {
+                        List<DrawExt> drawExts1 = entry.getValue().stream()
+                                .sorted(Comparator.comparingInt(DrawExt::getExtPrice))
+                                .limit(1).collect(Collectors.toList());
+                        drawExtList.add(drawExts1.get(0));
+                        return null;
+                    }).collect(Collectors.toList());
+
+            drawExtList.forEach(drawExt -> {
                 drawExt.setCount(drawExtMapper.getCount(drawExt.getDrawId(), uid));
             });
-            return buildShowDrawExts(drawExts, page + "");
+            return buildShowDrawExts(drawExtList, page + "");
         }
     }
 
@@ -260,8 +274,10 @@ public class DrawService {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "update draw ext owner price error");
         }
 
+        incomePrice = BigDecimal.valueOf(incomePrice).multiply(BigDecimal.valueOf(0.05)).intValue();
+
         Map<String, String> resMap = orderService.createWXOrder(openId, "127.0.0.1", "income-"+drawExtId,
-                BigDecimal.valueOf(incomePrice).multiply(BigDecimal.valueOf(0.05)).intValue()+"");
+                incomePrice+"");
 
 
 //        Map<String, Object> resMap = new HashMap<>();
