@@ -43,6 +43,8 @@ public class Draws {
 
     private DrawExt drawExt;
 
+    private Integer isUpdateCount;
+
     public Integer getId() {
         return id;
     }
@@ -209,5 +211,13 @@ public class Draws {
 
     public void setDrawExt(DrawExt drawExt) {
         this.drawExt = drawExt;
+    }
+
+    public Integer getIsUpdateCount() {
+        return isUpdateCount;
+    }
+
+    public void setIsUpdateCount(Integer isUpdateCount) {
+        this.isUpdateCount = isUpdateCount;
     }
 }

@@ -66,8 +66,11 @@ public class BackController {
     @RequestMapping(value = "/draw/check.json")
     public ResultMsg drawCheck(@ParamVerify(isNumber = true) int id,
                                @ParamVerify(isNumber = true) int drawStatus) {
+        if (!backService.drawCheck(id, drawStatus)) {
+            throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "没有添加所有权");
+        }
 
-        return new ResultMsg("drawCheck", backService.drawCheck(id, drawStatus));
+        return new ResultMsg("drawCheck", true);
     }
 
 
