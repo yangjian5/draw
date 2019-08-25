@@ -74,7 +74,7 @@
   <select id="getMyList" resultMap="BaseResultMap">
     select id, extUid, drawId, MIN(extPrice) AS extPrice, extStatus,extIsSale, opName, opId, createTime, modifyTime
     from draw_ext
-    GROUP BY drawId
+    GROUP BY extUid
     having extUid = #{arg0}
     order by extPrice asc
     limit #{arg1}, #{arg2}
