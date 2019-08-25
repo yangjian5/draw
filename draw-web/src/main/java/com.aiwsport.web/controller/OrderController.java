@@ -39,8 +39,13 @@ public class OrderController {
                            @ParamVerify(isNumber = true)int type,
                            @ParamVerify(isNotBlank = true)String open_id,
                            HttpServletRequest request) {
+        Map<String, String> res = null;
+        try {
+            res = orderService.createOrder(id, type, open_id, ParseUrl.getLocalIp(request));
+        } catch (Exception e) {
+            throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, e.getMessage());
+        }
 
-        Map<String, String> res = orderService.createOrder(id, type, open_id, ParseUrl.getLocalIp(request));
         if (res == null) {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "buy is fail");
         }

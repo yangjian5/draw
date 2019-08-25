@@ -68,7 +68,7 @@ public class OrderService {
         return showOrders;
     }
 
-    public Map<String, String> createOrder(int id, int type, String openId, String ip){
+    public Map<String, String> createOrder(int id, int type, String openId, String ip) throws Exception{
         Map<String, String> resMap = null;
         try {
             String orderNo;
@@ -88,6 +88,10 @@ public class OrderService {
                     throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "draws is not exist");
                 }
 
+                if (draws.getProdUid().intValue() == user.getId().intValue()) {
+                    throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "not by your self");
+                }
+
                 drawId = draws.getId();
                 orderPrice = draws.getDrawPrice();
                 goodName = draws.getDrawName()+"创造权";
@@ -95,6 +99,10 @@ public class OrderService {
                 DrawExt drawExt = drawExtMapper.selectByPrimaryKey(id);
                 if (drawExt == null) {
                     throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "drawExt is not exist");
+                }
+
+                if (drawExt.getExtUid().intValue() == user.getId().intValue()) {
+                    throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "ext not by your self");
                 }
 
                 drawExtId = drawExt.getId();
