@@ -102,7 +102,7 @@ public class OrderService {
                 }
 
                 if (drawExt.getExtUid().intValue() == user.getId().intValue()) {
-                    throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "ext not by your self");
+                    throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "不能购买自己的所有权");
                 }
 
                 drawExtId = drawExt.getId();
