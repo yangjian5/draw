@@ -85,7 +85,7 @@ public class BackService {
         Draws draws = new Draws();
         draws.setId(id);
         draws.setDrawStatus(drawStatus + "");
-        drawExtMapper.updateExtStatus(id, drawStatus+"");
+        drawExtMapper.updateExtStatus(drawStatus+"", id);
         return drawMapper.updateDrawsStatus(draws) > 0;
     }
 
