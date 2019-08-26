@@ -54,7 +54,7 @@
   </select>
   <select id="getByUid" resultMap="BaseResultMap" >
     select id, uid, orderId, incomeId, tradeno, type, incomePrice, opName, opId, createTime, modifyTime
-    from oper_log where uid = #{uid,jdbcType=INTEGER}
+    from oper_log where uid = #{uid,jdbcType=INTEGER} order by createTime desc
   </select>
 
 
