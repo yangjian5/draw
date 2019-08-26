@@ -24,7 +24,7 @@ public class JobService {
     @Scheduled(cron = "0/5 * * * * ?")
     private void configureTasks() {
         Long time = System.currentTimeMillis();
-        List<OrderCheck> orderChecks = orderCheckMapper.selectAll();
+        List<OrderCheck> orderChecks = orderCheckMapper.selectByJob();
         for (OrderCheck orderCheck : orderChecks) {
             if (orderCheck.getCreatetime() < time) {
                 orderCheckMapper.deleteByPrimaryKey(orderCheck.getId());

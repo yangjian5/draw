@@ -33,6 +33,11 @@
   <select id="selectAll" resultMap="BaseResultMap" >
     select id, dId, type, createTime
     from order_check
+  </select>
+
+  <select id="selectByJob" resultMap="BaseResultMap" >
+    select id, dId, type, createTime
+    from order_check
     ORDER BY createTime
     limit 2000
   </select>
