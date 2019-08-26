@@ -13,5 +13,7 @@ public interface OrderCheckMapper {
 
     List<OrderCheck> selectAll();
 
+    List<OrderCheck> selectByJob();
+
     int updateByPrimaryKey(OrderCheck record);
 }
