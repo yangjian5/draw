@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aiwsport.core.mapper.OrderCheckMapper" >
+  <resultMap id="BaseResultMap" type="com.aiwsport.core.entity.OrderCheck" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="dId" property="dId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="createTime" property="createTime" jdbcType="BIGINT" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from order_check
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.aiwsport.core.entity.OrderCheck" >
+    insert into order_check (dId, type, createTime
+      )
+    values (#{did,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{createtime,jdbcType=BIGINT}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.aiwsport.core.entity.OrderCheck" >
+    update order_check
+    set dId = #{did,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, dId, type, createTime
+    from order_check
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, dId, type, createTime
+    from order_check
+  </select>
+</mapper>

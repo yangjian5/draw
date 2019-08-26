@@ -15,9 +15,9 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://10.77.9.41:3306/test_dev"
+                        connectionURL="jdbc:mysql://134.175.110.50:3306/test_dev"
                         userId="root"
-                        password="root">
+                        password="pangxin">
         </jdbcConnection>
 
         <javaModelGenerator targetPackage="com.aiwsport.core" targetProject="src/main" />
@@ -27,7 +27,7 @@
         <javaClientGenerator targetPackage="com.aiwsport.core" targetProject="src/main" type="XMLMAPPER">
         </javaClientGenerator>
 
-        <table tableName="%">
+        <table tableName="order_check">
             <!--mysql 配置-->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <!--oracle 配置-->
