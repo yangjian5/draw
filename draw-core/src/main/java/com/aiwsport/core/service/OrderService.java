@@ -163,10 +163,12 @@ public class OrderService {
             }
 
             DrawExt drawExt = drawExtMapper.selectByPrimaryKey(income.getDrawExtid());
+            Draws draws = drawsMapper.selectByPrimaryKey(drawExt.getDrawId());
+
             IncomeStatistics incomeStatistics = incomeStatisticsMapper.getIncomeByDrawIdAndDate(drawExt.getDrawId());
             if (incomeStatistics == null) {
                 incomeStatistics = new IncomeStatistics();
-                incomeStatistics.setDrawId(order.getDrawId());
+                incomeStatistics.setDrawId(draws.getId());
                 incomeStatistics.setIncomePrice(income.getProofPrice());
                 incomeStatistics.setCreateTime(DataTypeUtils.formatCurDateTime());
                 incomeStatisticsMapper.insert(incomeStatistics);
@@ -176,7 +178,6 @@ public class OrderService {
                 incomeStatisticsMapper.updateByPrimaryKey(incomeStatistics);
             }
 
-            Draws draws = drawsMapper.selectByPrimaryKey(drawExt.getDrawId());
             User user = userMapper.selectByPrimaryKey(draws.getProdUid());
             user.setIncome(user.getIncome() + income.getProofPrice());
             userMapper.updateByPrimaryKey(user);
