@@ -58,6 +58,17 @@ public class OrderController {
         return new ResultMsg("buy", orderService.myOrder(open_id, status));
     }
 
+    @RequestMapping(value = "/order_check.json")
+    public ResultMsg myOrder(@ParamVerify(isNumber = true)int id,
+                             @ParamVerify(isNumber = true)int type) {
+        boolean res = orderService.buyCheck(id, type);
+        if (!res) {
+            throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "已经被他人抢先购买");
+        }
+
+        return new ResultMsg("order_check", true);
+    }
+
     @RequestMapping("/wx_notify.json")
     public void wxNotify(HttpServletRequest request, HttpServletResponse response) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));

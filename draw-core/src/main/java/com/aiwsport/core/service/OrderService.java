@@ -17,10 +17,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class OrderService {
@@ -323,6 +320,13 @@ public class OrderService {
         packageParams.put("notify_url", WxConfig.notify_url);
         packageParams.put("trade_type", WxConfig.TRADETYPE);
         packageParams.put("openid", openId);
+
+
+        Date date = new Date();
+        packageParams.put("time_start", DataTypeUtils.formatDate(date, "yyyyMMddHHmmss"));
+        packageParams.put("time_expire", DataTypeUtils.formatDate(DataTypeUtils.addOrMinusMinutes(date.getTime(), 5),"yyyyMMddHHmmss"));
+
+
         //把数组所有元素，按照"参数=参数值"的模式用"＆"字符拼接成字符串
         // MD5运算生成签名，这里是第一次签名，用于调用统一下单接口
         String mysign = PayUtil.getSign(packageParams, "artchain825c3af0bd36a25c1396c72b");
@@ -364,6 +368,20 @@ public class OrderService {
         return response;
     }
 
+    public boolean buyCheck(int id, int type) {
+        if (type == 1) {
+            Draws draws = drawsMapper.selectByPrimaryKey(id);
+            if (draws == null || "0".equals(draws.getIsSale())) {
+                return false;
+            }
+        } else {
+            DrawExt drawExt = drawExtMapper.selectByPrimaryKey(id);
+            if (drawExt == null || "0".equals(drawExt.getExtIsSale())) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public List<Order> getOrderByCode(String code, int page, int count) {
         PageParam pageParam = new PageParam();
