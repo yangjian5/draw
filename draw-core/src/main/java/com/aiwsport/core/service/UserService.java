@@ -7,6 +7,7 @@ import com.aiwsport.core.entity.User;
 import com.aiwsport.core.mapper.OperLogMapper;
 import com.aiwsport.core.mapper.UserMapper;
 import com.aiwsport.core.utils.DataTypeUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +67,11 @@ public class UserService {
                 operLog.setType("藏品收益");
             } else if ("4".equals(type)) {
                 operLog.setType("收益提现");
+            }
+
+            String time = operLog.getCreateTime();
+            if (StringUtils.isNotBlank(time)) {
+                operLog.setCreateTime(operLog.getCreateTime().substring(0, time.lastIndexOf(".")-1));
             }
         });
         return operLogs;
