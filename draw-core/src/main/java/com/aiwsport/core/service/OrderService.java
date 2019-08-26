@@ -182,6 +182,9 @@ public class OrderService {
             user.setIncome(user.getIncome() + income.getProofPrice());
             userMapper.updateByPrimaryKey(user);
 
+            income.setStatus("1");
+            incomeMapper.updateByPrimaryKey(income);
+
             OperLog operLog = new OperLog();
             operLog.setUid(user.getId());
             operLog.setOrderId(0);
