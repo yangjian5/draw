@@ -39,7 +39,7 @@
   </select>
 
   <select id="selectByJob" resultMap="BaseResultMap" >
-    select id, dId, type, createTime
+    select id, did, type, createtime
     from order_check
     ORDER BY createTime
     limit 2000
