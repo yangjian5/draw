@@ -21,7 +21,7 @@ public class JobService {
     private OrderCheckMapper orderCheckMapper;
 
     //3.添加定时任务
-//    @Scheduled(cron = "0/5 * * * * ?")
+    @Scheduled(cron = "0/5 * * * * ?")
     private void configureTasks() {
         Long time = System.currentTimeMillis();
         List<OrderCheck> orderChecks = orderCheckMapper.selectByJob();
