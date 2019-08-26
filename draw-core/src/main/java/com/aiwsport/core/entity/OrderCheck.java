@@ -3,11 +3,11 @@ package com.aiwsport.core.entity;
 public class OrderCheck {
     private Integer id;
 
-    private Integer did;
+    private Integer dId;
 
     private Integer type;
 
-    private Long createtime;
+    private Long createTime;
 
     public Integer getId() {
         return id;
@@ -17,12 +17,12 @@ public class OrderCheck {
         this.id = id;
     }
 
-    public Integer getDid() {
-        return did;
+    public Integer getdId() {
+        return dId;
     }
 
-    public void setDid(Integer did) {
-        this.did = did;
+    public void setdId(Integer dId) {
+        this.dId = dId;
     }
 
     public Integer getType() {
@@ -33,11 +33,11 @@ public class OrderCheck {
         this.type = type;
     }
 
-    public Long getCreatetime() {
-        return createtime;
+    public Long getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatetime(Long createtime) {
-        this.createtime = createtime;
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
     }
 }

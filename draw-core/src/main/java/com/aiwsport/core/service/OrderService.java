@@ -75,10 +75,10 @@ public class OrderService {
 
         try {
             OrderCheck orderCheck = new OrderCheck();
-            orderCheck.setDid(id);
+            orderCheck.setdId(id);
             orderCheck.setType(type);
             Date date = new Date();
-            orderCheck.setCreatetime(DataTypeUtils.addOrMinusMinutes(date.getTime(), 5).getTime());
+            orderCheck.setCreateTime(DataTypeUtils.addOrMinusMinutes(date.getTime(), 5).getTime());
             orderCheckMapper.insert(orderCheck);
         } catch (Exception e) {
             if (e.getMessage().indexOf("Duplicate entry") > 0) {

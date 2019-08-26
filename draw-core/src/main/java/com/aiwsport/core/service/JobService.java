@@ -26,7 +26,7 @@ public class JobService {
         Long time = System.currentTimeMillis();
         List<OrderCheck> orderChecks = orderCheckMapper.selectByJob();
         for (OrderCheck orderCheck : orderChecks) {
-            if (orderCheck.getCreatetime() < time) {
+            if (orderCheck.getCreateTime() < time) {
                 orderCheckMapper.deleteByPrimaryKey(orderCheck.getId());
             } else {
                 break;
