@@ -71,7 +71,7 @@ public class UserService {
 
             String time = operLog.getCreateTime();
             if (StringUtils.isNotBlank(time)) {
-                operLog.setCreateTime(operLog.getCreateTime().substring(0, time.lastIndexOf(".")-1));
+                operLog.setCreateTime(operLog.getCreateTime().substring(0, time.lastIndexOf(".")));
             }
         });
         return operLogs;
