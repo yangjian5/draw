@@ -28,9 +28,12 @@
     select id, dId, type, createTime
     from order_check
     where id = #{id,jdbcType=INTEGER}
+
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select id, dId, type, createTime
     from order_check
+    ORDER BY createTime
+    limit 2000
   </select>
 </mapper>
