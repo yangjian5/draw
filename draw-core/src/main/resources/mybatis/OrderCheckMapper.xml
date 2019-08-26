@@ -12,6 +12,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.aiwsport.core.entity.OrderCheck" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into order_check (dId, type, createTime
       )
     values (#{did,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{createtime,jdbcType=BIGINT}

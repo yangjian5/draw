@@ -47,6 +47,9 @@ public class OrderService {
     @Autowired
     private OperLogMapper operLogMapper;
 
+    @Autowired
+    private OrderCheckMapper orderCheckMapper;
+
     private static Logger logger = LogManager.getLogger();
 
     public List<ShowOrder> myOrder(String openId, String status) {
@@ -69,6 +72,20 @@ public class OrderService {
     }
 
     public Map<String, String> createOrder(int id, int type, String openId, String ip) throws Exception{
+
+        try {
+            OrderCheck orderCheck = new OrderCheck();
+            orderCheck.setDid(id);
+            orderCheck.setType(type);
+            Date date = new Date();
+            orderCheck.setCreatetime(DataTypeUtils.addOrMinusMinutes(date.getTime(), 5).getTime());
+            orderCheckMapper.insert(orderCheck);
+        } catch (Exception e) {
+            if (e.getMessage().indexOf("Duplicate entry") > 0) {
+                throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "正在等待他人付款，请五分钟后在尝试购买");
+            }
+        }
+
         Map<String, String> resMap = null;
         try {
             String orderNo;
