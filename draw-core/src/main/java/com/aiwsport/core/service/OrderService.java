@@ -84,6 +84,7 @@ public class OrderService {
             if (e.getMessage().indexOf("Duplicate entry") > 0) {
                 throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "正在等待他人付款，请五分钟后在尝试购买");
             }
+            e.printStackTrace();
         }
 
         Map<String, String> resMap = null;
