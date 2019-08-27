@@ -17,14 +17,14 @@
     </selectKey>
     insert into order_check (dId, type, createTime
       )
-    values (#{did,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{createtime,jdbcType=BIGINT}
+    values (#{dId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.aiwsport.core.entity.OrderCheck" >
     update order_check
-    set dId = #{did,jdbcType=INTEGER},
+    set dId = #{dId,jdbcType=INTEGER},
       type = #{type,jdbcType=INTEGER},
-      createTime = #{createtime,jdbcType=BIGINT}
+      createTime = #{createTime,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -39,7 +39,7 @@
   </select>
 
   <select id="selectByJob" resultMap="BaseResultMap" >
-    select id, did, type, createtime
+    select id, dId, type, createTime
     from order_check
     ORDER BY createTime
     limit 2000
