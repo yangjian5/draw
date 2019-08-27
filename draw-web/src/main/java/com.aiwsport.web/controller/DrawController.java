@@ -57,7 +57,7 @@ public class DrawController {
     }
 
     @RequestMapping(value = "/draw/get.json")
-    public ResultMsg index(@ParamVerify(isNumber = true) int drawId) {
+    public ResultMsg getDesc(@ParamVerify(isNumber = true) int drawId) {
 
         return new ResultMsg("drawGet", drawService.getDraw(drawId));
     }
