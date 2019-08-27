@@ -29,5 +29,7 @@ public interface DrawExtMapper {
 
     int getCount(int drawId, int uid);
 
+    int getIsSaleCount(int drawId);
+
     int updateExtStatus(String drawStatus, int drawId);
 }

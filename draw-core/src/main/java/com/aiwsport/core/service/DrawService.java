@@ -328,7 +328,7 @@ public class DrawService {
                     Draws draws = drawMapper.selectByPrimaryKey(drawExt.getDrawId());
                     if (uid != 0) {
                         int count = drawExtMapper.getCount(draws.getId(), uid);
-                        if (draws.getOwnFinishCount() == 0 || draws.getOwnCount() == count) {
+                        if (draws.getOwnFinishCount() == 0 && draws.getOwnCount() == count) {
                             draws.setIsUpdateCount(1);
                         } else {
                             draws.setIsUpdateCount(0);
@@ -336,6 +336,7 @@ public class DrawService {
                     }
 
                     draws.setDrawExt(drawExt);
+                    draws.setOwnFinishCount(drawExtMapper.getIsSaleCount(drawExt.getDrawId()));
                     return draws;
                 }).collect(Collectors.toList());
 
@@ -361,6 +362,7 @@ public class DrawService {
                 d.setDrawExt(drawExtMapper.getMaxPriceByDrawIda(d.getId()));
             } else {
                 d.setDrawExt(drawExtMapper.getMaxPriceByDrawId(d.getId()));
+                d.setOwnFinishCount(drawExtMapper.getIsSaleCount(d.getId()));
             }
         });
 
