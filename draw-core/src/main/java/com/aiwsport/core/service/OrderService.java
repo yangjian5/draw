@@ -72,21 +72,6 @@ public class OrderService {
     }
 
     public Map<String, String> createOrder(int id, int type, String openId, String ip) throws Exception{
-
-        try {
-            OrderCheck orderCheck = new OrderCheck();
-            orderCheck.setdId(id);
-            orderCheck.setType(type);
-            Date date = new Date();
-            orderCheck.setCreateTime(DataTypeUtils.addOrMinusMinutes(date.getTime(), 5).getTime());
-            orderCheckMapper.insert(orderCheck);
-        } catch (Exception e) {
-            if (e.getMessage().indexOf("Duplicate entry") > 0) {
-                throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "正在等待他人付款，请五分钟后在尝试购买");
-            }
-            e.printStackTrace();
-        }
-
         Map<String, String> resMap = null;
         try {
             String orderNo;
@@ -137,6 +122,20 @@ public class OrderService {
 
                 orderPrice = drawExt.getExtPrice();
                 goodName = draws.getDrawName()+"所有权";
+            }
+
+            try {
+                OrderCheck orderCheck = new OrderCheck();
+                orderCheck.setdId(id);
+                orderCheck.setType(type);
+                Date date = new Date();
+                orderCheck.setCreateTime(DataTypeUtils.addOrMinusMinutes(date.getTime(), 5).getTime());
+                orderCheckMapper.insert(orderCheck);
+            } catch (Exception e) {
+                if (e.getMessage().indexOf("Duplicate entry") > 0) {
+                    throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "正在等待他人付款，请五分钟后在尝试购买");
+                }
+                e.printStackTrace();
             }
 
             resMap = createWXOrder(openId, ip, goodName,orderPrice+"");
