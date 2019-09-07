@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aiwsport.core.mapper.WebOrderLogMapper" >
+  <resultMap id="BaseResultMap" type="com.aiwsport.core.entity.WebOrderLog" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uId" property="uId" jdbcType="INTEGER" />
+    <result column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from web_order_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.aiwsport.core.entity.WebOrderLog" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into web_order_log (uId, orderId, createTime
+      )
+    values (#{uId,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, createTime = #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.aiwsport.core.entity.WebOrderLog" >
+    update web_order_log
+    set uId = #{uId,jdbcType=INTEGER},
+      orderId = #{orderId,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, uId, orderId, createTime
+    from web_order_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, uId, orderId, createTime
+    from web_order_log
+  </select>
+</mapper>

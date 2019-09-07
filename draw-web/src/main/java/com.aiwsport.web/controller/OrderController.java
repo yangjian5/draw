@@ -69,6 +69,16 @@ public class OrderController {
         return new ResultMsg("order_check", true);
     }
 
+    @RequestMapping("/add_web_order_log.json")
+    public ResultMsg addWebOrderLog(@ParamVerify(isNumber = true)int uid, @ParamVerify(isNotBlank = true)String order_no) throws Exception{
+        boolean res = orderService.addWebOderLog(order_no, uid);
+        if (!res) {
+            throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "add_web_order_log is fail");
+        }
+        return new ResultMsg("add_web_order_log", true);
+    }
+
+
     @RequestMapping("/wx_notify.json")
     public void wxNotify(HttpServletRequest request, HttpServletResponse response) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));

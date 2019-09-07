@@ -16,6 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -50,6 +51,9 @@ public class OrderService {
     @Autowired
     private OrderCheckMapper orderCheckMapper;
 
+    @Autowired
+    private WebOrderLogMapper webOrderLogMapper;
+
     private static Logger logger = LogManager.getLogger();
 
     public List<ShowOrder> myOrder(String openId, String status) {
@@ -69,6 +73,13 @@ public class OrderService {
             showOrders.add(showOrder);
         });
         return showOrders;
+    }
+
+    public boolean addWebOderLog(String orderId, int uId){
+        WebOrderLog webOrderLog = new WebOrderLog();
+        webOrderLog.setOrderId(orderId);
+        webOrderLog.setuId(uId);
+        return webOrderLogMapper.insert(webOrderLog) > 0;
     }
 
     public Map<String, String> createOrder(int id, int type, String openId, String ip) throws Exception{
@@ -167,12 +178,18 @@ public class OrderService {
         return resMap;
     }
 
+    @Transactional
     public void finishPay(String orderNo) throws Exception {
         // 查询订单信息
         Order order = orderMapper.getOrderByNo(orderNo);
+
         if (order == null) {
             Income income = incomeMapper.getIncomeByOrderNo(orderNo);
             if (income == null) {
+                return;
+            }
+
+            if ("1".equals(income.getStatus())) {
                 return;
             }
 
@@ -215,6 +232,10 @@ public class OrderService {
             operLog.setCreateTime(time);
             operLog.setModifyTime(time);
             operLogMapper.insert(operLog);
+            return;
+        }
+
+        if ("2".equals(order.getStatus()) || "3".equals(order.getStatus())) {
             return;
         }
 
