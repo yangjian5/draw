@@ -93,7 +93,8 @@ public class OrderController {
         //sb为微信返回的xml
         String notityXml = sb.toString();
         String resXml = "";
-        System.out.println("接收到的报文：" + notityXml);
+
+        logger.info("recall info : " + notityXml);
 
         Map<String, String> resMap = XmlUtil.xmlParse(notityXml);
 
@@ -117,9 +118,7 @@ public class OrderController {
             resXml = "<xml>" + "<return_code><![CDATA[FAIL]]></return_code>"
                     + "<return_msg><![CDATA[报文为空]]></return_msg>" + "</xml> ";
         }
-        System.out.println(resXml);
-        System.out.println("微信支付回调数据结束");
-
+        logger.info("wx_notify_end : " + resXml);
         BufferedOutputStream out = new BufferedOutputStream(
                 response.getOutputStream());
         out.write(resXml.getBytes());

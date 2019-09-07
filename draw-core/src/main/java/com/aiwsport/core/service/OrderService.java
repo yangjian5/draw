@@ -23,7 +23,6 @@ import java.util.*;
 @Service
 public class OrderService {
 
-
     @Autowired
     private DrawExtMapper drawExtMapper;
 
@@ -180,7 +179,7 @@ public class OrderService {
     }
 
     @Transactional
-    public void finishPay(String orderNo) throws Exception {
+    public synchronized void finishPay(String orderNo) throws Exception {
         // 查询订单信息
         Order order = orderMapper.getOrderByNo(orderNo);
 
@@ -224,14 +223,6 @@ public class OrderService {
             operLog.setType("3");
             operLog.setTradeno(orderNo);
             operLog.setIncomePrice(income.getProofPrice());
-            String time = "2019-10-10 00:00:01";
-            try {
-                time = DataTypeUtils.formatCurDateTime();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            operLog.setCreateTime(time);
-            operLog.setModifyTime(time);
             operLogMapper.insert(operLog);
             return;
         }
@@ -274,14 +265,9 @@ public class OrderService {
             draws.setProdUid(user.getId());
             draws.setIsSale("0");
             drawsMapper.updateByPrimaryKey(draws);
-
-
-
         } else {
             orderStatistics.setDrawId(order.getDrawExtId());
-
             DrawExt drawExt = drawExtMapper.selectByPrimaryKey(order.getDrawExtId());
-
             OperLog operLog = new OperLog();
             operLog.setUid(drawExt.getExtUid());
             operLog.setOrderId(order.getId());
@@ -289,14 +275,6 @@ public class OrderService {
             operLog.setType(order.getType());
             operLog.setTradeno(orderNo);
             operLog.setIncomePrice(order.getOrderPrice());
-            String time = "2019-10-10 00:00:01";
-            try {
-                time = DataTypeUtils.formatCurDateTime();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            operLog.setCreateTime(time);
-            operLog.setModifyTime(time);
             operLogMapper.insert(operLog);
 
             User user1 = userMapper.selectByPrimaryKey(drawExt.getExtUid());
@@ -322,8 +300,6 @@ public class OrderService {
                 incomeStatisticsMapper.updateByPrimaryKey(incomeStatistics);
             }
         }
-
-
 
         OrderStatistics orderStatistics1 = orderStatisticsMapper.getOrderByDrawIdAndDate(order.getDrawId());
         if (orderStatistics1 == null) {
