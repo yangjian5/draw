@@ -75,10 +75,11 @@ public class OrderService {
         return showOrders;
     }
 
-    public boolean addWebOderLog(String orderId, int uId){
+    public boolean addWebOderLog(String orderId, int uId, String type){
         WebOrderLog webOrderLog = new WebOrderLog();
         webOrderLog.setOrderId(orderId);
         webOrderLog.setuId(uId);
+        webOrderLog.setType(type);
         return webOrderLogMapper.insert(webOrderLog) > 0;
     }
 

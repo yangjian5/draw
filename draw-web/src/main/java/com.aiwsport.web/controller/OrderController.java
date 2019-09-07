@@ -70,8 +70,10 @@ public class OrderController {
     }
 
     @RequestMapping("/add_web_order_log.json")
-    public ResultMsg addWebOrderLog(@ParamVerify(isNumber = true)int uid, @ParamVerify(isNotBlank = true)String order_no) throws Exception{
-        boolean res = orderService.addWebOderLog(order_no, uid);
+    public ResultMsg addWebOrderLog(@ParamVerify(isNumber = true)int uid,
+                                    @ParamVerify(isNotBlank = true)String order_no,
+                                    @ParamVerify(isNotBlank = true)String type) throws Exception{
+        boolean res = orderService.addWebOderLog(order_no, uid, type);
         if (!res) {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "add_web_order_log is fail");
         }

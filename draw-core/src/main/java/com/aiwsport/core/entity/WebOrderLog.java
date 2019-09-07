@@ -9,6 +9,8 @@ public class WebOrderLog {
 
     private String orderId;
 
+    private String type;
+
     private Date createTime;
 
     public Integer getId() {
@@ -41,5 +43,13 @@ public class WebOrderLog {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
