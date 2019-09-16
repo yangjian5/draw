@@ -7,6 +7,7 @@ import com.aiwsport.core.mapper.*;
 import com.aiwsport.core.model.ShowBranner;
 import com.aiwsport.core.model.ShowDraws;
 import com.aiwsport.core.utils.DataTypeUtils;
+import com.aiwsport.core.utils.QRCodeGenerator;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -48,7 +49,7 @@ public class DrawService {
     private static Logger logger = LogManager.getLogger();
 
     public boolean createDraw(int uid, String name, String telNo, String drawName,
-                              String author, String desc, String urlHd, String urlSimple, int drawWidth, int drawHigh) throws Exception {
+                              String author, String desc, String urlHd, String urlSimple, int drawWidth, int drawHigh, String qrUrl) throws Exception {
         Draws draw = new Draws();
         draw.setDrawStatus("0");
         draw.setProdName(name);
@@ -68,7 +69,11 @@ public class DrawService {
         draw.setOwnFinishCount(0);
         draw.setCreateTime(time);
         draw.setModifyTime(time);
-        return drawMapper.insert(draw) > 0;
+        drawMapper.insert(draw);
+        int id = draw.getId();
+        QRCodeGenerator.generateQRCodeImage("https://art.artchains.cn/qr?id="+id, id+"_draw");
+        draw.setQrUrl(qrUrl + id +"_draw.png");
+        return drawMapper.updateByPrimaryKey(draw) > 0;
     }
 
     public List<ShowBranner> getBranner() {

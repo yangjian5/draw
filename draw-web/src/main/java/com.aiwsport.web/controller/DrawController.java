@@ -32,7 +32,7 @@ public class DrawController {
     @Autowired
     private UserService userService;
 
-    private static final String IMG_HOST = "https://aiwsport.com";
+    private static final String IMG_HOST = "https://art.artchains.cn";
 
     private static final String BASE = "/home/www-data";
 
@@ -43,6 +43,8 @@ public class DrawController {
     private static final String SIMPLE_BRANNER = "/data1/branner_simple";
 
     private static final String SIMPLE_PATH = "/data1/draw_simple";
+
+    private static final String QR_PATH = "/data1/qr_code/";
 
     private static final String INCOME_PATH = "/data1/income";
 
@@ -145,7 +147,7 @@ public class DrawController {
             }
 
             boolean res = drawService.createDraw(user.getId(), name, tel_no, draw_name, author, desc, IMG_HOST + SIMPLE_PATH + "/" + imgName,
-                    IMG_HOST + PATH + "/" + imgName, draw_width, draw_high);
+                    IMG_HOST + PATH + "/" + imgName, draw_width, draw_high, IMG_HOST + QR_PATH);
             if (!res) {
                 throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "create draw is error");
             }

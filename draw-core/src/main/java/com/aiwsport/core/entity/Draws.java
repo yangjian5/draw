@@ -19,6 +19,8 @@ public class Draws {
 
     private Integer drawHigh;
 
+    private String qrUrl;
+
     private String authName;
 
     private String urlHd;
@@ -219,5 +221,13 @@ public class Draws {
 
     public void setIsUpdateCount(Integer isUpdateCount) {
         this.isUpdateCount = isUpdateCount;
+    }
+
+    public String getQrUrl() {
+        return qrUrl;
+    }
+
+    public void setQrUrl(String qrUrl) {
+        this.qrUrl = qrUrl;
     }
 }
