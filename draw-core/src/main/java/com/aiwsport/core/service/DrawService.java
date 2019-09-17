@@ -71,7 +71,7 @@ public class DrawService {
         draw.setModifyTime(time);
         drawMapper.insert(draw);
         int id = draw.getId();
-        QRCodeGenerator.generateQRCodeImage("https://art.artchains.cn/qr?id="+id, id+"_draw");
+        QRCodeGenerator.generateQRCodeImage("https://art.artchains.cn/data1/qrcode/id="+id, id+"_draw");
         draw.setQrUrl(qrUrl + id +"_draw.png");
         return drawMapper.updateByPrimaryKey(draw) > 0;
     }
