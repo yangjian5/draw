@@ -3,6 +3,7 @@ package com.aiwsport.web.controller;
 import com.aiwsport.core.DrawServerException;
 import com.aiwsport.core.DrawServerExceptionFactor;
 import com.aiwsport.core.constant.ResultMsg;
+import com.aiwsport.core.entity.Draws;
 import com.aiwsport.core.entity.User;
 import com.aiwsport.core.service.DrawService;
 import com.aiwsport.core.service.UserService;
@@ -130,6 +131,10 @@ public class DrawController {
                                  @ParamVerify(isNotBlank = true) String desc,
                                  @ParamVerify(isNumber = true) int draw_width,
                                  @ParamVerify(isNumber = true) int draw_high,
+                                 @ParamVerify(isNumber = true) int create_price,
+                                 @ParamVerify(isNumber = true) int owner_prize,
+                                 @ParamVerify(isNumber = true) int owner_count,
+                                 @ParamVerify(isNotBlank = true) String is_sale,
                                  @RequestParam("draw_file") MultipartFile file) {
 
         try {
@@ -146,8 +151,10 @@ public class DrawController {
                 throw new DrawServerException(DrawServerExceptionFactor.PARAM_VERIFY_FAIL, "open_id is not exist");
             }
 
-            boolean res = drawService.createDraw(user.getId(), name, tel_no, draw_name, author, desc, IMG_HOST + SIMPLE_PATH + "/" + imgName,
+            Draws draws = drawService.createDraw(user.getId(), name, tel_no, draw_name, author, desc, IMG_HOST + SIMPLE_PATH + "/" + imgName,
                     IMG_HOST + PATH + "/" + imgName, draw_width, draw_high, IMG_HOST + QR_PATH);
+
+            boolean res = drawService.updateDraw(draws.getId(), create_price, owner_prize, owner_count, is_sale, "1");
             if (!res) {
                 throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "create draw is error");
             }

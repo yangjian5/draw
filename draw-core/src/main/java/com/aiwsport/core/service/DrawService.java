@@ -48,7 +48,7 @@ public class DrawService {
 
     private static Logger logger = LogManager.getLogger();
 
-    public boolean createDraw(int uid, String name, String telNo, String drawName,
+    public Draws createDraw(int uid, String name, String telNo, String drawName,
                               String author, String desc, String urlHd, String urlSimple, int drawWidth, int drawHigh, String qrUrl) throws Exception {
         Draws draw = new Draws();
         draw.setDrawStatus("0");
@@ -73,7 +73,8 @@ public class DrawService {
         int id = draw.getId();
         QRCodeGenerator.generateQRCodeImage("https://art.artchains.cn/data1/qrcode/id="+id, id+"_draw");
         draw.setQrUrl(qrUrl + id +"_draw.png");
-        return drawMapper.updateByPrimaryKey(draw) > 0;
+        drawMapper.updateByPrimaryKey(draw);
+        return draw;
     }
 
     public List<ShowBranner> getBranner() {
