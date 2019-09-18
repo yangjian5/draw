@@ -16,7 +16,9 @@ public interface IncomeMapper {
 
     Income getIncomeByOrderNo(String orderNo);
 
-    List<Income> getPayFinish(int start, int end);
+    List<Income> getPayFinish(int start, int end, String status);
 
-    int getPayFinishCount();
+    int getPayFinishCount(String status);
+
+    int refund(Integer id);
 }

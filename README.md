@@ -1024,7 +1024,16 @@ get - /api//income/check.json
 | 字段      |     类型 |   说明   |
 | :-------- | --------:| :------: |
 | id     |   int |  income id |
-| status     |   string |  2 审核通过， 3审核未通过 |
+| status     |   string | (此接口只能传3或2) 0未付款未审核 1 未审核付款完成  2 审核通过， 3审核未通过  4 退款完成 |
+
+
+### 22、income refund
+#### url 
+get - /api//income/refund.json
+#### 入参
+| 字段      |     类型 |   说明   |
+| :-------- | --------:| :------: |
+| id     |   int |  income id |
 
 
 类型 1-创造权交易 2-所有权交易收益 3-所有权添加收益 4-提现

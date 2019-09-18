@@ -65,11 +65,12 @@ public class BackController {
 
     @RequestMapping(value = "/income/select.json")
     public ResultMsg incomeSelect(@ParamVerify(isNumber = true) int page,
-                                @ParamVerify(isNumber = true) int count) {
+                                  @ParamVerify(isNumber = true) int count,
+                                  String status) {
         if (page <= 0 || count < 0) {
             throw new DrawServerException(DrawServerExceptionFactor.PARAM_COUNT_FAIL, "param is error");
         }
-        return new ResultMsg("drawSelect", backService.showIncome(page, count));
+        return new ResultMsg("drawSelect", backService.showIncome(page, count, status));
     }
 
     @RequestMapping(value = "/income/check.json")
@@ -83,6 +84,14 @@ public class BackController {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "check income is error");
         }
 
+        return new ResultMsg("incomeCheck", true);
+    }
+
+    @RequestMapping(value = "/income/refund.json")
+    public ResultMsg incomeCheck(@ParamVerify(isNumber = true) int id) {
+        if (!backService.refund(id)) {
+            throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "refund income is fail");
+        }
         return new ResultMsg("incomeCheck", true);
     }
 

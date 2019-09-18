@@ -55,13 +55,28 @@
   </select>
   <select id="getPayFinish" resultMap="BaseResultMap" >
     select id, drawExtid, proofUrl, proofPrice, info, orderNo, status, opName, opId, createTime, modifyTime
-    from income where status = 1 limit #{arg0}, #{arg1}
+    from income
+    <if test="arg2 != ''">
+      where status = #{arg2}
+    </if>
+    limit #{arg0}, #{arg1}
   </select>
   <select id="getPayFinishCount" resultType="int" >
-    select count(1) from income where status = 1
+    select count(1) from income
+    <if test="_parameter != ''">
+      where status = #{status,jdbcType=VARCHAR}
+    </if>
   </select>
   <select id="getIncomeByOrderNo" resultMap="BaseResultMap" >
     select id, drawExtid, proofUrl, proofPrice, info, orderNo, status, opName, opId, createTime, modifyTime
     from income where orderNo = #{orderNo,jdbcType=VARCHAR}
   </select>
+
+  <update id="refund" parameterType="java.lang.Integer" >
+    update income
+    set status = 4,
+    where id = #{id,jdbcType=INTEGER} and status = 3
+  </update>
+
+
 </mapper>

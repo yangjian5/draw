@@ -88,11 +88,11 @@ public class BackService {
         return showDraws;
     }
 
-    public ShowIncome showIncome(int page, int count) {
+    public ShowIncome showIncome(int page, int count, String status) {
         int start = (page -1)*count;
         int end = page*count-1;
-        List<Income> incomes = incomeMapper.getPayFinish(start, end);
-        int payFinishCount = incomeMapper.getPayFinishCount();
+        List<Income> incomes = incomeMapper.getPayFinish(start, end, status);
+        int payFinishCount = incomeMapper.getPayFinishCount(status);
         ShowIncome showIncome = new ShowIncome();
         showIncome.setCount(count);
         showIncome.setPage(page);
@@ -173,6 +173,10 @@ public class BackService {
         operLog.setIncomePrice(income.getProofPrice());
         operLogMapper.insert(operLog);
         return true;
+    }
+
+    public boolean refund(int id){
+        return incomeMapper.refund(id) > 0;
     }
 
     public ShowBackOrder getOrders(String code, int page, int count) {
