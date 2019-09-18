@@ -876,6 +876,7 @@ get - /api//income/select.json
 | :-------- | --------:| :------: |
 | page     |   int |   |
 | count     |   int |   |
+| status     |   string | 传空字符串全查， 可以传0 1 2 3 4 不可以多查  |
 
 #### 出参
 ```$xslt
