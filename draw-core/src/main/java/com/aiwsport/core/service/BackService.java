@@ -1,13 +1,11 @@
 package com.aiwsport.core.service;
 
 import com.aiwsport.core.entity.*;
-import com.aiwsport.core.mapper.DrawBrannerMapper;
-import com.aiwsport.core.mapper.DrawExtMapper;
-import com.aiwsport.core.mapper.DrawsMapper;
-import com.aiwsport.core.model.ShowBackOrder;
-import com.aiwsport.core.model.ShowDraws;
-import com.aiwsport.core.model.ShowOrder;
-import com.aiwsport.core.model.ShowUsers;
+import com.aiwsport.core.mapper.*;
+import com.aiwsport.core.model.*;
+import com.aiwsport.core.utils.DataTypeUtils;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +32,18 @@ public class BackService {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private IncomeMapper incomeMapper;
+
+    @Autowired
+    private IncomeStatisticsMapper incomeStatisticsMapper;
+
+    @Autowired
+    private OperLogMapper operLogMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
 
     public boolean bannerUpdate(DrawBranner drawBranner) {
@@ -78,6 +88,28 @@ public class BackService {
         return showDraws;
     }
 
+    public ShowIncome showIncome(int page, int count) {
+        int start = (page -1)*count;
+        int end = page*count-1;
+        List<Income> incomes = incomeMapper.getPayFinish(start, end);
+        int payFinishCount = incomeMapper.getPayFinishCount();
+        ShowIncome showIncome = new ShowIncome();
+        showIncome.setCount(count);
+        showIncome.setPage(page);
+        showIncome.setTotalCount(payFinishCount);
+        JSONArray jsonArray = new JSONArray();
+        for (Income income : incomes) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("income", income);
+            DrawExt drawExt = drawExtMapper.selectByPrimaryKey(income.getDrawExtid());
+            Draws draws = drawMapper.selectByPrimaryKey(drawExt.getDrawId());
+            jsonObject.put("draws", draws);
+            jsonArray.add(jsonObject);
+        }
+        showIncome.setJsonArray(jsonArray);
+        return showIncome;
+    }
+
     public boolean drawCheck(int id, int drawStatus) {
         Draws draws = new Draws();
         draws.setId(id);
@@ -90,6 +122,57 @@ public class BackService {
 
         drawExtMapper.updateExtStatus(drawStatus+"", id);
         return drawMapper.updateDrawsStatus(draws) > 0;
+    }
+
+    public synchronized boolean incomeCheck(int id, String status) throws Exception{
+        Income income = incomeMapper.selectByPrimaryKey(id);
+
+        if (income == null) {
+            return false;
+        }
+
+        if ("0,2,3".contains(income.getStatus())) {
+            return false;
+        }
+
+        if ("3".equals(status)) {
+            income.setStatus(status);
+            incomeMapper.updateByPrimaryKey(income);
+            return true;
+        }
+
+        DrawExt drawExt = drawExtMapper.selectByPrimaryKey(income.getDrawExtid());
+        Draws draws = drawMapper.selectByPrimaryKey(drawExt.getDrawId());
+
+        IncomeStatistics incomeStatistics = incomeStatisticsMapper.getIncomeByDrawIdAndDate(drawExt.getDrawId());
+        if (incomeStatistics == null) {
+            incomeStatistics = new IncomeStatistics();
+            incomeStatistics.setDrawId(draws.getId());
+            incomeStatistics.setIncomePrice(income.getProofPrice());
+            incomeStatistics.setCreateTime(DataTypeUtils.formatCurDateTime());
+            incomeStatisticsMapper.insert(incomeStatistics);
+        } else {
+            int sumIncome = incomeStatistics.getIncomePrice() + income.getProofPrice();
+            incomeStatistics.setIncomePrice(sumIncome);
+            incomeStatisticsMapper.updateByPrimaryKey(incomeStatistics);
+        }
+
+        User user = userMapper.selectByPrimaryKey(draws.getProdUid());
+        user.setIncome(user.getIncome() + income.getProofPrice());
+        userMapper.updateByPrimaryKey(user);
+
+        income.setStatus(status);
+        incomeMapper.updateByPrimaryKey(income);
+
+        OperLog operLog = new OperLog();
+        operLog.setUid(user.getId());
+        operLog.setOrderId(0);
+        operLog.setIncomeId(income.getId());
+        operLog.setType("3");
+        operLog.setTradeno(income.getOrderNo());
+        operLog.setIncomePrice(income.getProofPrice());
+        operLogMapper.insert(operLog);
+        return true;
     }
 
     public ShowBackOrder getOrders(String code, int page, int count) {

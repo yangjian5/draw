@@ -193,37 +193,37 @@ public class OrderService {
                 return;
             }
 
-            DrawExt drawExt = drawExtMapper.selectByPrimaryKey(income.getDrawExtid());
-            Draws draws = drawsMapper.selectByPrimaryKey(drawExt.getDrawId());
-
-            IncomeStatistics incomeStatistics = incomeStatisticsMapper.getIncomeByDrawIdAndDate(drawExt.getDrawId());
-            if (incomeStatistics == null) {
-                incomeStatistics = new IncomeStatistics();
-                incomeStatistics.setDrawId(draws.getId());
-                incomeStatistics.setIncomePrice(income.getProofPrice());
-                incomeStatistics.setCreateTime(DataTypeUtils.formatCurDateTime());
-                incomeStatisticsMapper.insert(incomeStatistics);
-            } else {
-                int sumIncome = incomeStatistics.getIncomePrice() + income.getProofPrice();
-                incomeStatistics.setIncomePrice(sumIncome);
-                incomeStatisticsMapper.updateByPrimaryKey(incomeStatistics);
-            }
-
-            User user = userMapper.selectByPrimaryKey(draws.getProdUid());
-            user.setIncome(user.getIncome() + income.getProofPrice());
-            userMapper.updateByPrimaryKey(user);
+//            DrawExt drawExt = drawExtMapper.selectByPrimaryKey(income.getDrawExtid());
+//            Draws draws = drawsMapper.selectByPrimaryKey(drawExt.getDrawId());
+//
+//            IncomeStatistics incomeStatistics = incomeStatisticsMapper.getIncomeByDrawIdAndDate(drawExt.getDrawId());
+//            if (incomeStatistics == null) {
+//                incomeStatistics = new IncomeStatistics();
+//                incomeStatistics.setDrawId(draws.getId());
+//                incomeStatistics.setIncomePrice(income.getProofPrice());
+//                incomeStatistics.setCreateTime(DataTypeUtils.formatCurDateTime());
+//                incomeStatisticsMapper.insert(incomeStatistics);
+//            } else {
+//                int sumIncome = incomeStatistics.getIncomePrice() + income.getProofPrice();
+//                incomeStatistics.setIncomePrice(sumIncome);
+//                incomeStatisticsMapper.updateByPrimaryKey(incomeStatistics);
+//            }
+//
+//            User user = userMapper.selectByPrimaryKey(draws.getProdUid());
+//            user.setIncome(user.getIncome() + income.getProofPrice());
+//            userMapper.updateByPrimaryKey(user);
 
             income.setStatus("1");
             incomeMapper.updateByPrimaryKey(income);
 
-            OperLog operLog = new OperLog();
-            operLog.setUid(user.getId());
-            operLog.setOrderId(0);
-            operLog.setIncomeId(income.getId());
-            operLog.setType("3");
-            operLog.setTradeno(orderNo);
-            operLog.setIncomePrice(income.getProofPrice());
-            operLogMapper.insert(operLog);
+//            OperLog operLog = new OperLog();
+//            operLog.setUid(user.getId());
+//            operLog.setOrderId(0);
+//            operLog.setIncomeId(income.getId());
+//            operLog.setType("3");
+//            operLog.setTradeno(orderNo);
+//            operLog.setIncomePrice(income.getProofPrice());
+//            operLogMapper.insert(operLog);
             return;
         }
 

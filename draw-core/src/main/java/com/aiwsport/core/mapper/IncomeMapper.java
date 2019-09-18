@@ -15,4 +15,8 @@ public interface IncomeMapper {
     int updateByPrimaryKey(Income record);
 
     Income getIncomeByOrderNo(String orderNo);
+
+    List<Income> getPayFinish(int start, int end);
+
+    int getPayFinishCount();
 }

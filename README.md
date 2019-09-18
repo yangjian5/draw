@@ -222,6 +222,11 @@ post - /api/upload_image  全都是 form_data
 | author    |   str |  作者  |
 | desc    |   str |  简介  |
 | draw_file    |   file |  form_data   |
+| create_price    |   int |  创造权价格  |
+| owner_prize    |   int |  所有权价格  |
+| owner_count    |   int |  所有权数量  |
+| is_sale    |   str |  是否售卖  |
+
 
 #### 出参
 
@@ -824,9 +829,6 @@ get - /api/banner/update
 | :-------- | --------:| :------: |
 | id     |   int |  banner id |
 
-
-
-
 #### 出参
 
 ```
@@ -866,13 +868,166 @@ get - /api/banner/update
 }
 ```
 
+### 20、income select
+#### url 
+get - /api//income/select.json
+#### 入参
+| 字段      |     类型 |   说明   |
+| :-------- | --------:| :------: |
+| page     |   int |   |
+| count     |   int |   |
 
+#### 出参
+```$xslt
+{
+    "code": 200,
+    "message": "drawSelect",
+    "data": {
+        "max_id": null,
+        "json_array": [
+            {
+                "income": {
+                    "id": 55,
+                    "draw_extid": 656,
+                    "proof_url": "https://aiwsport.com/data1/income/",
+                    "proof_price": 5,
+                    "info": "{\"timeStamp\":\"1566782440\",\"package\":\"prepay_id=wx26092039967259778cd5837e1333921000\",\"orderNo\":\"20190826092039156678243975851849\",\"paySign\":\"6643C5F2F84C2B6340F49513C01EFF2E\",\"appId\":\"wx212677b8e5e12f06\",\"total_fee\":\"5\",\"signType\":\"MD5\",\"nonceStr\":\"7148caf7c4124f08bbdd96f304cea730\"}",
+                    "order_no": "20190826092039156678243975851849",
+                    "status": "1",
+                    "op_name": null,
+                    "op_id": null,
+                    "create_time": "2019-08-26 09:20:40.0",
+                    "modify_time": "2019-08-26 09:20:40.0"
+                },
+                "draws": {
+                    "id": 44,
+                    "prod_uid": 24,
+                    "prod_name": "孙斌",
+                    "prod_tel": "18511582823",
+                    "draw_price": 10,
+                    "draw_name": "灵隐寺系列",
+                    "draw_status": "1",
+                    "draw_width": 1280,
+                    "draw_high": 796,
+                    "qr_url": null,
+                    "auth_name": "张世博",
+                    "url_hd": "https://art.artchains.cn/data1/draw_simple/1566739886038_tmp_bcc0c2d1de9deff58bda2ccf3192b219a4d6741396d1607d.jpg",
+                    "url_simple": "https://art.artchains.cn/data1/draw/1566739886038_tmp_bcc0c2d1de9deff58bda2ccf3192b219a4d6741396d1607d.jpg",
+                    "draw_desc": "师从卢禹舜，中国国家画院研究员，青年画院画家",
+                    "own_count": 10,
+                    "own_finish_count": 10,
+                    "is_sale": "0",
+                    "op_name": null,
+                    "op_id": null,
+                    "create_time": "2019-08-25 21:31:26.0",
+                    "modify_time": "2019-08-25 21:31:26.0",
+                    "draw_ext": null,
+                    "is_update_count": null
+                }
+            },
+            {
+                "income": {
+                    "id": 56,
+                    "draw_extid": 661,
+                    "proof_url": "https://aiwsport.com/data1/income/1566812073582_tmp_3d8e128330043a30158c289429cc9034.jpg",
+                    "proof_price": 5,
+                    "info": "{\"timeStamp\":\"1566812073\",\"package\":\"prepay_id=wx2617343389152131655e8e8f1406737400\",\"orderNo\":\"20190826173433156681207363653830\",\"paySign\":\"2D9598D3B6962E743DF69FFD0A269194\",\"appId\":\"wx212677b8e5e12f06\",\"total_fee\":\"5\",\"signType\":\"MD5\",\"nonceStr\":\"3ac17fe3348f46c6b068f230272f9cc4\"}",
+                    "order_no": "20190826173433156681207363653830",
+                    "status": "1",
+                    "op_name": null,
+                    "op_id": null,
+                    "create_time": "2019-08-26 17:34:33.0",
+                    "modify_time": "2019-08-26 17:34:33.0"
+                },
+                "draws": {
+                    "id": 44,
+                    "prod_uid": 24,
+                    "prod_name": "孙斌",
+                    "prod_tel": "18511582823",
+                    "draw_price": 10,
+                    "draw_name": "灵隐寺系列",
+                    "draw_status": "1",
+                    "draw_width": 1280,
+                    "draw_high": 796,
+                    "qr_url": null,
+                    "auth_name": "张世博",
+                    "url_hd": "https://art.artchains.cn/data1/draw_simple/1566739886038_tmp_bcc0c2d1de9deff58bda2ccf3192b219a4d6741396d1607d.jpg",
+                    "url_simple": "https://art.artchains.cn/data1/draw/1566739886038_tmp_bcc0c2d1de9deff58bda2ccf3192b219a4d6741396d1607d.jpg",
+                    "draw_desc": "师从卢禹舜，中国国家画院研究员，青年画院画家",
+                    "own_count": 10,
+                    "own_finish_count": 10,
+                    "is_sale": "0",
+                    "op_name": null,
+                    "op_id": null,
+                    "create_time": "2019-08-25 21:31:26.0",
+                    "modify_time": "2019-08-25 21:31:26.0",
+                    "draw_ext": null,
+                    "is_update_count": null
+                }
+            },
+            {
+                "income": {
+                    "id": 59,
+                    "draw_extid": 663,
+                    "proof_url": "https://aiwsport.com/data1/income/",
+                    "proof_price": 5,
+                    "info": "{\"timeStamp\":\"1566825003\",\"package\":\"prepay_id=wx2621100356122654b66674e31041068300\",\"orderNo\":\"20190826211003156682500333748982\",\"paySign\":\"C929A1F4D29B42D2F066CD5F9C3B3854\",\"appId\":\"wx212677b8e5e12f06\",\"total_fee\":\"5\",\"signType\":\"MD5\",\"nonceStr\":\"c48f2a4206924c54b5bdf2ef5497082a\"}",
+                    "order_no": "20190826211003156682500333748982",
+                    "status": "1",
+                    "op_name": null,
+                    "op_id": null,
+                    "create_time": "2019-08-26 21:10:03.0",
+                    "modify_time": "2019-08-26 21:10:03.0"
+                },
+                "draws": {
+                    "id": 45,
+                    "prod_uid": 24,
+                    "prod_name": "杨建",
+                    "prod_tel": "18510649555",
+                    "draw_price": 10,
+                    "draw_name": "山水田园生活",
+                    "draw_status": "1",
+                    "draw_width": 2000,
+                    "draw_high": 2488,
+                    "qr_url": null,
+                    "auth_name": "栗栗",
+                    "url_hd": "https://art.artchains.cn/data1/draw_simple/1566815871005_tmp_3ae7085d04422eb2755e9405dcabdae9.jpg",
+                    "url_simple": "https://art.artchains.cn/data1/draw/1566815871005_tmp_3ae7085d04422eb2755e9405dcabdae9.jpg",
+                    "draw_desc": "上路去搜搜",
+                    "own_count": 3,
+                    "own_finish_count": 3,
+                    "is_sale": "0",
+                    "op_name": null,
+                    "op_id": null,
+                    "create_time": "2019-08-26 18:37:52.0",
+                    "modify_time": "2019-08-26 18:37:52.0",
+                    "draw_ext": null,
+                    "is_update_count": null
+                }
+            }
+        ],
+        "page": 1,
+        "count": 5,
+        "total_count": 3
+    },
+    "success": true
+}
+
+
+```
+
+
+### 21、income check
+#### url 
+get - /api//income/check.json
+#### 入参
+| 字段      |     类型 |   说明   |
+| :-------- | --------:| :------: |
+| id     |   int |  income id |
+| status     |   string |  2 审核通过， 3审核未通过 |
 
 
 类型 1-创造权交易 2-所有权交易收益 3-所有权添加收益 4-提现
-
-
-
 
 
 

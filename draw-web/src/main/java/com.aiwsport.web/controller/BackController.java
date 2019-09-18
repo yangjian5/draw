@@ -63,6 +63,29 @@ public class BackController {
         return new ResultMsg("drawSelect", backService.showDraws(drawName, page, count));
     }
 
+    @RequestMapping(value = "/income/select.json")
+    public ResultMsg incomeSelect(@ParamVerify(isNumber = true) int page,
+                                @ParamVerify(isNumber = true) int count) {
+        if (page <= 0 || count < 0) {
+            throw new DrawServerException(DrawServerExceptionFactor.PARAM_COUNT_FAIL, "param is error");
+        }
+        return new ResultMsg("drawSelect", backService.showIncome(page, count));
+    }
+
+    @RequestMapping(value = "/income/check.json")
+    public ResultMsg incomeCheck(@ParamVerify(isNumber = true) int id,
+                               @ParamVerify(isNumber = true) String status) {
+        try {
+            if (!backService.incomeCheck(id, status)) {
+                throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "check income is fail");
+            }
+        } catch (Exception e) {
+            throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "check income is error");
+        }
+
+        return new ResultMsg("incomeCheck", true);
+    }
+
     @RequestMapping(value = "/draw/check.json")
     public ResultMsg drawCheck(@ParamVerify(isNumber = true) int id,
                                @ParamVerify(isNumber = true) int drawStatus) {
