@@ -131,7 +131,7 @@ public class BackService {
             return false;
         }
 
-        if ("0,2,3".contains(income.getStatus())) {
+        if (!"1".equals(income.getStatus())) {
             return false;
         }
 
