@@ -49,7 +49,7 @@ public class DrawController {
 
     private static final String SIMPLE_PATH = "/data1/draw_simple";
 
-    private static final String QR_PATH = "/data1/qr_code/";
+    private static final String QR_PATH = "/data1/qrcode/";
 
     private static final String INCOME_PATH = "/data1/income";
 
