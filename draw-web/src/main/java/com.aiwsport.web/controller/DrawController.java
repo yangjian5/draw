@@ -87,7 +87,7 @@ public class DrawController {
                                  String click_url,
                                  @RequestParam(name = "branner_url", required = false, defaultValue = "") String brannerUrl,
                                  @RequestParam(name = "simple_url", required = false, defaultValue = "") String simpleUrl,
-                                 @RequestParam(name = "draw_id", required = false) Integer draw_id,
+                                 @RequestParam(name = "draw_id", required = false, defaultValue = "0") Integer draw_id,
                                  @ParamVerify(isNumber = true) int type,
                                  @ParamVerify(isNumber = true) int sort,
                                  @RequestParam(name = "branner_file", required = false) MultipartFile file,
@@ -124,6 +124,7 @@ public class DrawController {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "upload_branner other is fail ");
         }
 
