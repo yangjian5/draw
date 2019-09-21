@@ -26,7 +26,7 @@ public class WebApplication {
         @Override
         public void addInterceptors(InterceptorRegistry registry) {
             registry.addInterceptor(new AccessHandlerInteceptor())    //指定拦截器类
-                    .addPathPatterns("/api/**");        //指定该类拦截的url
+                    .addPathPatterns("/api/backend/**");        //指定该类拦截的url
         }
     }
 

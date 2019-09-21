@@ -45,6 +45,9 @@ public class BackService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private AdminMapper adminMapper;
+
 
     public boolean bannerUpdate(DrawBranner drawBranner) {
         return drawBrannerMapper.updateByPrimaryKeyWithIf(drawBranner) > 0;
@@ -122,6 +125,10 @@ public class BackService {
 
         drawExtMapper.updateExtStatus(drawStatus+"", id);
         return drawMapper.updateDrawsStatus(draws) > 0;
+    }
+
+    public Admin getAdmin(String taccount, String password) {
+        return adminMapper.getAdmin(taccount, password);
     }
 
     public synchronized boolean incomeCheck(int id, String status) throws Exception{

@@ -3,13 +3,19 @@ package com.aiwsport.web.controller;
 import com.aiwsport.core.DrawServerException;
 import com.aiwsport.core.DrawServerExceptionFactor;
 import com.aiwsport.core.constant.ResultMsg;
+import com.aiwsport.core.entity.Admin;
 import com.aiwsport.core.entity.DrawBranner;
 import com.aiwsport.core.service.BackService;
+import com.aiwsport.core.utils.AesUtil;
 import com.aiwsport.web.verify.ParamVerify;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 首页展示
@@ -17,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author yangjian
  */
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/backend")
 public class BackController {
 
     @Autowired
@@ -105,6 +111,25 @@ public class BackController {
         return new ResultMsg("drawCheck", true);
     }
 
+    @RequestMapping(value = "/backend_login.json")
+    public ResultMsg drawLogin(HttpServletResponse response,
+                               @ParamVerify(isNotBlank = true) String taccount,
+                               @ParamVerify(isNotBlank = true) String password) {
+        Admin admin = backService.getAdmin(taccount, password);
+        if (admin == null) {
+            throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "账号或密码有误");
+        }
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("tacount", taccount);
+        jsonObject.put("password", password);
+        jsonObject.put("expire_time", System.currentTimeMillis() + 1000 * 60 * 60 * 6);
+        String subStr = AesUtil.encrypt(jsonObject.toJSONString());
+
+        Cookie cookie = new Cookie("sub", subStr);
+        response.addCookie(cookie);
+        return new ResultMsg("backend_login", true);
+    }
 
     @RequestMapping(value = "/order/select.json")
     public ResultMsg orderSelect(@RequestParam(name = "code", required = false, defaultValue = "") String code,

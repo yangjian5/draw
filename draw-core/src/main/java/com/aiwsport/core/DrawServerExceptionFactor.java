@@ -34,6 +34,10 @@ public class DrawServerExceptionFactor {
             HttpStatus.SC_BAD_REQUEST, 20011,
             "sign is error", "签名错误");
 
+    public static final DrawServerExceptionFactor BACKEND_LOGIN_ERROR = new DrawServerExceptionFactor(
+            HttpStatus.SC_BAD_REQUEST, 20012,
+            "login is fail", "登录失败");
+
     public static final DrawServerExceptionFactor FILE_ERROR = new DrawServerExceptionFactor(
             HttpStatus.SC_SERVICE_UNAVAILABLE, 20012,
             "file upload is error", "文件上传失败");
