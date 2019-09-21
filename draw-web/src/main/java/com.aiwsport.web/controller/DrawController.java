@@ -92,7 +92,7 @@ public class DrawController {
                                  @ParamVerify(isNumber = true) int sort,
                                  @RequestParam(name = "branner_file", required = false) MultipartFile file,
                                  @RequestParam(name = "desc_file", required = false) MultipartFile descFile) {
-        boolean res = false;
+        int brannerId = 0;
         try {
             if (file != null) {
                 String fileName = file.getOriginalFilename();
@@ -103,7 +103,10 @@ public class DrawController {
                 }
                 brannerUrl = IMG_HOST + BRANNER + "/" + name;
                 simpleUrl = IMG_HOST + SIMPLE_BRANNER + "/" + name;
-                res = drawService.uploadBranner(id, click_url, draw_id, type, sort, brannerUrl, simpleUrl) > 0;
+                brannerId = drawService.uploadBranner(id, click_url, draw_id, type, sort, brannerUrl, simpleUrl);
+                if (brannerId == 0) {
+                    throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "upload_branner insert is fail ");
+                }
             }
 
             if (descFile != null) {
@@ -115,11 +118,10 @@ public class DrawController {
                 }
                 brannerUrl = IMG_HOST + BRANNER_DESC + "/" + descName;
                 simpleUrl = IMG_HOST + BRANNER_DESC_SIMPLE + "/" + descName;
-                res = drawService.uploadBranner(id, simpleUrl, draw_id, type, sort, brannerUrl, simpleUrl) > 0;
-            }
-
-            if (!res) {
-                throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "upload_branner insert is fail ");
+                brannerId = drawService.uploadBranner(brannerId, simpleUrl, draw_id, type, sort, brannerUrl, simpleUrl);
+                if (brannerId == 0) {
+                    throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "upload_branner insert is fail ");
+                }
             }
         } catch (Exception e) {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "upload_branner other is fail ");
