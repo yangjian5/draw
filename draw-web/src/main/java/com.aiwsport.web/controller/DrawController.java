@@ -41,6 +41,10 @@ public class DrawController {
 
     private static final String BRANNER = "/data1/branner";
 
+    private static final String BRANNER_DESC = "/data1/brannerdesc";
+
+    private static final String BRANNER_DESC_SIMPLE = "/data1/brannerdesc_simple";
+
     private static final String SIMPLE_BRANNER = "/data1/branner_simple";
 
     private static final String SIMPLE_PATH = "/data1/draw_simple";
@@ -86,7 +90,9 @@ public class DrawController {
                                  @RequestParam(name = "draw_id", required = false) Integer draw_id,
                                  @ParamVerify(isNumber = true) int type,
                                  @ParamVerify(isNumber = true) int sort,
-                                 @RequestParam(name = "branner_file", required = false) MultipartFile file) {
+                                 @RequestParam(name = "branner_file", required = false) MultipartFile file,
+                                 @RequestParam(name = "desc_file", required = false) MultipartFile descFile) {
+        boolean res = false;
         try {
             if (file != null) {
                 String fileName = file.getOriginalFilename();
@@ -97,8 +103,21 @@ public class DrawController {
                 }
                 brannerUrl = IMG_HOST + BRANNER + "/" + name;
                 simpleUrl = IMG_HOST + SIMPLE_BRANNER + "/" + name;
+                res = drawService.uploadBranner(id, click_url, draw_id, type, sort, brannerUrl, simpleUrl) > 0;
             }
-            boolean res = drawService.uploadBranner(id, click_url, draw_id, type, sort, brannerUrl, simpleUrl);
+
+            if (descFile != null) {
+                String descFileName = descFile.getOriginalFilename();
+                InputStream descInputStream = descFile.getInputStream();
+                String descName = System.currentTimeMillis() + "_" + descFileName;
+                if (!FileUtil.writeFile(BASE + BRANNER_DESC, BASE + BRANNER_DESC_SIMPLE, descName, descInputStream)) {
+                    throw new DrawServerException(DrawServerExceptionFactor.FILE_ERROR);
+                }
+                brannerUrl = IMG_HOST + BRANNER_DESC + "/" + descName;
+                simpleUrl = IMG_HOST + BRANNER_DESC_SIMPLE + "/" + descName;
+                res = drawService.uploadBranner(id, simpleUrl, draw_id, type, sort, brannerUrl, simpleUrl) > 0;
+            }
+
             if (!res) {
                 throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "upload_branner insert is fail ");
             }
