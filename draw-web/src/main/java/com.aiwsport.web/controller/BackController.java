@@ -129,7 +129,7 @@ public class BackController {
         Cookie cookie = new Cookie("sub", subStr);
         cookie.setDomain("art.artchains.cn");
         response.addCookie(cookie);
-        response.setHeader("Access-Control-Allow-Origin","https://art.artchains.cn");
+        response.setHeader("Access-Control-Allow-Origin","art.artchains.cn");
 
         return new ResultMsg("backend_login", true);
     }
