@@ -118,7 +118,7 @@ public class DrawController {
                 }
                 brannerUrl = IMG_HOST + BRANNER_DESC + "/" + descName;
                 simpleUrl = IMG_HOST + BRANNER_DESC_SIMPLE + "/" + descName;
-                brannerId = drawService.uploadBranner(brannerId, simpleUrl, draw_id, type, sort, brannerUrl, simpleUrl);
+                brannerId = drawService.uploadBranner(brannerId, simpleUrl, draw_id, type, sort, null, null);
                 if (brannerId == 0) {
                     throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "upload_branner insert is fail ");
                 }
