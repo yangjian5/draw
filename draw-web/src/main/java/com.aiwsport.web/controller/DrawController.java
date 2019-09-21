@@ -82,7 +82,7 @@ public class DrawController {
     }
 
 
-    @RequestMapping(value = "/upload_branner.json")
+    @RequestMapping(value = "/backend/upload_branner.json")
     public ResultMsg uploadImage(@ParamVerify(isNumber = true) @RequestParam(name = "id", required = false) Integer id,
                                  String click_url,
                                  @RequestParam(name = "branner_url", required = false, defaultValue = "") String brannerUrl,
