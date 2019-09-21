@@ -128,6 +128,8 @@ public class BackController {
 
         Cookie cookie = new Cookie("sub", subStr);
         response.addCookie(cookie);
+        response.setHeader("Access-Control-Allow-Origin","*");
+
         return new ResultMsg("backend_login", true);
     }
 
