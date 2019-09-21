@@ -127,9 +127,9 @@ public class BackController {
         String subStr = AesUtil.encrypt(jsonObject.toJSONString());
 
         Cookie cookie = new Cookie("sub", subStr);
-        cookie.setDomain("art.artchains.cn");
+        cookie.setDomain("xh.artchains.cn");
         response.addCookie(cookie);
-        response.setHeader("Access-Control-Allow-Origin","art.artchains.cn");
+        response.setHeader("Access-Control-Allow-Origin","xh.artchains.cn");
         response.setHeader("origin", "xh.artchains.cn");
 
         return new ResultMsg("backend_login", subStr);
