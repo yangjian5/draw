@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -27,6 +28,20 @@ public class WebApplication {
         public void addInterceptors(InterceptorRegistry registry) {
             registry.addInterceptor(new AccessHandlerInteceptor())    //指定拦截器类
                     .addPathPatterns("/api/backend/**");        //指定该类拦截的url
+        }
+
+        /**
+         * 设置头 使可以跨域访问
+         * @param registry
+         * @since 4.2
+         */
+        @Override
+        public void addCorsMappings(CorsRegistry registry) {
+            registry.addMapping("/**")
+                    .allowedOrigins("*")
+                    .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE")
+                    .maxAge(60 * 60 * 6)
+                    .allowCredentials(true);
         }
     }
 
