@@ -77,7 +77,7 @@ public class TransferController {
             //parm.put("re_user_name", "安迪"); //check_name设置为FORCE_CHECK或OPTION_CHECK，则必填
             parm.put("amount", BigDecimal.valueOf(amount).divide(BigDecimal.valueOf(100)).toString()); //转账金额
             parm.put("desc", user.getNickName() +" 申请提现金额："+amount+"分 " + user.getId()); //企业付款描述信息
-            parm.put("spbill_create_ip", "134.175.110.50"); //Ip地址
+            parm.put("spbill_create_ip", "120.27.69.84"); //Ip地址
             parm.put("sign", PayUtil.getSign(parm, "artchain825c3af0bd36a25c1396c72b"));
 
             String restxml = HttpUtils.posts(WxConfig.TRANSFERS_PAY, XmlUtil.xmlFormat(parm, false));
