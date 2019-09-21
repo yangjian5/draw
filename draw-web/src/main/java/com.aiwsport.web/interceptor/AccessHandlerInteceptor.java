@@ -2,12 +2,12 @@ package com.aiwsport.web.interceptor;
 
 import com.aiwsport.core.DrawServerException;
 import com.aiwsport.core.DrawServerExceptionFactor;
-
 import com.aiwsport.core.entity.Admin;
 import com.aiwsport.core.service.BackService;
 import com.aiwsport.core.utils.AesUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.BeanFactory;
@@ -16,7 +16,6 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
@@ -47,34 +46,28 @@ public class AccessHandlerInteceptor implements HandlerInterceptor {
                     .getBean("backService");
         }
 
-        Cookie[] cookies = request.getCookies();
-        if (cookies == null || cookies.length == 0){
+        String accessToken = request.getHeader("access_token");
+        if (StringUtils.isBlank(accessToken)){
             throw new DrawServerException(DrawServerExceptionFactor.BACKEND_LOGIN_ERROR, "非法登录");
         }
-        for (Cookie cookie:cookies){
-            if (cookie.getName().equals("sub")){
-                String subStr = cookie.getValue();
-                try {
-                    JSONObject jsonObject = (JSONObject) JSONObject.parse(AesUtil.decrypt(subStr));
-                    String account = jsonObject.getString("taccount");
-                    String password = jsonObject.getString("password");
-                    long expireTime = jsonObject.getLong("expire_time");
-                    if (expireTime < System.currentTimeMillis()) {
-                        throw new DrawServerException(DrawServerExceptionFactor.BACKEND_LOGIN_ERROR, "登录过期");
-                    }
-                    Admin admin = backService.getAdmin(account, password);
-                    if (admin == null) {
-                        throw new DrawServerException(DrawServerExceptionFactor.BACKEND_LOGIN_ERROR, "非法登录");
-                    }
-                    return true;
-                } catch (Exception e) {
-                    logger.warn("cookie is not vail sub is " + subStr);
-                    throw new DrawServerException(DrawServerExceptionFactor.BACKEND_LOGIN_ERROR, "非法登录");
-                }
+        try {
+            JSONObject jsonObject = (JSONObject) JSONObject.parse(AesUtil.decrypt(accessToken));
+            String account = jsonObject.getString("taccount");
+            String password = jsonObject.getString("password");
+            long expireTime = jsonObject.getLong("expire_time");
+            if (expireTime < System.currentTimeMillis()) {
+                throw new DrawServerException(DrawServerExceptionFactor.BACKEND_LOGIN_ERROR, "登录过期");
             }
+            Admin admin = backService.getAdmin(account, password);
+            if (admin == null) {
+                throw new DrawServerException(DrawServerExceptionFactor.BACKEND_LOGIN_ERROR, "非法登录");
+            }
+            return true;
+        } catch (Exception e) {
+            logger.warn("cookie is not vail sub is " + accessToken);
+            throw new DrawServerException(DrawServerExceptionFactor.BACKEND_LOGIN_ERROR, "非法登录");
         }
 //        authSign(request, "y21gsdi35zas0921ksjxu3la5noiwns5ak821#2*ds+");
-        throw new DrawServerException(DrawServerExceptionFactor.BACKEND_LOGIN_ERROR, "登录失败");
     }
 
     /**
