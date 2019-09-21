@@ -8,7 +8,7 @@ public class WxConfig {
     //微信支付的商户密钥
     public static final String SECRET = "339315a194cfcbda9d9d8aa653e59ea8";
     //支付成功后的服务器回调url
-    public static final String notify_url = "https://aiwsport.com/api/wx_notify.json";
+    public static final String notify_url = "https://art.artchains.cn/api/wx_notify.json";
     //签名方式
     public static final String SIGNTYPE = "MD5";
     //交易类型
