@@ -130,8 +130,9 @@ public class BackController {
         cookie.setDomain("art.artchains.cn");
         response.addCookie(cookie);
         response.setHeader("Access-Control-Allow-Origin","art.artchains.cn");
+        response.setHeader("origin", "xh.artchains.cn");
 
-        return new ResultMsg("backend_login", true);
+        return new ResultMsg("backend_login", subStr);
     }
 
     @RequestMapping(value = "/order/select.json")
