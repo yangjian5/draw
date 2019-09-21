@@ -268,7 +268,7 @@ public class DrawService {
                 drawExt.setCount(drawExtMapper.getCount(drawExt.getDrawId(), uid));
             });
 
-            return buildShowDrawExts(drawExtList.subList(start, end>drawExtList.size()-1?drawExtList.size()-1:end), page + "", uid);
+            return buildShowDrawExts(drawExtList.subList(start, end+1>drawExtList.size()?drawExtList.size():end+1), page + "", uid);
         }
     }
 
