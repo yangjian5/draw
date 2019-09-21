@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @Service
@@ -277,9 +278,20 @@ public class OrderService {
             operLog.setIncomePrice(order.getOrderPrice());
             operLogMapper.insert(operLog);
 
+            Integer orderPrice = order.getOrderPrice();
+
+            // 所有权售卖者得到95%
             User user1 = userMapper.selectByPrimaryKey(drawExt.getExtUid());
-            user1.setIncome(user1.getIncome() + order.getOrderPrice());
+            Integer incomePrice1 = BigDecimal.valueOf(orderPrice).multiply(BigDecimal.valueOf(0.95)).setScale(0, BigDecimal.ROUND_DOWN).intValue();
+            user1.setIncome(user1.getIncome() + incomePrice1);
             userMapper.updateByPrimaryKey(user1);
+
+            // 创造者得到5%
+            Draws draws = drawsMapper.selectByPrimaryKey(drawExt.getDrawId());
+            User user2 = userMapper.selectByPrimaryKey(draws.getProdUid());
+            Integer incomePrice2 = BigDecimal.valueOf(orderPrice).multiply(BigDecimal.valueOf(0.05)).setScale(0, BigDecimal.ROUND_DOWN).intValue();
+            user2.setIncome(user2.getIncome() + incomePrice2);
+            userMapper.updateByPrimaryKey(user2);
 
             drawExt.setExtUid(order.getUid());
             drawExt.setExtIsSale("0");

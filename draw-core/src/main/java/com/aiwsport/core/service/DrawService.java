@@ -296,7 +296,7 @@ public class DrawService {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "update draw ext owner price error");
         }
 
-        incomePrice = BigDecimal.valueOf(incomePrice).multiply(BigDecimal.valueOf(0.05)).intValue();
+        incomePrice = BigDecimal.valueOf(incomePrice).multiply(BigDecimal.valueOf(0.05)).setScale(0, BigDecimal.ROUND_DOWN).intValue();
 
         Map<String, String> resMap = orderService.createWXOrder(openId, "127.0.0.1", "income-"+drawExtId,
                 incomePrice+"");
