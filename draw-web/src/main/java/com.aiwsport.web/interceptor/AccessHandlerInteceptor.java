@@ -36,6 +36,10 @@ public class AccessHandlerInteceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if ("/api/backend/backend_login.json".equals(request.getRequestURI())) {
+            return true;
+        }
+
         if (backService == null) {//解决service为null无法注入问题
             BeanFactory factory = WebApplicationContextUtils
                     .getRequiredWebApplicationContext(request.getServletContext());
