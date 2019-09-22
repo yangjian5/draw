@@ -151,6 +151,7 @@ public class DrawService {
 
         if ("1".equals(isUpdate)) {
             draw.setOwnCount(ownerCount);
+            draw.setOwnPrice(ownerPrice);
         }
 
         draw.setIsSale(isSale);

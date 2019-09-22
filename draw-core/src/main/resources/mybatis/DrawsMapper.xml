@@ -16,6 +16,7 @@
     <result column="drawDesc" property="drawDesc" jdbcType="VARCHAR" />
     <result column="ownCount" property="ownCount" jdbcType="INTEGER" />
     <result column="ownFinishCount" property="ownFinishCount" jdbcType="INTEGER" />
+    <result column="ownPrice" property="ownPrice" jdbcType="INTEGER" />
     <result column="isSale" property="isSale" jdbcType="VARCHAR" />
     <result column="qrUrl" property="qrUrl" jdbcType="VARCHAR" />
     <result column="opName" property="opName" jdbcType="VARCHAR" />
@@ -34,14 +35,14 @@
     insert into draws (prodUid, prodName, prodTel,
       drawPrice, drawName, drawStatus, drawWidth, drawHigh,
       authName, urlHd, urlSimple,
-      drawDesc, ownCount, ownFinishCount,isSale,qrUrl,
+      drawDesc, ownCount, ownFinishCount,ownPrice, isSale,qrUrl,
       opName, opId, createTime,
       modifyTime)
     values (#{prodUid,jdbcType=INTEGER}, #{prodName,jdbcType=VARCHAR}, #{prodTel,jdbcType=VARCHAR},
       #{drawPrice,jdbcType=INTEGER}, #{drawName,jdbcType=VARCHAR}, #{drawStatus,jdbcType=VARCHAR},
       #{drawWidth,jdbcType=INTEGER}, #{drawHigh,jdbcType=INTEGER},
       #{authName,jdbcType=VARCHAR}, #{urlHd,jdbcType=VARCHAR}, #{urlSimple,jdbcType=VARCHAR},
-      #{drawDesc,jdbcType=VARCHAR}, #{ownCount,jdbcType=INTEGER}, #{ownFinishCount,jdbcType=INTEGER},
+      #{drawDesc,jdbcType=VARCHAR}, #{ownCount,jdbcType=INTEGER}, #{ownFinishCount,jdbcType=INTEGER}, #{ownPrice,jdbcType=INTEGER},
       #{isSale,jdbcType=VARCHAR}, #{qrUrl,jdbcType=VARCHAR}, #{opName,jdbcType=VARCHAR}, #{opId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
       #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
@@ -61,6 +62,7 @@
       drawDesc = #{drawDesc,jdbcType=VARCHAR},
       ownCount = #{ownCount,jdbcType=INTEGER},
       ownFinishCount = #{ownFinishCount,jdbcType=INTEGER},
+      ownPrice = #{ownPrice,jdbcType=INTEGER},
       opName = #{opName,jdbcType=VARCHAR},
       isSale = #{isSale,jdbcType=INTEGER},
       qrUrl = #{qrUrl,jdbcType=INTEGER},
@@ -72,24 +74,24 @@
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, prodUid, prodName, prodTel, drawPrice, drawName, drawStatus, drawWidth, drawHigh, authName,
-    urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, isSale, qrUrl, opName, opId, createTime, modifyTime
+    urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, ownPrice, isSale, qrUrl, opName, opId, createTime, modifyTime
     from draws
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select id, prodUid, prodName, prodTel, drawPrice, drawName, drawStatus, drawWidth, drawHigh, authName,
-    urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, isSale, qrUrl, opName, opId, createTime, modifyTime
+    urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, ownPrice, isSale, qrUrl, opName, opId, createTime, modifyTime
     from draws
   </select>
   <select id="getMaxOne" resultMap="BaseResultMap" >
     select id, prodUid, prodName, prodTel, drawPrice, drawName, drawStatus, authName,
-    urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, isSale, qrUrl, opName, opId, createTime, modifyTime
+    urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, ownPrice, isSale, qrUrl, opName, opId, createTime, modifyTime
     from draws order by id desc limit 1;
   </select>
 
   <select id="getIndex" resultMap="BaseResultMap">
     select id, prodUid, prodName, prodTel, drawPrice, drawName, drawStatus, drawWidth, drawHigh, authName,
-    urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, isSale, qrUrl, opName, opId, createTime, modifyTime
+    urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, ownPrice, isSale, qrUrl, opName, opId, createTime, modifyTime
     from draws
     where id &lt;= #{arg0} and drawStatus = 1
     order by drawPrice
@@ -103,7 +105,7 @@
   </select>
   <select id="getMyList" resultMap="BaseResultMap">
     select id, prodUid, prodName, prodTel, drawPrice, drawName, drawStatus, drawWidth, drawHigh, authName,
-    urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, isSale, qrUrl, opName, opId, createTime, modifyTime
+    urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, ownPrice, isSale, qrUrl, opName, opId, createTime, modifyTime
     from draws
     where prodUid = #{arg0}
     order by modifyTime desc
@@ -117,7 +119,7 @@
   </select>
   <select id="getDrawsByDrawName" resultMap="BaseResultMap" parameterType="com.aiwsport.core.entity.PageParam">
     select id, prodUid, prodName, prodTel, drawPrice, drawName, drawStatus, drawWidth, drawHigh, authName,
-    urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, qrUrl, opName, opId, createTime, modifyTime
+    urlHd, urlSimple, drawDesc, ownCount, ownFinishCount, ownPrice, qrUrl, opName, opId, createTime, modifyTime
     from draws
     where drawName LIKE CONCAT('%',#{drawName,jdbcType=VARCHAR},'%')
     limit #{start,jdbcType=INTEGER},#{length,jdbcType=INTEGER}

@@ -31,6 +31,8 @@ public class Draws {
 
     private Integer ownCount;
 
+    private Integer ownPrice;
+
     private Integer ownFinishCount;
 
     private String isSale;
@@ -229,5 +231,13 @@ public class Draws {
 
     public void setQrUrl(String qrUrl) {
         this.qrUrl = qrUrl;
+    }
+
+    public Integer getOwnPrice() {
+        return ownPrice;
+    }
+
+    public void setOwnPrice(Integer ownPrice) {
+        this.ownPrice = ownPrice;
     }
 }

@@ -324,15 +324,16 @@ public class OrderService {
             }
 
             IncomeStatistics incomeStatistics1 = incomeStatisticsMapper.getIncomeByDrawIdAndDate(order.getDrawId(), "2");
+            Integer incomeStatisticsPrice = BigDecimal.valueOf(orderPrice - draws.getOwnPrice()).multiply(BigDecimal.valueOf(0.95)).setScale(0, BigDecimal.ROUND_DOWN).intValue();
             if (incomeStatistics1 == null) {
                 incomeStatistics1 = new IncomeStatistics();
                 incomeStatistics1.setDrawId(order.getDrawId());
-                incomeStatistics1.setIncomePrice(incomePrice1);
+                incomeStatistics1.setIncomePrice(incomeStatisticsPrice);
                 incomeStatistics1.setCreateTime(DataTypeUtils.formatCurDateTime());
                 incomeStatistics1.setType("2");
                 incomeStatisticsMapper.insert(incomeStatistics1);
             } else {
-                int sumIncome = incomeStatistics1.getIncomePrice() + incomePrice1;
+                int sumIncome = incomeStatistics1.getIncomePrice() + incomeStatisticsPrice;
                 incomeStatistics1.setIncomePrice(sumIncome);
                 incomeStatisticsMapper.updateByPrimaryKey(incomeStatistics1);
             }
