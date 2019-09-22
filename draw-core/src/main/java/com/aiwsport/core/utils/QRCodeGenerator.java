@@ -12,7 +12,7 @@ import java.nio.file.Path;
 
 public class QRCodeGenerator {
 
-    private static final String QR_CODE_IMAGE_PATH = "/home/www-data/data1/qrcode";
+    private static final String QR_CODE_IMAGE_PATH = "/home/www-data/data1/qrcode/";
 
 //    private static final String QR_CODE_IMAGE_PATH = "/Users/yangjian9/Desktop/";
 
