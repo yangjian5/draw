@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="drawId" property="drawId" jdbcType="INTEGER" />
     <result column="incomePrice" property="incomePrice" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
@@ -15,36 +16,37 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into income_statistics (drawId, incomePrice, createTime
+    insert into income_statistics (drawId, incomePrice, type, createTime
       )
-    values (#{drawId,jdbcType=INTEGER}, #{incomePrice,jdbcType=INTEGER}, #{createTime,jdbcType=INTEGER}
+    values (#{drawId,jdbcType=INTEGER}, #{incomePrice,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{createTime,jdbcType=INTEGER}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.aiwsport.core.entity.IncomeStatistics" >
     update income_statistics
     set drawId = #{drawId,jdbcType=INTEGER},
       incomePrice = #{incomePrice,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR},
       createTime = #{createTime,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, drawId, incomePrice, createTime
+    select id, drawId, incomePrice, type, createTime
     from income_statistics
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, drawId, incomePrice, createTime
+    select id, drawId, incomePrice, type, createTime
     from income_statistics
   </select>
 
   <select id="getIncomeByDrawIdAndDate" resultMap="BaseResultMap" >
-    select id, drawId, incomePrice, createTime
-    from income_statistics where drawId = #{arg0} and to_days(createTime) = to_days(now())
+    select id, drawId, incomePrice, type, createTime
+    from income_statistics where drawId = #{arg0} and type = #{arg1} and to_days(createTime) = to_days(now())
   </select>
 
   <select id="getStatistics" resultMap="BaseResultMap" >
-    select id, drawId, incomePrice, createTime
-    from income_statistics where drawId = #{arg0}
+    select id, drawId, incomePrice, type, createTime
+    from income_statistics where drawId = #{arg0} and type = #{arg2}
     <if test="arg1 == 1">
       and DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(createTime)
     </if>

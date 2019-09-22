@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -151,7 +152,7 @@ public class BackService {
         DrawExt drawExt = drawExtMapper.selectByPrimaryKey(income.getDrawExtid());
         Draws draws = drawMapper.selectByPrimaryKey(drawExt.getDrawId());
 
-        IncomeStatistics incomeStatistics = incomeStatisticsMapper.getIncomeByDrawIdAndDate(drawExt.getDrawId());
+        IncomeStatistics incomeStatistics = incomeStatisticsMapper.getIncomeByDrawIdAndDate(drawExt.getDrawId(), "1");
         if (incomeStatistics == null) {
             incomeStatistics = new IncomeStatistics();
             incomeStatistics.setDrawId(draws.getId());
@@ -163,6 +164,23 @@ public class BackService {
             incomeStatistics.setIncomePrice(sumIncome);
             incomeStatisticsMapper.updateByPrimaryKey(incomeStatistics);
         }
+
+        IncomeStatistics incomeStatistics1 = incomeStatisticsMapper.getIncomeByDrawIdAndDate(drawExt.getDrawId(), "2");
+        Integer incomePrice2 = BigDecimal.valueOf(income.getProofPrice()).multiply(BigDecimal.valueOf(20)).setScale(0, BigDecimal.ROUND_DOWN).intValue();
+
+        if (incomeStatistics1 == null) {
+            incomeStatistics1 = new IncomeStatistics();
+            incomeStatistics1.setDrawId(draws.getId());
+            incomeStatistics1.setIncomePrice(incomePrice2);
+            incomeStatistics1.setCreateTime(DataTypeUtils.formatCurDateTime());
+            incomeStatistics1.setType("2");
+            incomeStatisticsMapper.insert(incomeStatistics1);
+        } else {
+            int sumIncome = incomeStatistics1.getIncomePrice() + incomePrice2;
+            incomeStatistics1.setIncomePrice(sumIncome);
+            incomeStatisticsMapper.updateByPrimaryKey(incomeStatistics1);
+        }
+
 
         User user = userMapper.selectByPrimaryKey(draws.getProdUid());
         user.setIncome(user.getIncome() + income.getProofPrice());

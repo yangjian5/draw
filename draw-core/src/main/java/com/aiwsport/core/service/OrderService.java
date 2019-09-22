@@ -267,24 +267,26 @@ public class OrderService {
             draws.setIsSale("0");
             drawsMapper.updateByPrimaryKey(draws);
         } else {
+            Integer orderPrice = order.getOrderPrice();
             orderStatistics.setDrawId(order.getDrawExtId());
             DrawExt drawExt = drawExtMapper.selectByPrimaryKey(order.getDrawExtId());
-            OperLog operLog = new OperLog();
-            operLog.setUid(drawExt.getExtUid());
-            operLog.setOrderId(order.getId());
-            operLog.setIncomeId(0);
-            operLog.setType(order.getType());
-            operLog.setTradeno(orderNo);
-            operLog.setIncomePrice(order.getOrderPrice());
-            operLogMapper.insert(operLog);
 
-            Integer orderPrice = order.getOrderPrice();
+
 
             // 所有权售卖者得到95%
             User user1 = userMapper.selectByPrimaryKey(drawExt.getExtUid());
             Integer incomePrice1 = BigDecimal.valueOf(orderPrice).multiply(BigDecimal.valueOf(0.95)).setScale(0, BigDecimal.ROUND_DOWN).intValue();
             user1.setIncome(user1.getIncome() + incomePrice1);
             userMapper.updateByPrimaryKey(user1);
+
+            OperLog operLog = new OperLog();
+            operLog.setUid(drawExt.getExtUid());
+            operLog.setOrderId(order.getId());
+            operLog.setIncomeId(0);
+            operLog.setType(order.getType());
+            operLog.setTradeno(orderNo);
+            operLog.setIncomePrice(incomePrice1);
+            operLogMapper.insert(operLog);
 
             // 创造者得到5%
             Draws draws = drawsMapper.selectByPrimaryKey(drawExt.getDrawId());
@@ -293,23 +295,46 @@ public class OrderService {
             user2.setIncome(user2.getIncome() + incomePrice2);
             userMapper.updateByPrimaryKey(user2);
 
+            OperLog operLog1 = new OperLog();
+            operLog1.setUid(user2.getId());
+            operLog1.setOrderId(order.getId());
+            operLog1.setIncomeId(0);
+            operLog1.setType(order.getType());
+            operLog1.setTradeno(orderNo);
+            operLog1.setIncomePrice(incomePrice2);
+            operLogMapper.insert(operLog1);
+
             drawExt.setExtUid(order.getUid());
             drawExt.setExtIsSale("0");
             drawExtMapper.updateByPrimaryKey(drawExt);
 
             // 收益计算统计
-            int income = order.getOrderPrice();
-            IncomeStatistics incomeStatistics = incomeStatisticsMapper.getIncomeByDrawIdAndDate(order.getDrawId());
+            IncomeStatistics incomeStatistics = incomeStatisticsMapper.getIncomeByDrawIdAndDate(order.getDrawId(), "1");
             if (incomeStatistics == null) {
                 incomeStatistics = new IncomeStatistics();
                 incomeStatistics.setDrawId(order.getDrawId());
-                incomeStatistics.setIncomePrice(income);
+                incomeStatistics.setIncomePrice(incomePrice2);
                 incomeStatistics.setCreateTime(DataTypeUtils.formatCurDateTime());
+                incomeStatistics.setType("1");
                 incomeStatisticsMapper.insert(incomeStatistics);
             } else {
-                int sumIncome = incomeStatistics.getIncomePrice() + income;
+                int sumIncome = incomeStatistics.getIncomePrice() + incomePrice2;
                 incomeStatistics.setIncomePrice(sumIncome);
                 incomeStatisticsMapper.updateByPrimaryKey(incomeStatistics);
+            }
+
+            IncomeStatistics incomeStatistics1 = incomeStatisticsMapper.getIncomeByDrawIdAndDate(order.getDrawId(), "2");
+            if (incomeStatistics1 == null) {
+                incomeStatistics1 = new IncomeStatistics();
+                incomeStatistics1.setDrawId(order.getDrawId());
+                incomeStatistics1.setIncomePrice(incomePrice1);
+                incomeStatistics1.setCreateTime(DataTypeUtils.formatCurDateTime());
+                incomeStatistics1.setType("2");
+                incomeStatisticsMapper.insert(incomeStatistics1);
+            } else {
+                int sumIncome = incomeStatistics1.getIncomePrice() + incomePrice1;
+                incomeStatistics1.setIncomePrice(sumIncome);
+                incomeStatisticsMapper.updateByPrimaryKey(incomeStatistics1);
             }
         }
 

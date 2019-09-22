@@ -30,8 +30,8 @@ public class StatisticsService {
 
     private static Logger logger = LogManager.getLogger();
 
-    public List<IncomeStatistics> incomeStatistics(int drawId, int range) {
-        List<IncomeStatistics> incomeStatisticsList = incomeStatisticsMapper.getStatistics(drawId, range);
+    public List<IncomeStatistics> incomeStatistics(int drawId, int range, String type) {
+        List<IncomeStatistics> incomeStatisticsList = incomeStatisticsMapper.getStatistics(drawId, range, type);
         int count = incomeStatisticsList.size();
         switch (range) {
             case 1:
@@ -54,7 +54,30 @@ public class StatisticsService {
                 break;
             case 3:
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
-                return incomeStatisticsList.stream()
+
+                String[] dateStr = sdf.format(new Date()).split("-");
+                List<IncomeStatistics> resList = new ArrayList<>();
+                if (incomeStatisticsList == null || incomeStatisticsList.size() == 0) {
+                    int m = Integer.parseInt(dateStr[1])+1;
+                    int y = Integer.parseInt(dateStr[0]);
+                    for (int i=0; i<12; i++) {
+
+                        m = m - 1;
+                        if (m == 0) {
+                            m = 12;
+                            y = y -1;
+                        }
+
+                        IncomeStatistics incomeStatistics = new IncomeStatistics();
+                        incomeStatistics.setCreateTime(y+"-"+m);
+                        incomeStatistics.setIncomePrice(0);
+                        incomeStatistics.setDrawId(drawId);
+                        resList.add(incomeStatistics);
+                    }
+                    return resList;
+                }
+
+                resList = incomeStatisticsList.stream()
                         .peek(incomeStatistics -> {
                             String time = incomeStatistics.getCreateTime();
                             if (StringUtils.isNotBlank(time)) {
@@ -75,12 +98,33 @@ public class StatisticsService {
                         }).sorted((o1, o2) -> {
                             long i = 1;
                             try {
-                                i = sdf.parse(o2.getCreateTime()).getTime() - sdf.parse(o1.getCreateTime()).getTime();
+                                i = sdf.parse(o1.getCreateTime()).getTime() - sdf.parse(o2.getCreateTime()).getTime();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                             return (int)i;
                         }).collect(Collectors.toList());
+
+            if (resList.size() < 12) {
+                IncomeStatistics is = resList.get(resList.size()-1);
+                String[] dStr = is.getCreateTime().split("-");
+                int m1 = Integer.parseInt(dStr[1]);
+                int y1 = Integer.parseInt(dStr[0]);
+                for (int j=0; j<12-resList.size(); j++) {
+                    m1 = m1 - 1;
+                    if (m1 == 0) {
+                        m1 = 12;
+                        y1 = y1 -1;
+                    }
+
+                    IncomeStatistics incomeStatistics = new IncomeStatistics();
+                    incomeStatistics.setCreateTime(y1+"-"+m1);
+                    incomeStatistics.setIncomePrice(0);
+                    incomeStatistics.setDrawId(drawId);
+                    resList.add(incomeStatistics);
+                }
+            }
+            return resList;
         }
         return incomeStatisticsList;
     }
@@ -109,7 +153,30 @@ public class StatisticsService {
                 break;
             case 3:
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
-                return orderStatisticsList.stream()
+
+                String[] dateStr = sdf.format(new Date()).split("-");
+                List<OrderStatistics> resList = new ArrayList<>();
+                if (orderStatisticsList == null || orderStatisticsList.size() == 0) {
+                    int m = Integer.parseInt(dateStr[1])+1;
+                    int y = Integer.parseInt(dateStr[0]);
+                    for (int i=0; i<12; i++) {
+
+                        m = m - 1;
+                        if (m == 0) {
+                            m = 12;
+                            y = y -1;
+                        }
+
+                        OrderStatistics orderStatistics = new OrderStatistics();
+                        orderStatistics.setCreateTime(y+"-"+m);
+                        orderStatistics.setsPrice(0);
+                        orderStatistics.setDrawId(drawId);
+                        resList.add(orderStatistics);
+                    }
+                    return resList;
+                }
+
+                resList = orderStatisticsList.stream()
                         .peek(orderStatistics -> {
                             String time = orderStatistics.getCreateTime();
                             if (StringUtils.isNotBlank(time)) {
@@ -130,16 +197,34 @@ public class StatisticsService {
                         }).sorted((o1, o2) -> {
                             long i = 1;
                             try {
-                                i = sdf.parse(o2.getCreateTime()).getTime() - sdf.parse(o1.getCreateTime()).getTime();
+                                i = sdf.parse(o1.getCreateTime()).getTime() - sdf.parse(o2.getCreateTime()).getTime();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                             return (int)i;
                         }).collect(Collectors.toList());
+
+                if (resList.size() < 12) {
+                    OrderStatistics os = resList.get(resList.size()-1);
+                    String[] dStr = os.getCreateTime().split("-");
+                    int m1 = Integer.parseInt(dStr[1]);
+                    int y1 = Integer.parseInt(dStr[0]);
+                    for (int j=0; j<12-resList.size(); j++) {
+                        m1 = m1 - 1;
+                        if (m1 == 0) {
+                            m1 = 12;
+                            y1 = y1 -1;
+                        }
+
+                        OrderStatistics orderStatistics = new OrderStatistics();
+                        orderStatistics.setCreateTime(y1+"-"+m1);
+                        orderStatistics.setsPrice(0);
+                        orderStatistics.setDrawId(drawId);
+                        resList.add(orderStatistics);
+                    }
+                }
+                return resList;
         }
-
-
-
 
         return orderStatisticsMapper.getStatistics(drawId, range, type);
     }

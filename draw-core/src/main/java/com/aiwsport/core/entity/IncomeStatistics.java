@@ -9,6 +9,8 @@ public class IncomeStatistics {
 
     private String createTime;
 
+    private String type;
+
     public Integer getId() {
         return id;
     }
@@ -39,5 +41,13 @@ public class IncomeStatistics {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

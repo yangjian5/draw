@@ -29,12 +29,14 @@ public class StatisticsController {
 
     @RequestMapping(value = "/statistics.json")
     public ResultMsg statistics(@ParamVerify(isNumber = true)int draw_id, @ParamVerify(isNumber = true)int range) {
-        List<IncomeStatistics> createIncomeList = statisticsService.incomeStatistics(draw_id, range);
+        List<IncomeStatistics> createIncomeList = statisticsService.incomeStatistics(draw_id, range, "1");
+        List<IncomeStatistics> createIncomeList1 = statisticsService.incomeStatistics(draw_id, range, "2");
         List<OrderStatistics> orderStatisticsList = statisticsService.orderStatistics(draw_id, range, 1);
         List<OrderStatistics> orderStatisticsList1 = statisticsService.orderStatistics(draw_id, range, 2);
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("create_income_list", createIncomeList);
+        jsonObject.put("owner_income_list", createIncomeList1);
         jsonObject.put("create_prize_list", orderStatisticsList);
         jsonObject.put("owner_prize_list", orderStatisticsList1);
         return new ResultMsg("statistics", jsonObject);
