@@ -75,7 +75,7 @@ public class DrawController {
         return new ResultMsg("branner", drawService.getBranner());
     }
 
-    @RequestMapping(value = "/delete_draw.json")
+    @RequestMapping(value = "/backend/delete_draw.json")
     public ResultMsg deleteDraw(@ParamVerify(isNumber = true) Integer id,
                                 @ParamVerify(isNumber = true) Integer type) {
         return new ResultMsg("delete_draw", drawService.delDraw(id, type));
