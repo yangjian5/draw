@@ -9,6 +9,11 @@ import com.aiwsport.core.service.DrawService;
 import com.aiwsport.core.service.UserService;
 import com.aiwsport.web.utlis.FileUtil;
 import com.aiwsport.web.verify.ParamVerify;
+import net.sourceforge.pinyin4j.PinyinHelper;
+import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
+import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
+import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
+import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
-import java.net.URLEncoder;
 import java.util.Map;
 
 /**
@@ -97,7 +101,7 @@ public class DrawController {
         try {
             if (file != null) {
                 String fileName = file.getOriginalFilename();
-                fileName = URLEncoder.encode(fileName, "UTF-8");
+                fileName = getEname(fileName);
                 InputStream inputStream = file.getInputStream();
                 String name = System.currentTimeMillis() + "_" + fileName;
                 if (!FileUtil.writeFile(BASE + BRANNER, BASE + SIMPLE_BRANNER, name, inputStream)) {
@@ -114,7 +118,7 @@ public class DrawController {
 
             if (descFile != null) {
                 String descFileName = descFile.getOriginalFilename();
-                descFileName = URLEncoder.encode(descFileName, "UTF-8");
+                descFileName = getEname(descFileName);
                 InputStream descInputStream = descFile.getInputStream();
                 String descName = System.currentTimeMillis() + "_" + descFileName;
                 if (!FileUtil.writeFile(BASE + BRANNER_DESC, BASE + BRANNER_DESC_SIMPLE, descName, descInputStream)) {
@@ -244,4 +248,17 @@ public class DrawController {
         return new ResultMsg("update_owner_draw", true);
     }
 
+    private String getEname(String name) {
+        String res = "";
+        try {
+            HanyuPinyinOutputFormat pyFormat = new HanyuPinyinOutputFormat();
+            pyFormat.setCaseType(HanyuPinyinCaseType.LOWERCASE);
+            pyFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+            pyFormat.setVCharType(HanyuPinyinVCharType.WITH_V);
+            res = PinyinHelper.toHanyuPinyinString(name, pyFormat, "");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
 }
