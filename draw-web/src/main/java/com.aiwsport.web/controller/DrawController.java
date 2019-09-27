@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.util.Map;
 
 /**
@@ -96,11 +97,13 @@ public class DrawController {
         try {
             if (file != null) {
                 String fileName = file.getOriginalFilename();
+                fileName = URLEncoder.encode(fileName, "UTF-8");
                 InputStream inputStream = file.getInputStream();
                 String name = System.currentTimeMillis() + "_" + fileName;
                 if (!FileUtil.writeFile(BASE + BRANNER, BASE + SIMPLE_BRANNER, name, inputStream)) {
                     throw new DrawServerException(DrawServerExceptionFactor.FILE_ERROR);
                 }
+
                 brannerUrl = IMG_HOST + BRANNER + "/" + name;
                 simpleUrl = IMG_HOST + SIMPLE_BRANNER + "/" + name;
                 brannerId = drawService.uploadBranner(id, click_url, draw_id, type, sort, brannerUrl, simpleUrl);
@@ -111,6 +114,7 @@ public class DrawController {
 
             if (descFile != null) {
                 String descFileName = descFile.getOriginalFilename();
+                descFileName = URLEncoder.encode(descFileName, "UTF-8");
                 InputStream descInputStream = descFile.getInputStream();
                 String descName = System.currentTimeMillis() + "_" + descFileName;
                 if (!FileUtil.writeFile(BASE + BRANNER_DESC, BASE + BRANNER_DESC_SIMPLE, descName, descInputStream)) {
