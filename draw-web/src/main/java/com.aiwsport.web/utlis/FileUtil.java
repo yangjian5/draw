@@ -73,11 +73,11 @@ public class FileUtil {
             }
 
             if (available > 1024 * 1024) {
-                Thumbnails.of(inputPath).scale(0.2f).outputQuality(0.5f).outputFormat(imgType).toFile(simPath + "/" + name);
+                Thumbnails.of(inputPath).scale(0.08f).outputQuality(0.3f).outputFormat(imgType).toFile(simPath + "/" + name);
             } else if (available > 1024 * 512) {
-                Thumbnails.of(inputPath).scale(0.3f).outputQuality(0.8f).outputFormat(imgType).toFile(simPath + "/" + name);
+                Thumbnails.of(inputPath).scale(0.1f).outputQuality(0.5f).outputFormat(imgType).toFile(simPath + "/" + name);
             } else {
-                Thumbnails.of(inputPath).scale(0.5f).outputQuality(0.8f).outputFormat(imgType).toFile(simPath + "/" + name);
+                Thumbnails.of(inputPath).scale(0.2f).outputQuality(0.6f).outputFormat(imgType).toFile(simPath + "/" + name);
             }
         } catch (Exception e1) {
             e1.printStackTrace();
