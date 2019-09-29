@@ -147,7 +147,7 @@ public class OrderService {
                 orderCheckMapper.insert(orderCheck);
             } catch (Exception e) {
                 if (e.getMessage().indexOf("Duplicate entry") > 0) {
-                    throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "正在等待他人付款，请30秒后在尝试购买");
+                    throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "正在等待他人付款，请30秒后再尝试购买");
                 }
                 e.printStackTrace();
             }
