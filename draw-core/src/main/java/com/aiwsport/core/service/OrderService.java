@@ -85,6 +85,7 @@ public class OrderService {
 
     public Map<String, String> createOrder(int id, int type, String openId, String ip) throws Exception{
         Map<String, String> resMap = null;
+        long checkTime = 0;
         try {
             String orderNo;
             int drawId;
@@ -141,7 +142,8 @@ public class OrderService {
                 orderCheck.setdId(id);
                 orderCheck.setType(type);
                 Date date = new Date();
-                orderCheck.setCreateTime(DataTypeUtils.addOrMinusSecond(date.getTime(), 30).getTime());
+                checkTime = DataTypeUtils.addOrMinusSecond(date.getTime(), 30).getTime();
+                orderCheck.setCreateTime(checkTime);
                 orderCheckMapper.insert(orderCheck);
             } catch (Exception e) {
                 if (e.getMessage().indexOf("Duplicate entry") > 0) {
@@ -176,6 +178,7 @@ public class OrderService {
             throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, e.getMessage());
         }
 
+        resMap.put("checkTime", checkTime+"");
         return resMap;
     }
 
