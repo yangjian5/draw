@@ -141,11 +141,11 @@ public class OrderService {
                 orderCheck.setdId(id);
                 orderCheck.setType(type);
                 Date date = new Date();
-                orderCheck.setCreateTime(DataTypeUtils.addOrMinusMinutes(date.getTime(), 5).getTime());
+                orderCheck.setCreateTime(DataTypeUtils.addOrMinusSecond(date.getTime(), 30).getTime());
                 orderCheckMapper.insert(orderCheck);
             } catch (Exception e) {
                 if (e.getMessage().indexOf("Duplicate entry") > 0) {
-                    throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "正在等待他人付款，请五分钟后在尝试购买");
+                    throw new DrawServerException(DrawServerExceptionFactor.DEFAULT, "正在等待他人付款，请30秒后在尝试购买");
                 }
                 e.printStackTrace();
             }
