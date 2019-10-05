@@ -312,34 +312,34 @@ public class OrderService {
             drawExtMapper.updateByPrimaryKey(drawExt);
 
             // 收益计算统计
-            IncomeStatistics incomeStatistics = incomeStatisticsMapper.getIncomeByDrawIdAndDate(order.getDrawId(), "1");
-            if (incomeStatistics == null) {
-                incomeStatistics = new IncomeStatistics();
-                incomeStatistics.setDrawId(order.getDrawId());
-                incomeStatistics.setIncomePrice(incomePrice2);
-                incomeStatistics.setCreateTime(DataTypeUtils.formatCurDateTime());
-                incomeStatistics.setType("1");
-                incomeStatisticsMapper.insert(incomeStatistics);
-            } else {
-                int sumIncome = incomeStatistics.getIncomePrice() + incomePrice2;
-                incomeStatistics.setIncomePrice(sumIncome);
-                incomeStatisticsMapper.updateByPrimaryKey(incomeStatistics);
-            }
-
-            IncomeStatistics incomeStatistics1 = incomeStatisticsMapper.getIncomeByDrawIdAndDate(order.getDrawId(), "2");
-            Integer incomeStatisticsPrice = BigDecimal.valueOf(orderPrice - draws.getOwnPrice()).multiply(BigDecimal.valueOf(0.95)).setScale(0, BigDecimal.ROUND_DOWN).intValue();
-            if (incomeStatistics1 == null) {
-                incomeStatistics1 = new IncomeStatistics();
-                incomeStatistics1.setDrawId(order.getDrawId());
-                incomeStatistics1.setIncomePrice(incomeStatisticsPrice);
-                incomeStatistics1.setCreateTime(DataTypeUtils.formatCurDateTime());
-                incomeStatistics1.setType("2");
-                incomeStatisticsMapper.insert(incomeStatistics1);
-            } else {
-                int sumIncome = incomeStatistics1.getIncomePrice() + incomeStatisticsPrice;
-                incomeStatistics1.setIncomePrice(sumIncome);
-                incomeStatisticsMapper.updateByPrimaryKey(incomeStatistics1);
-            }
+//            IncomeStatistics incomeStatistics = incomeStatisticsMapper.getIncomeByDrawIdAndDate(order.getDrawId(), "1");
+//            if (incomeStatistics == null) {
+//                incomeStatistics = new IncomeStatistics();
+//                incomeStatistics.setDrawId(order.getDrawId());
+//                incomeStatistics.setIncomePrice(incomePrice2);
+//                incomeStatistics.setCreateTime(DataTypeUtils.formatCurDateTime());
+//                incomeStatistics.setType("1");
+//                incomeStatisticsMapper.insert(incomeStatistics);
+//            } else {
+//                int sumIncome = incomeStatistics.getIncomePrice() + incomePrice2;
+//                incomeStatistics.setIncomePrice(sumIncome);
+//                incomeStatisticsMapper.updateByPrimaryKey(incomeStatistics);
+//            }
+//
+//            IncomeStatistics incomeStatistics1 = incomeStatisticsMapper.getIncomeByDrawIdAndDate(order.getDrawId(), "2");
+//            Integer incomeStatisticsPrice = BigDecimal.valueOf(orderPrice - draws.getOwnPrice()).multiply(BigDecimal.valueOf(0.95)).setScale(0, BigDecimal.ROUND_DOWN).intValue();
+//            if (incomeStatistics1 == null) {
+//                incomeStatistics1 = new IncomeStatistics();
+//                incomeStatistics1.setDrawId(order.getDrawId());
+//                incomeStatistics1.setIncomePrice(incomeStatisticsPrice);
+//                incomeStatistics1.setCreateTime(DataTypeUtils.formatCurDateTime());
+//                incomeStatistics1.setType("2");
+//                incomeStatisticsMapper.insert(incomeStatistics1);
+//            } else {
+//                int sumIncome = incomeStatistics1.getIncomePrice() + incomeStatisticsPrice;
+//                incomeStatistics1.setIncomePrice(sumIncome);
+//                incomeStatisticsMapper.updateByPrimaryKey(incomeStatistics1);
+//            }
         }
 
         OrderStatistics orderStatistics1 = orderStatisticsMapper.getOrderByDrawIdAndDate(order.getDrawId());
