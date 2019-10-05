@@ -93,8 +93,8 @@ public class BackService {
     }
 
     public ShowIncome showIncome(int page, int count, String status) {
-        int start = (page -1)*count+1;
-        int end = page*count;
+        int start = (page -1)*count;
+        int end = page*count-1;
         List<Income> incomes = incomeMapper.getPayFinish(start, end, status);
         int payFinishCount = incomeMapper.getPayFinishCount(status);
         ShowIncome showIncome = new ShowIncome();

@@ -56,7 +56,7 @@
   <select id="getPayFinish" resultMap="BaseResultMap" >
     select id, drawExtid, proofUrl, proofPrice, info, orderNo, status, opName, opId, createTime, modifyTime
     from income
-    <if test="arg2 != ''">
+    <if test="arg2 != null and arg2 != ''">
       where status = #{arg2}
     </if>
     limit #{arg0}, #{arg1}
