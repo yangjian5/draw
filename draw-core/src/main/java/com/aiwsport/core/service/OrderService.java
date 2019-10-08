@@ -271,10 +271,9 @@ public class OrderService {
             drawsMapper.updateByPrimaryKey(draws);
         } else {
             Integer orderPrice = order.getOrderPrice();
-            orderStatistics.setDrawId(order.getDrawExtId());
             DrawExt drawExt = drawExtMapper.selectByPrimaryKey(order.getDrawExtId());
 
-
+            orderStatistics.setDrawId(drawExt.getDrawId());
 
             // 所有权售卖者得到95%
             User user1 = userMapper.selectByPrimaryKey(drawExt.getExtUid());
